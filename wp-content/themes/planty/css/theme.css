@@ -1,0 +1,68 @@
+.contact-formulaire
+
+
+
+.contact-label {
+  font-size: 2rem;
+  color: black;
+}
+
+.contact-items {
+  height: 7.1rem;
+  border-radius: 7px;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 14px 0px rgba(0,0,0,0.04);
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.contact-message{
+  height: 23.7rem;
+  border-radius: 7px;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 14px 0px rgba(0,0,0,0.04);
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.contact-submit {
+  background-color: #e0b9b4;
+  width: 13.8rem;
+  height: 4rem;
+  font-size: 15px;
+  margin-left: 120px;
+}
+
+.contact-submit:hover{
+  background-color: #c02e44;
+}
+
+.block-contactForm{
+  z-index: 1;
+}
+
+.block-contactForm{
+  max-width: 38.3rem;
+}
+
+
+.wp-image-140  {
+
+  bottom: 16rem;
+  left: -5rem;
+  position: relative;
+}
+
+.wp-image-294 {
+  bottom: -6rem;
+  left: -33rem;
+  position: relative;
+}
+
+.wp-image-329 { 
+  bottom: 12rem;
+  left:  30rem;
+  position: relative;
+}
+
+
