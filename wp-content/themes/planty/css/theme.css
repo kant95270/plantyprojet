@@ -1,5 +1,7 @@
 .contact-formulaire
 
+/*formulaire de contact */
+
 
 
 .contact-label {
@@ -20,7 +22,7 @@
   height: 23.7rem;
   border-radius: 7px;
   background-color: #ffffff;
-  box-shadow: 0px 4px 14px 0px rgba(0,0,0,0.04);
+  box-shadow: 0px 4px 14px  rgba(0,0,0,0.04);
   margin-top: 0.5rem;
   margin-bottom: 1rem;
 }
@@ -29,12 +31,12 @@
   background-color: #e0b9b4;
   width: 13.8rem;
   height: 4rem;
-  font-size: 15px;
+  
   margin-left: 120px;
 }
 
 .contact-submit:hover{
-  background-color: #c02e44;
+  background-color: #e0b9b4;
 }
 
 .block-contactForm{
@@ -45,24 +47,67 @@
   max-width: 38.3rem;
 }
 
-
+/*image fleur nous rencontrer */
 .wp-image-140  {
 
-  bottom: 16rem;
+  bottom: 15rem;
   left: -5rem;
   position: relative;
+  z-index: 1;
 }
+
+
+/* FLEUR gauche de nous rencontrer */
 
 .wp-image-294 {
   bottom: -6rem;
   left: -33rem;
   position: relative;
+ 
 }
 
+/* branche droite de l'equipe*/
 .wp-image-329 { 
   bottom: 12rem;
   left:  30rem;
   position: relative;
 }
 
+
+/* Footer */
+
+.site-footer {
+  font-size: 16px;
+  text-align: center;
+  background-image: url(http://localhost:8888/plantytest/wp-content/uploads/2023/11/Group-8-1024x93.png);
+  
+}
+
+ /* Mise en forme Header  */
+ img.custom-logo {
+  position: absolute;
+  left: 3%;
+}
+
+div.ast-main-header-bar-alignment {
+  position: absolute;
+  right: 0%;
+}
+
+.main-header-menu .menu-item:nth-child(2) {
+  background-color: #DC9F96;
+}
+
+.main-header-menu .menu-item:nth-child(2) .menu-link {
+  color: white
+}
+
+#ast-hf-menu-1 li:nth-child(2) {
+  order: 2;
+}
+
+.menu-link {
+  margin-left: 20px;
+ 
+}
 

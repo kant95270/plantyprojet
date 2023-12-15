@@ -18,16 +18,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 <?php astra_content_bottom(); ?>
 	</div> <!-- ast-container -->
 	</div><!-- #content -->
-<?php 
-	astra_content_after();
-		
-	astra_footer_before();
-		
-	astra_footer();
-		
-	astra_footer_after(); 
-?>
 	</div><!-- #page -->
+
+	<footer class="site-footer">
+	<a href="mentions-legales">Mentions légales</a>
+</footer>
+
+<?php 
+	astra_body_bottom();    
+	wp_footer(); 
+?>
+	</body>
+</html>
+
 <?php 
 	astra_body_bottom();    
 	wp_footer(); 
