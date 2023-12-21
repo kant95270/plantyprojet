@@ -1,10 +1,77 @@
+
+ /*  Header  */
+ img.custom-logo {
+  position: absolute;
+  left: 1%;
+}
+
+div.ast-main-header-bar-alignment {
+  position: absolute;
+  right: 0%;
+}
+
+.main-header-menu .menu-item:nth-child(2) {
+  background-color: #DC9F96!important;
+  height: 62px;
+}
+
+.main-header-menu .menu-item:nth-child(2) .menu-link {
+  color: white!important
+}
+
+#ast-hf-menu-1 li:nth-child(2) {
+  order: 2;
+}
+
+.menu-link {
+  margin-left: 20px;
+  margin-right: 20px;
+  
+ 
+}
+
+/* Footer */
+
+.site-footer {
+  font-size: 16px;
+  text-align: center;
+  background-color: #FFFFFF;
+  border: 5px solid white;
+  
+}
+
+
+h1 {
+  font-size: 38px;
+}
+
+h2 {
+  font-size: 30px;
+}
+
+p {
+  font-size: 20px;
+}
+
+/* Page Nous rencontrer */
+
+.paddingTop {
+  padding-top: 80px;
+}
+
+p.has-text-align-center {
+  max-width: 680px;
+}
+
+
+
 .contact-formulaire
 
 /*formulaire de contact */
 
 
 
-.contact-label {
+ .contact-label {
   font-size: 2rem;
   color: black;
 }
@@ -12,7 +79,7 @@
 .contact-items {
   height: 7.1rem;
   border-radius: 7px;
-  background-color: #ffffff;
+  background-color: #ffffff!important;
   box-shadow: 0px 4px 14px 0px rgba(0,0,0,0.04);
   margin-top: 0.5rem;
   margin-bottom: 1rem;
@@ -25,26 +92,33 @@
   box-shadow: 0px 4px 14px  rgba(0,0,0,0.04);
   margin-top: 0.5rem;
   margin-bottom: 1rem;
+  z-index: 1;
+  
+ 
 }
 
 .contact-submit {
-  background-color: #e0b9b4;
+  background-color: #DC9F96!important;
   width: 13.8rem;
   height: 4rem;
-  
   margin-left: 120px;
+  color: white!important;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .contact-submit:hover{
-  background-color: #e0b9b4;
+  background-color: #e0b9b4!important;
 }
 
-.block-contactForm{
-  z-index: 1;
-}
+
 
 .block-contactForm{
   max-width: 38.3rem;
+}
+ .wpcf7-form-control-wrap {
+  z-index: 2;
 }
 
 /*image fleur nous rencontrer */
@@ -54,6 +128,7 @@
   left: -5rem;
   position: relative;
   z-index: 1;
+  background-color: #ece2da;
 }
 
 
@@ -69,45 +144,80 @@
 /* branche droite de l'equipe*/
 .wp-image-329 { 
   bottom: 12rem;
-  left:  30rem;
+  left:  28rem;
   position: relative;
 }
 
+/* mis en forme Page Commander */
 
-/* Footer */
 
-.site-footer {
-  font-size: 16px;
-  text-align: center;
-  background-image: url(http://localhost:8888/plantytest/wp-content/uploads/2023/11/Group-8-1024x93.png);
+.wpcf7 form>div {
+  background-color: #3b8e46;
+}
+
+/* formulaire de commande */
+
+
+
+/* Page commander */
+.section-order_title{ /* titre */
+  color: #FFFFFF;
+  font-size: 3rem;
+  font-weight: bold;
+  padding-bottom: 2rem;
+  align-items: center;
+}
+
+
+
+.uacf7-row{ /* partie du formulaire avec les informations de livraison  */
+  display: flex;
+  margin-left: 20px;
+  margin-right: 20px;
+  
+  
+  
+}
+.section-order-vertical-line{
+  background-color: #FFFFFF!important;
+  width: 1px;
+  height: 90%;
+  margin-top: 1rem;
+  margin-left: 11rem;
+  margin-right: 2rem;
+  
+}
+.qt-article{
+  max-width: 5rem;
+  margin: auto;
+  margin-top: 0.5rem;
+  appearance: none;
+}
+.block-taste-line{
+  border-bottom: solid 1px #FFFFFF;
+  padding-bottom: 5rem;
+}
+.block-info{
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+  padding-left: 8rem;
+  padding-right: 2rem;
+  font-size: 25px;
+  color: #FFFFFF;
+}
+.order-submit{
+  margin: auto;
+  display: block;
+  color: white!important;
+  background-color: #DC9F96!important;
+
+}
+
+.entry-content h5{
+  color:#FFFFFF;
+  font-size: 30px;
   
 }
 
- /* Mise en forme Header  */
- img.custom-logo {
-  position: absolute;
-  left: 3%;
-}
 
-div.ast-main-header-bar-alignment {
-  position: absolute;
-  right: 0%;
-}
-
-.main-header-menu .menu-item:nth-child(2) {
-  background-color: #DC9F96;
-}
-
-.main-header-menu .menu-item:nth-child(2) .menu-link {
-  color: white
-}
-
-#ast-hf-menu-1 li:nth-child(2) {
-  order: 2;
-}
-
-.menu-link {
-  margin-left: 20px;
- 
-}
 
