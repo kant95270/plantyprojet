@@ -1181,7 +1181,8 @@ function ComplementaryArea({
     label: title,
     icon: showIconLabels ? library_check : icon,
     showTooltip: !showIconLabels,
-    variant: showIconLabels ? 'tertiary' : undefined
+    variant: showIconLabels ? 'tertiary' : undefined,
+    size: "compact"
   })), name && isPinnable && (0,external_React_namespaceObject.createElement)(ComplementaryAreaMoreMenuItem, {
     target: name,
     scope: scope,
@@ -1417,7 +1418,8 @@ function MoreMenuDropdown({
     },
     toggleProps: {
       tooltipPosition: 'bottom',
-      ...toggleProps
+      ...toggleProps,
+      size: 'compact'
     }
   }, onClose => children(onClose));
 }
@@ -2973,6 +2975,7 @@ const {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -2994,6 +2997,7 @@ function WidgetAreasBlockEditorProvider({
   ...props
 }) {
   const mediaPermissions = (0,external_wp_coreData_namespaceObject.useResourcePermissions)('media');
+  const isLargeViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium');
   const {
     reusableBlocks,
     isFixedToolbarActive,
@@ -3039,7 +3043,7 @@ function WidgetAreasBlockEditorProvider({
     return {
       ...blockEditorSettings,
       __experimentalReusableBlocks: reusableBlocks,
-      hasFixedToolbar: isFixedToolbarActive,
+      hasFixedToolbar: isFixedToolbarActive || !isLargeViewport,
       keepCaretInsideBlock,
       mediaUpload: mediaUploadBlockEditor,
       templateLock: 'all',
@@ -3047,7 +3051,7 @@ function WidgetAreasBlockEditorProvider({
       pageOnFront,
       pageForPosts
     };
-  }, [blockEditorSettings, isFixedToolbarActive, keepCaretInsideBlock, mediaPermissions.canCreate, reusableBlocks, setIsInserterOpened, pageOnFront, pageForPosts]);
+  }, [blockEditorSettings, isFixedToolbarActive, isLargeViewport, keepCaretInsideBlock, mediaPermissions.canCreate, reusableBlocks, setIsInserterOpened, pageOnFront, pageForPosts]);
   const widgetAreaId = use_last_selected_widget_area();
   const [blocks, onInput, onChange] = (0,external_wp_coreData_namespaceObject.useEntityBlockEditor)(KIND, POST_TYPE, {
     id: buildWidgetAreasPostId()
@@ -3316,7 +3320,7 @@ const plus = (0,external_React_namespaceObject.createElement)(external_wp_primit
   xmlns: "http://www.w3.org/2000/svg",
   viewBox: "0 0 24 24"
 }, (0,external_React_namespaceObject.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "M18 11.2h-5.2V6h-1.6v5.2H6v1.6h5.2V18h1.6v-5.2H18z"
+  d: "M11 12.5V17.5H12.5V12.5H17.5V11H12.5V6H11V11H6V12.5H11Z"
 }));
 /* harmony default export */ var library_plus = (plus);
 
@@ -3972,10 +3976,6 @@ function MoreMenu() {
 
 
 
-
-const {
-  BlockContextualToolbar
-} = unlock(external_wp_blockEditor_namespaceObject.privateApis);
 function Header({
   setListViewToggleElement
 }) {
@@ -3999,8 +3999,8 @@ function Header({
     setListViewToggleElement: setListViewToggleElement
   }), hasFixedToolbar && isLargeViewport && (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_React_namespaceObject.createElement)("div", {
     className: "selected-block-tools-wrapper"
-  }, (0,external_React_namespaceObject.createElement)(BlockContextualToolbar, {
-    isFixed: true
+  }, (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockToolbar, {
+    hideDragHandle: true
   })), (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Popover.Slot, {
     ref: blockToolbarRef,
     name: "block-toolbar"
@@ -4067,6 +4067,7 @@ function Notices() {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -4076,12 +4077,15 @@ function WidgetAreasBlockEditorContent({
   blockEditorSettings
 }) {
   const hasThemeStyles = (0,external_wp_data_namespaceObject.useSelect)(select => !!select(external_wp_preferences_namespaceObject.store).get('core/edit-widgets', 'themeStyles'), []);
+  const isLargeViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium');
   const styles = (0,external_wp_element_namespaceObject.useMemo)(() => {
     return hasThemeStyles ? blockEditorSettings.styles : [];
   }, [blockEditorSettings, hasThemeStyles]);
   return (0,external_React_namespaceObject.createElement)("div", {
     className: "edit-widgets-block-editor"
-  }, (0,external_React_namespaceObject.createElement)(notices, null), (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockTools, null, (0,external_React_namespaceObject.createElement)(keyboard_shortcuts, null), (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.__unstableEditorStyles, {
+  }, (0,external_React_namespaceObject.createElement)(notices, null), !isLargeViewport && (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockToolbar, {
+    hideDragHandle: true
+  }), (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockTools, null, (0,external_React_namespaceObject.createElement)(keyboard_shortcuts, null), (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.__unstableEditorStyles, {
     styles: styles,
     scope: ".editor-styles-wrapper"
   }), (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockSelectionClearer, null, (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.WritingFlow, null, (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockList, {

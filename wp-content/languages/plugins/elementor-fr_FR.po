@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Elementor Website Builder &#8211; More than Just a Page Builder - Stable (latest release) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2023-12-04 13:19:32+0000\n"
+"PO-Revision-Date: 2023-12-08 14:31:26+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -10,6 +10,10 @@ msgstr ""
 "X-Generator: GlotPress/4.0.0-alpha.11\n"
 "Language: fr\n"
 "Project-Id-Version: Plugins - Elementor Website Builder &#8211; More than Just a Page Builder - Stable (latest release)\n"
+
+#: core/files/uploads-manager.php:281
+msgid "Invalid file name."
+msgstr "Nom de fichier invalide."
 
 #. translators: %s: Recommended PHP version.
 #: modules/system-info/reporters/server.php:132
@@ -249,7 +253,7 @@ msgid "Collapse"
 msgstr "Replier"
 
 #: modules/nested-accordion/widgets/nested-accordion.php:215
-#: assets/js/ai-layout.js:4033
+#: assets/js/ai-layout.js:4402
 msgid "Expand"
 msgstr "Déplier"
 
@@ -296,8 +300,8 @@ msgstr "Boîte"
 msgid "Build Smart with AI"
 msgstr "Construire intelligemment avec l’IA"
 
-#: includes/controls/groups/background.php:99 assets/js/ai-admin.js:6837
-#: assets/js/ai.js:7097
+#: includes/controls/groups/background.php:99 assets/js/ai-admin.js:6844
+#: assets/js/ai.js:7104
 msgid "Gradient"
 msgstr "Dégradé"
 
@@ -438,8 +442,8 @@ msgstr "Vous n’avez pas les droits suffisants pour installer les extensions de
 msgid "Get Elementor Pro"
 msgstr "Obtenir Elementor Pro"
 
-#: modules/ai/connect/ai.php:23 assets/js/ai-admin.js:441
-#: assets/js/ai-layout.js:430 assets/js/ai-layout.js:2631 assets/js/ai.js:569
+#: modules/ai/connect/ai.php:24 assets/js/ai-admin.js:441
+#: assets/js/ai-layout.js:430 assets/js/ai-layout.js:2695 assets/js/ai.js:569
 msgid "AI"
 msgstr "IA"
 
@@ -550,11 +554,11 @@ msgstr "Alignement horizontal"
 msgid "Dismiss this alert."
 msgstr "Ignorer cette alerte."
 
-#: core/editor/editor.php:617
+#: core/editor/editor.php:612
 msgid "Get a sneak peek of the new Editor powered by React. The beautiful design and experimental layout of the Top bar are just some of the exciting tools on their way. %s"
 msgstr "Découvrez en avant-première le nouvel éditeur optimisé par React. Le beau design et la disposition expérimentale de la barre Top ne sont que quelques-uns des outils passionnants sur leur chemin. %s"
 
-#: core/editor/editor.php:615
+#: core/editor/editor.php:610
 msgid "Editor Top Bar"
 msgstr "Barre supérieure de l’éditeur"
 
@@ -1127,15 +1131,15 @@ msgstr "Couleur de contour"
 msgid "Text Stroke"
 msgstr "Contour de texte"
 
-#: includes/admin-templates/beta-tester.php:53 assets/js/ai-admin.js:5000
-#: assets/js/ai-admin.js:10116 assets/js/ai-layout.js:1917
-#: assets/js/ai-layout.js:4351 assets/js/ai.js:5260 assets/js/ai.js:10376
+#: includes/admin-templates/beta-tester.php:53 assets/js/ai-admin.js:5001
+#: assets/js/ai-admin.js:10123 assets/js/ai-layout.js:1979
+#: assets/js/ai-layout.js:4722 assets/js/ai.js:5261 assets/js/ai.js:10383
 msgid "Privacy Policy"
 msgstr "Politique de confidentialité"
 
-#: includes/admin-templates/beta-tester.php:48 assets/js/ai-admin.js:4996
-#: assets/js/ai-admin.js:10112 assets/js/ai-layout.js:1913
-#: assets/js/ai-layout.js:4347 assets/js/ai.js:5256 assets/js/ai.js:10372
+#: includes/admin-templates/beta-tester.php:48 assets/js/ai-admin.js:4997
+#: assets/js/ai-admin.js:10119 assets/js/ai-layout.js:1975
+#: assets/js/ai-layout.js:4718 assets/js/ai.js:5257 assets/js/ai.js:10379
 msgid "Terms of Service"
 msgstr "Conditions d’utilisation"
 
@@ -1691,7 +1695,7 @@ msgid "Design sites faster with a template kit that contains some or all compone
 msgstr "Concevez des sites plus rapidement grâce à un kit qui contient certains/tous les composants d’un site complet, comme les modèles, le contenu et les réglages du site.%1$sVous pouvez importer un kit et l’appliquer à votre site ou exporter les éléments de ce site pour les utiliser ailleurs. %2$s"
 
 #: app/modules/import-export/module.php:133 core/admin/admin-notices.php:368
-#: core/editor/editor.php:621 assets/js/app.js:8323
+#: core/editor/editor.php:616 assets/js/app.js:8323
 #: assets/js/kit-library.411b75eeafae7457107e.bundle.js:3448
 msgid "Learn more"
 msgstr "Apprendre plus"
@@ -1921,7 +1925,7 @@ msgid "Release Candidate"
 msgstr "Version admissible"
 
 #: core/experiments/manager.php:481 assets/js/ai-admin.js:442
-#: assets/js/ai-layout.js:431 assets/js/ai-layout.js:2632 assets/js/ai.js:570
+#: assets/js/ai-layout.js:431 assets/js/ai-layout.js:2696 assets/js/ai.js:570
 msgid "Beta"
 msgstr "Bêta"
 
@@ -2329,7 +2333,7 @@ msgid "%s Widget"
 msgstr "Le widget %s"
 
 #: core/experiments/manager.php:142 includes/editor-templates/global.php:29
-#: assets/js/ai-admin.js:5378 assets/js/ai.js:5638 assets/js/app.js:7894
+#: assets/js/ai-admin.js:5385 assets/js/ai.js:5645 assets/js/app.js:7894
 #: assets/js/editor.js:46185
 msgid "Back"
 msgstr "Retour"
@@ -2667,7 +2671,7 @@ msgstr "Le fichier .htaccess de votre site semble être manquant."
 msgid "Some of your theme files are missing."
 msgstr "Certains fichiers de votre thème sont manquants."
 
-#: core/files/file-types/svg.php:73 core/files/uploads-manager.php:543
+#: core/files/file-types/svg.php:73 core/files/uploads-manager.php:558
 msgid "This file is not allowed for security reasons."
 msgstr "Ce fichier n’est pas autorisé pour des raisons de sécurité."
 
@@ -3007,13 +3011,13 @@ msgstr "Afficher/Masquer le panneau"
 msgid "Go To"
 msgstr "Aller à"
 
-#: includes/editor-templates/hotkeys.php:33 assets/js/ai-admin.js:8624
-#: assets/js/ai.js:8884
+#: includes/editor-templates/hotkeys.php:33 assets/js/ai-admin.js:8631
+#: assets/js/ai.js:8891
 msgid "Redo"
 msgstr "Refaire"
 
-#: includes/editor-templates/hotkeys.php:25 assets/js/ai-admin.js:8613
-#: assets/js/ai.js:8873 assets/js/kit-elements-defaults-editor.js:236
+#: includes/editor-templates/hotkeys.php:25 assets/js/ai-admin.js:8620
+#: assets/js/ai.js:8880 assets/js/kit-elements-defaults-editor.js:236
 msgid "Undo"
 msgstr "Défaire"
 
@@ -3066,9 +3070,9 @@ msgstr "Bien connecté."
 #: core/common/modules/connect/apps/connect.php:11
 #: core/common/modules/connect/connect-menu-item.php:24
 #: core/common/modules/connect/connect-menu-item.php:28
-#: assets/js/ai-admin.js:837 assets/js/ai-admin.js:5010
-#: assets/js/ai-layout.js:689 assets/js/ai-layout.js:1927 assets/js/ai.js:965
-#: assets/js/ai.js:5270
+#: assets/js/ai-admin.js:837 assets/js/ai-admin.js:5011
+#: assets/js/ai-layout.js:689 assets/js/ai-layout.js:1989 assets/js/ai.js:965
+#: assets/js/ai.js:5271
 msgid "Connect"
 msgstr "Connecter"
 
@@ -3185,8 +3189,8 @@ msgid "Congrats!"
 msgstr "Félicitations !"
 
 #: core/kits/documents/tabs/settings-lightbox.php:76 includes/frontend.php:1390
-#: includes/widgets/google-maps.php:149 assets/js/ai-admin.js:5796
-#: assets/js/ai-admin.js:5799 assets/js/ai.js:6056 assets/js/ai.js:6059
+#: includes/widgets/google-maps.php:149 assets/js/ai-admin.js:5803
+#: assets/js/ai-admin.js:5806 assets/js/ai.js:6063 assets/js/ai.js:6066
 msgid "Zoom"
 msgstr "Zoom"
 
@@ -3250,6 +3254,7 @@ msgstr "Site"
 
 #: includes/managers/elements.php:289
 #: modules/promotions/widgets/pro-widget-promotion.php:53
+#: assets/js/ai-layout.js:2914
 msgid "Pro"
 msgstr "Pro"
 
@@ -3709,7 +3714,7 @@ msgstr "Importer un modèle"
 #: includes/controls/media.php:217 includes/controls/media.php:263
 #: includes/controls/media.php:265 includes/editor-templates/repeater.php:27
 #: modules/promotions/widgets/pro-widget-promotion.php:64
-#: assets/js/ai-admin.js:2079 assets/js/ai-layout.js:2344 assets/js/ai.js:2207
+#: assets/js/ai-admin.js:2079 assets/js/ai-layout.js:2408 assets/js/ai.js:2207
 #: assets/js/kit-library.411b75eeafae7457107e.bundle.js:919
 msgid "Remove"
 msgstr "Retirer"
@@ -4506,6 +4511,7 @@ msgid "Meet Our Global Widget"
 msgstr "Découvrez notre widget global"
 
 #: modules/promotions/widgets/pro-widget-promotion.php:65
+#: assets/js/ai-layout.js:2845 assets/js/ai-layout.js:3010
 msgid "Go Pro"
 msgstr "Passer à la version Pro"
 
@@ -4684,8 +4690,8 @@ msgid "Back to Library"
 msgstr "Retour à la bibliothèque"
 
 #: includes/editor-templates/templates.php:176
-#: includes/editor-templates/templates.php:200 assets/js/ai-admin.js:5081
-#: assets/js/ai.js:5341 assets/js/editor.js:8295
+#: includes/editor-templates/templates.php:200 assets/js/ai-admin.js:5082
+#: assets/js/ai.js:5342 assets/js/editor.js:8295
 msgid "Insert"
 msgstr "Insérer"
 
@@ -4939,7 +4945,7 @@ msgstr "Coller"
 #: includes/elements/section.php:553 includes/widgets/accordion.php:313
 #: includes/widgets/accordion.php:478 includes/widgets/common.php:680
 #: includes/widgets/toggle.php:339 includes/widgets/toggle.php:496
-#: assets/js/ai-admin.js:6833 assets/js/ai.js:7093
+#: assets/js/ai-admin.js:6840 assets/js/ai.js:7100
 msgid "Background"
 msgstr "Arrière-plan"
 
@@ -5379,8 +5385,8 @@ msgid "Primary Color"
 msgstr "Couleur principale"
 
 #: includes/widgets/icon-box.php:130 includes/widgets/icon.php:142
-#: includes/widgets/social-icons.php:261 assets/js/ai-admin.js:6887
-#: assets/js/ai.js:7147
+#: includes/widgets/social-icons.php:261 assets/js/ai-admin.js:6894
+#: assets/js/ai.js:7154
 msgid "Square"
 msgstr "Carré"
 
@@ -5766,8 +5772,8 @@ msgstr "Bouton"
 
 #: core/common/modules/finder/categories/edit.php:30
 #: includes/controls/popover-toggle.php:68 assets/js/ai-admin.js:2102
-#: assets/js/ai-admin.js:5769 assets/js/ai-admin.js:5776 assets/js/ai.js:2230
-#: assets/js/ai.js:6029 assets/js/ai.js:6036
+#: assets/js/ai-admin.js:5776 assets/js/ai-admin.js:5783 assets/js/ai.js:2230
+#: assets/js/ai.js:6036 assets/js/ai.js:6043
 msgid "Edit"
 msgstr "Modifier"
 
@@ -6353,8 +6359,8 @@ msgid "Advanced"
 msgstr "Avancé"
 
 #: includes/managers/controls.php:318 includes/widgets/divider.php:363
-#: includes/widgets/icon-list.php:275 assets/js/ai-admin.js:6129
-#: assets/js/ai.js:6389 assets/js/editor.js:9331 assets/js/editor.js:36104
+#: includes/widgets/icon-list.php:275 assets/js/ai-admin.js:6136
+#: assets/js/ai.js:6396 assets/js/editor.js:9331 assets/js/editor.js:36104
 msgid "Style"
 msgstr "Style"
 
@@ -6618,12 +6624,12 @@ msgstr "Solide"
 #: includes/widgets/image-carousel.php:355
 #: includes/widgets/image-gallery.php:141 includes/widgets/image.php:162
 #: includes/widgets/image.php:193 includes/widgets/video.php:563
-#: modules/nested-tabs/widgets/nested-tabs.php:389 assets/js/ai-admin.js:6819
-#: assets/js/ai-admin.js:6825 assets/js/ai-admin.js:6835
-#: assets/js/ai-admin.js:6846 assets/js/ai-admin.js:6857
-#: assets/js/ai-admin.js:6873 assets/js/ai.js:7079 assets/js/ai.js:7085
-#: assets/js/ai.js:7095 assets/js/ai.js:7106 assets/js/ai.js:7117
-#: assets/js/ai.js:7133
+#: modules/nested-tabs/widgets/nested-tabs.php:389 assets/js/ai-admin.js:6826
+#: assets/js/ai-admin.js:6832 assets/js/ai-admin.js:6842
+#: assets/js/ai-admin.js:6853 assets/js/ai-admin.js:6864
+#: assets/js/ai-admin.js:6880 assets/js/ai.js:7086 assets/js/ai.js:7092
+#: assets/js/ai.js:7102 assets/js/ai.js:7113 assets/js/ai.js:7124
+#: assets/js/ai.js:7140
 msgid "None"
 msgstr "Aucun"
 

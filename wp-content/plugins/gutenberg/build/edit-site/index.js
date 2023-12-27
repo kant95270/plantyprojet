@@ -9182,7 +9182,8 @@ function ComplementaryArea({
     label: title,
     icon: showIconLabels ? library_check : icon,
     showTooltip: !showIconLabels,
-    variant: showIconLabels ? 'tertiary' : undefined
+    variant: showIconLabels ? 'tertiary' : undefined,
+    size: "compact"
   })), name && isPinnable && (0,external_React_.createElement)(ComplementaryAreaMoreMenuItem, {
     target: name,
     scope: scope,
@@ -9418,7 +9419,8 @@ function MoreMenuDropdown({
     },
     toggleProps: {
       tooltipPosition: 'bottom',
-      ...toggleProps
+      ...toggleProps,
+      size: 'compact'
     }
   }, onClose => children(onClose));
 }
@@ -10254,6 +10256,14 @@ const POST_TYPE_LABELS = {
   [NAVIGATION_POST_TYPE]: (0,external_wp_i18n_namespaceObject.__)('Navigation')
 };
 
+// DataViews constants
+const LAYOUT_GRID = 'grid';
+const LAYOUT_TABLE = 'table';
+const LAYOUT_LIST = 'list';
+const ENUMERATION_TYPE = 'enumeration';
+const OPERATOR_IN = 'in';
+const OPERATOR_NOT_IN = 'notIn';
+
 ;// CONCATENATED MODULE: ./packages/edit-site/build-module/hooks/template-part-edit.js
 
 /**
@@ -10301,7 +10311,7 @@ function EditTemplatePartMenuItem({
     postType: templatePart?.type,
     canvas: 'edit'
   }, {
-    fromTemplateId: params.postId
+    fromTemplateId: params.postId || templatePart?.id
   });
   if (!templatePart) {
     return null;
@@ -10373,7 +10383,7 @@ function NavigationMenuEdit({
     canvas: 'edit'
   }, {
     // this applies to Navigation Menus as well.
-    fromTemplateId: params.postId
+    fromTemplateId: params.postId || navigationMenu?.id
   });
 
   // A non-default setting for block editing mode indicates that the
@@ -10419,22 +10429,6 @@ const navigation_menu_edit_withEditBlockControls = (0,external_wp_compose_namesp
  * WordPress dependencies
  */
 
-
-/**
- * Reducer returning the editing canvas device type.
- *
- * @param {Object} state  Current state.
- * @param {Object} action Dispatched action.
- *
- * @return {Object} Updated state.
- */
-function deviceType(state = 'Desktop', action) {
-  switch (action.type) {
-    case 'SET_PREVIEW_DEVICE_TYPE':
-      return action.deviceType;
-  }
-  return state;
-}
 
 /**
  * Reducer returning the settings.
@@ -10569,7 +10563,6 @@ function editorCanvasContainerView(state = undefined, action) {
   return state;
 }
 /* harmony default export */ var store_reducer = ((0,external_wp_data_namespaceObject.combineReducers)({
-  deviceType,
   settings,
   editedPost,
   blockInserterPanel,
@@ -10632,6 +10625,7 @@ function isTemplateRevertable(template) {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -10658,16 +10652,22 @@ function actions_toggleFeature(featureName) {
 /**
  * Action that changes the width of the editing canvas.
  *
+ * @deprecated
+ *
  * @param {string} deviceType
  *
  * @return {Object} Action object.
  */
-function __experimentalSetPreviewDeviceType(deviceType) {
-  return {
-    type: 'SET_PREVIEW_DEVICE_TYPE',
-    deviceType
-  };
-}
+const __experimentalSetPreviewDeviceType = deviceType => ({
+  registry
+}) => {
+  external_wp_deprecated_default()("dispatch( 'core/edit-site' ).__experimentalSetPreviewDeviceType", {
+    since: '6.5',
+    version: '6.7',
+    hint: 'registry.dispatch( editorStore ).setDeviceType'
+  });
+  registry.dispatch(external_wp_editor_namespaceObject.store).setDeviceType(deviceType);
+};
 
 /**
  * Action that sets a template, optionally fetching it from REST API.
@@ -11452,13 +11452,20 @@ const selectors_isFeatureActive = (0,external_wp_data_namespaceObject.createRegi
 /**
  * Returns the current editing canvas device type.
  *
+ * @deprecated
+ *
  * @param {Object} state Global application state.
  *
  * @return {string} Device type.
  */
-function __experimentalGetPreviewDeviceType(state) {
-  return state.deviceType;
-}
+const __experimentalGetPreviewDeviceType = (0,external_wp_data_namespaceObject.createRegistrySelector)(select => () => {
+  external_wp_deprecated_default()(`select( 'core/edit-site' ).__experimentalGetPreviewDeviceType`, {
+    since: '6.5',
+    version: '6.7',
+    alternative: `select( 'core/editor' ).getDeviceType`
+  });
+  return select(external_wp_editor_namespaceObject.store).getDeviceType();
+});
 
 /**
  * Returns whether the current user can create media or not.
@@ -11805,7 +11812,9 @@ const page = (0,external_React_.createElement)(external_wp_primitives_namespaceO
   xmlns: "http://www.w3.org/2000/svg",
   viewBox: "0 0 24 24"
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "M7 5.5h10a.5.5 0 01.5.5v12a.5.5 0 01-.5.5H7a.5.5 0 01-.5-.5V6a.5.5 0 01.5-.5zM17 4H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V6a2 2 0 00-2-2zm-1 3.75H8v1.5h8v-1.5zM8 11h8v1.5H8V11zm6 3.25H8v1.5h6v-1.5z"
+  d: "M15.5 7.5h-7V9h7V7.5Zm-7 3.5h7v1.5h-7V11Zm7 3.5h-7V16h7v-1.5Z"
+}), (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
+  d: "M17 4H7a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2ZM7 5.5h10a.5.5 0 0 1 .5.5v12a.5.5 0 0 1-.5.5H7a.5.5 0 0 1-.5-.5V6a.5.5 0 0 1 .5-.5Z"
 }));
 /* harmony default export */ var library_page = (page);
 
@@ -13718,7 +13727,9 @@ const archive = (0,external_React_.createElement)(external_wp_primitives_namespa
   viewBox: "0 0 24 24",
   xmlns: "http://www.w3.org/2000/svg"
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "M19 6.2h-5.9l-.6-1.1c-.3-.7-1-1.1-1.8-1.1H5c-1.1 0-2 .9-2 2v11.8c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8.2c0-1.1-.9-2-2-2zm.5 11.6c0 .3-.2.5-.5.5H5c-.3 0-.5-.2-.5-.5V6c0-.3.2-.5.5-.5h5.8c.2 0 .4.1.4.3l1 2H19c.3 0 .5.2.5.5v9.5zM8 12.8h8v-1.5H8v1.5zm0 3h8v-1.5H8v1.5z"
+  fillRule: "evenodd",
+  clipRule: "evenodd",
+  d: "M11.934 7.406a1 1 0 0 0 .914.594H19a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5H5a.5.5 0 0 1-.5-.5V6a.5.5 0 0 1 .5-.5h5.764a.5.5 0 0 1 .447.276l.723 1.63Zm1.064-1.216a.5.5 0 0 0 .462.31H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.764a2 2 0 0 1 1.789 1.106l.445 1.084ZM8.5 10.5h7V12h-7v-1.5Zm7 3.5h-7v1.5h7V14Z"
 }));
 /* harmony default export */ var library_archive = (archive);
 
@@ -13836,7 +13847,7 @@ const tag = (0,external_React_.createElement)(external_wp_primitives_namespaceOb
   xmlns: "http://www.w3.org/2000/svg",
   viewBox: "0 0 24 24"
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "M20.1 11.2l-6.7-6.7c-.1-.1-.3-.2-.5-.2H5c-.4-.1-.8.3-.8.7v7.8c0 .2.1.4.2.5l6.7 6.7c.2.2.5.4.7.5s.6.2.9.2c.3 0 .6-.1.9-.2.3-.1.5-.3.8-.5l5.6-5.6c.4-.4.7-1 .7-1.6.1-.6-.2-1.2-.6-1.6zM19 13.4L13.4 19c-.1.1-.2.1-.3.2-.2.1-.4.1-.6 0-.1 0-.2-.1-.3-.2l-6.5-6.5V5.8h6.8l6.5 6.5c.2.2.2.4.2.6 0 .1 0 .3-.2.5zM9 8c-.6 0-1 .4-1 1s.4 1 1 1 1-.4 1-1-.4-1-1-1z"
+  d: "M4.75 4a.75.75 0 0 0-.75.75v7.826c0 .2.08.39.22.53l6.72 6.716a2.313 2.313 0 0 0 3.276-.001l5.61-5.611-.531-.53.532.528a2.315 2.315 0 0 0 0-3.264L13.104 4.22a.75.75 0 0 0-.53-.22H4.75ZM19 12.576a.815.815 0 0 1-.236.574l-5.61 5.611a.814.814 0 0 1-1.153 0L5.5 12.264V5.5h6.763l6.5 6.502a.816.816 0 0 1 .237.574ZM8.75 9.75a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"
 }));
 /* harmony default export */ var library_tag = (tag);
 
@@ -13868,25 +13879,9 @@ const plus = (0,external_React_.createElement)(external_wp_primitives_namespaceO
   xmlns: "http://www.w3.org/2000/svg",
   viewBox: "0 0 24 24"
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "M18 11.2h-5.2V6h-1.6v5.2H6v1.6h5.2V18h1.6v-5.2H18z"
+  d: "M11 12.5V17.5H12.5V12.5H17.5V11H12.5V6H11V11H6V12.5H11Z"
 }));
 /* harmony default export */ var library_plus = (plus);
-
-;// CONCATENATED MODULE: ./packages/edit-site/build-module/utils/use-debounced-input.js
-/**
- * WordPress dependencies
- */
-
-
-function useDebouncedInput(defaultValue = '') {
-  const [input, setInput] = (0,external_wp_element_namespaceObject.useState)(defaultValue);
-  const [debouncedInput, setDebouncedState] = (0,external_wp_element_namespaceObject.useState)(defaultValue);
-  const setDebouncedInput = (0,external_wp_compose_namespaceObject.useDebounce)(setDebouncedState, 250);
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    setDebouncedInput(input);
-  }, [input]);
-  return [input, setInput, debouncedInput];
-}
 
 ;// CONCATENATED MODULE: ./packages/icons/build-module/library/post.js
 
@@ -14455,10 +14450,10 @@ const useEntitiesInfo = (entityName, templatePrefixes, additionalQueryParameters
 
 
 
+
 /**
  * Internal dependencies
  */
-
 
 
 const {
@@ -14534,7 +14529,7 @@ function SuggestionList({
   const composite = add_custom_template_modal_content_useCompositeStore({
     orientation: 'vertical'
   });
-  const [search, setSearch, debouncedSearch] = useDebouncedInput();
+  const [search, setSearch, debouncedSearch] = (0,external_wp_compose_namespaceObject.useDebouncedInput)();
   const suggestions = useSearchSuggestions(entityForSuggestions, debouncedSearch);
   const {
     labels
@@ -15575,6 +15570,116 @@ function SidebarNavigationScreenTemplates() {
   });
 }
 
+;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/sidebar-navigation-screen-template/template-areas.js
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+
+
+function TemplateAreaButton({
+  postId,
+  area,
+  title
+}) {
+  const templatePartArea = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    const defaultAreas = select(external_wp_editor_namespaceObject.store).__experimentalGetDefaultTemplatePartAreas();
+    return defaultAreas.find(defaultArea => defaultArea.area === area);
+  }, [area]);
+  const linkInfo = useLink({
+    postType: TEMPLATE_PART_POST_TYPE,
+    postId
+  });
+  return (0,external_React_.createElement)(SidebarNavigationItem, {
+    className: "edit-site-sidebar-navigation-screen-template__template-area-button",
+    ...linkInfo,
+    icon: templatePartArea?.icon,
+    withChevron: true
+  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalTruncate, {
+    limit: 20,
+    ellipsizeMode: "tail",
+    numberOfLines: 1,
+    className: "edit-site-sidebar-navigation-screen-template__template-area-label-text"
+  }, (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title)));
+}
+function TemplateAreas() {
+  const {
+    templatePartAreas,
+    currentTemplateParts
+  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    const {
+      getSettings,
+      getCurrentTemplateTemplateParts
+    } = unlock(select(store_store));
+    return {
+      templatePartAreas: getSettings()?.defaultTemplatePartAreas,
+      currentTemplateParts: getCurrentTemplateTemplateParts()
+    };
+  }, []);
+
+  /*
+   * Merge data in currentTemplateParts with templatePartAreas,
+   * which contains the template icon and fallback labels
+   */
+  const templateAreas = (0,external_wp_element_namespaceObject.useMemo)(() => {
+    // Keep track of template part IDs that have already been added to the array.
+    const templatePartIds = new Set();
+    const filterOutDuplicateTemplateParts = currentTemplatePart => {
+      // If the template part has already been added to the array, skip it.
+      if (templatePartIds.has(currentTemplatePart.templatePart.id)) {
+        return;
+      }
+      // Add to the array of template part IDs.
+      templatePartIds.add(currentTemplatePart.templatePart.id);
+      return currentTemplatePart;
+    };
+    return currentTemplateParts.length && templatePartAreas ? currentTemplateParts.filter(filterOutDuplicateTemplateParts).map(({
+      templatePart,
+      block
+    }) => ({
+      ...templatePartAreas?.find(({
+        area
+      }) => area === templatePart?.area),
+      ...templatePart,
+      clientId: block.clientId
+    })) : [];
+  }, [currentTemplateParts, templatePartAreas]);
+  if (!templateAreas.length) {
+    return null;
+  }
+  return (0,external_React_.createElement)(SidebarNavigationScreenDetailsPanel, {
+    title: (0,external_wp_i18n_namespaceObject.__)('Areas'),
+    spacing: 3
+  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalItemGroup, null, templateAreas.map(({
+    clientId,
+    label,
+    area,
+    theme,
+    slug,
+    title
+  }) => (0,external_React_.createElement)(SidebarNavigationScreenDetailsPanelRow, {
+    key: clientId
+  }, (0,external_React_.createElement)(TemplateAreaButton, {
+    postId: `${theme}//${slug}`,
+    title: title?.rendered || label,
+    area: area
+  })))));
+}
+
 ;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/use-edited-entity-record/index.js
 /**
  * WordPress dependencies
@@ -15900,6 +16005,7 @@ function RenameMenuItem({
     spacing: "5"
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.TextControl, {
     __nextHasNoMarginBottom: true,
+    __next40pxDefaultSize: true,
     label: (0,external_wp_i18n_namespaceObject.__)('Name'),
     value: editedTitle,
     onChange: setEditedTitle,
@@ -15907,11 +16013,13 @@ function RenameMenuItem({
   }), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
     justify: "right"
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
+    __next40pxDefaultSize: true,
     variant: "tertiary",
     onClick: () => {
       setIsModalOpen(false);
     }
   }, (0,external_wp_i18n_namespaceObject.__)('Cancel')), (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
+    __next40pxDefaultSize: true,
     variant: "primary",
     type: "submit"
   }, (0,external_wp_i18n_namespaceObject.__)('Save')))))));
@@ -16025,35 +16133,6 @@ function DeleteMenuItem({
   (0,external_wp_i18n_namespaceObject.__)('Are you sure you want to delete "%s"?'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title))));
 }
 
-;// CONCATENATED MODULE: ./packages/icons/build-module/library/header.js
-
-/**
- * WordPress dependencies
- */
-
-const header = (0,external_React_.createElement)(external_wp_primitives_namespaceObject.SVG, {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "M18.5 10.5H10v8h8a.5.5 0 00.5-.5v-7.5zm-10 0h-3V18a.5.5 0 00.5.5h2.5v-8zM6 4h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2z"
-}));
-/* harmony default export */ var library_header = (header);
-
-;// CONCATENATED MODULE: ./packages/icons/build-module/library/footer.js
-
-/**
- * WordPress dependencies
- */
-
-const footer = (0,external_React_.createElement)(external_wp_primitives_namespaceObject.SVG, {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
-  fillRule: "evenodd",
-  d: "M18 5.5h-8v8h8.5V6a.5.5 0 00-.5-.5zm-9.5 8h-3V6a.5.5 0 01.5-.5h2.5v8zM6 4h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2z"
-}));
-/* harmony default export */ var library_footer = (footer);
-
 ;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/sidebar-navigation-screen-template/home-template-details.js
 
 /**
@@ -16066,72 +16145,31 @@ const footer = (0,external_React_.createElement)(external_wp_primitives_namespac
 
 
 
-
-
 /**
  * Internal dependencies
  */
 
-
-
-
-
-
 const EMPTY_OBJECT = {};
-function TemplateAreaButton({
-  postId,
-  icon,
-  title
-}) {
-  var _icons$icon;
-  const icons = {
-    header: library_header,
-    footer: library_footer
-  };
-  const linkInfo = useLink({
-    postType: TEMPLATE_PART_POST_TYPE,
-    postId
-  });
-  return (0,external_React_.createElement)(SidebarNavigationItem, {
-    className: "edit-site-sidebar-navigation-screen-template__template-area-button",
-    ...linkInfo,
-    icon: (_icons$icon = icons[icon]) !== null && _icons$icon !== void 0 ? _icons$icon : library_layout,
-    withChevron: true
-  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalTruncate, {
-    limit: 20,
-    ellipsizeMode: "tail",
-    numberOfLines: 1,
-    className: "edit-site-sidebar-navigation-screen-template__template-area-label-text"
-  }, (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title)));
-}
 function HomeTemplateDetails() {
   const {
     editEntityRecord
   } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_coreData_namespaceObject.store);
   const {
     allowCommentsOnNewPosts,
-    templatePartAreas,
     postsPerPage,
     postsPageTitle,
-    postsPageId,
-    currentTemplateParts
+    postsPageId
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       getEntityRecord
     } = select(external_wp_coreData_namespaceObject.store);
-    const {
-      getSettings,
-      getCurrentTemplateTemplateParts
-    } = unlock(select(store_store));
     const siteSettings = getEntityRecord('root', 'site');
     const _postsPageRecord = siteSettings?.page_for_posts ? getEntityRecord('postType', 'page', siteSettings?.page_for_posts) : EMPTY_OBJECT;
     return {
       allowCommentsOnNewPosts: siteSettings?.default_comment_status === 'open',
       postsPageTitle: _postsPageRecord?.title?.rendered,
       postsPageId: _postsPageRecord?.id,
-      postsPerPage: siteSettings?.posts_per_page,
-      templatePartAreas: getSettings()?.defaultTemplatePartAreas,
-      currentTemplateParts: getCurrentTemplateTemplateParts()
+      postsPerPage: siteSettings?.posts_per_page
     };
   }, []);
   const [commentsOnNewPostsValue, setCommentsOnNewPostsValue] = (0,external_wp_element_namespaceObject.useState)('');
@@ -16148,34 +16186,6 @@ function HomeTemplateDetails() {
     setPostsPageTitleValue(postsPageTitle);
     setPostsCountValue(postsPerPage);
   }, [postsPageTitle, allowCommentsOnNewPosts, postsPerPage]);
-
-  /*
-   * Merge data in currentTemplateParts with templatePartAreas,
-   * which contains the template icon and fallback labels
-   */
-  const templateAreas = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    // Keep track of template part IDs that have already been added to the array.
-    const templatePartIds = new Set();
-    const filterOutDuplicateTemplateParts = currentTemplatePart => {
-      // If the template part has already been added to the array, skip it.
-      if (templatePartIds.has(currentTemplatePart.templatePart.id)) {
-        return;
-      }
-      // Add to the array of template part IDs.
-      templatePartIds.add(currentTemplatePart.templatePart.id);
-      return currentTemplatePart;
-    };
-    return currentTemplateParts.length && templatePartAreas ? currentTemplateParts.filter(filterOutDuplicateTemplateParts).map(({
-      templatePart,
-      block
-    }) => ({
-      ...templatePartAreas?.find(({
-        area
-      }) => area === templatePart?.area),
-      ...templatePart,
-      clientId: block.clientId
-    })) : [];
-  }, [currentTemplateParts, templatePartAreas]);
   const setAllowCommentsOnNewPosts = newValue => {
     setCommentsOnNewPostsValue(newValue);
     editEntityRecord('root', 'site', undefined, {
@@ -16224,23 +16234,7 @@ function HomeTemplateDetails() {
     help: (0,external_wp_i18n_namespaceObject.__)('Changes will apply to new posts only. Individual posts may override these settings.'),
     checked: commentsOnNewPostsValue,
     onChange: setAllowCommentsOnNewPosts
-  }))), (0,external_React_.createElement)(SidebarNavigationScreenDetailsPanel, {
-    title: (0,external_wp_i18n_namespaceObject.__)('Areas'),
-    spacing: 3
-  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalItemGroup, null, templateAreas.map(({
-    clientId,
-    label,
-    icon,
-    theme,
-    slug,
-    title
-  }) => (0,external_React_.createElement)(SidebarNavigationScreenDetailsPanelRow, {
-    key: clientId
-  }, (0,external_React_.createElement)(TemplateAreaButton, {
-    postId: `${theme}//${slug}`,
-    title: title?.rendered || label,
-    icon: icon
-  }))))));
+  }))));
 }
 
 ;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/sidebar-navigation-screen-template/index.js
@@ -16265,6 +16259,7 @@ function HomeTemplateDetails() {
 
 
 
+
 function useTemplateDetails(postType, postId) {
   const {
     getDescription,
@@ -16279,7 +16274,7 @@ function useTemplateDetails(postType, postId) {
   if (!descriptionText && addedBy.text) {
     descriptionText = (0,external_wp_i18n_namespaceObject.__)('This is a custom template that can be applied manually to any Post or Page.');
   }
-  const content = record?.slug === 'home' || record?.slug === 'index' ? (0,external_React_.createElement)(HomeTemplateDetails, null) : null;
+  const content = record?.slug === 'home' || record?.slug === 'index' ? (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(HomeTemplateDetails, null), (0,external_React_.createElement)(TemplateAreas, null)) : (0,external_React_.createElement)(TemplateAreas, null);
   const footer = record?.modified ? (0,external_React_.createElement)(SidebarNavigationScreenDetailsFooter, {
     record: record
   }) : null;
@@ -16355,7 +16350,9 @@ const file = (0,external_React_.createElement)(external_wp_primitives_namespaceO
   viewBox: "0 0 24 24",
   xmlns: "http://www.w3.org/2000/svg"
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "M19 6.2h-5.9l-.6-1.1c-.3-.7-1-1.1-1.8-1.1H5c-1.1 0-2 .9-2 2v11.8c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8.2c0-1.1-.9-2-2-2zm.5 11.6c0 .3-.2.5-.5.5H5c-.3 0-.5-.2-.5-.5V6c0-.3.2-.5.5-.5h5.8c.2 0 .4.1.4.3l1 2H19c.3 0 .5.2.5.5v9.5z"
+  fillRule: "evenodd",
+  clipRule: "evenodd",
+  d: "M12.848 8a1 1 0 0 1-.914-.594l-.723-1.63a.5.5 0 0 0-.447-.276H5a.5.5 0 0 0-.5.5v11.5a.5.5 0 0 0 .5.5h14a.5.5 0 0 0 .5-.5v-9A.5.5 0 0 0 19 8h-6.152Zm.612-1.5a.5.5 0 0 1-.462-.31l-.445-1.084A2 2 0 0 0 10.763 4H5a2 2 0 0 0-2 2v11.5a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-5.54Z"
 }));
 /* harmony default export */ var library_file = (file);
 
@@ -17379,7 +17376,7 @@ function usePatternCategories() {
     sortedCategories.unshift({
       name: PATTERN_DEFAULT_CATEGORY,
       label: (0,external_wp_i18n_namespaceObject.__)('All patterns'),
-      description: (0,external_wp_i18n_namespaceObject.__)('A list of all patterns from all sources'),
+      description: (0,external_wp_i18n_namespaceObject.__)('A list of all patterns from all sources.'),
       count: themePatterns.length + userPatterns.length
     });
     return sortedCategories;
@@ -18803,15 +18800,18 @@ function RenameModal({
     spacing: "3"
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.TextControl, {
     __nextHasNoMarginBottom: true,
+    __next40pxDefaultSize: true,
     value: editedMenuTitle,
     placeholder: (0,external_wp_i18n_namespaceObject.__)('Navigation title'),
     onChange: setEditedMenuTitle
   }), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
     justify: "right"
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
+    __next40pxDefaultSize: true,
     variant: "tertiary",
     onClick: onClose
   }, (0,external_wp_i18n_namespaceObject.__)('Cancel')), (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
+    __next40pxDefaultSize: true,
     disabled: !isEditedMenuTitleValid,
     variant: "primary",
     type: "submit",
@@ -19515,7 +19515,8 @@ function SaveButton({
      */,
     showTooltip: showTooltip,
     icon: icon,
-    __next40pxDefaultSize: __next40pxDefaultSize
+    __next40pxDefaultSize: __next40pxDefaultSize,
+    size: "compact"
   }, label);
 }
 
@@ -20310,13 +20311,6 @@ const trash = (0,external_React_.createElement)(external_wp_primitives_namespace
 }));
 /* harmony default export */ var library_trash = (trash);
 
-;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/dataviews/constants.js
-// Field types.
-const ENUMERATION_TYPE = 'enumeration';
-
-// Filter operators.
-const OPERATOR_IN = 'in';
-
 ;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/sidebar-dataviews/default-views.js
 /**
  * WordPress dependencies
@@ -20329,7 +20323,7 @@ const OPERATOR_IN = 'in';
  */
 
 const DEFAULT_PAGE_BASE = {
-  type: 'list',
+  type: LAYOUT_TABLE,
   search: '',
   filters: [],
   page: 1,
@@ -20375,33 +20369,761 @@ const DEFAULT_VIEWS = {
 };
 /* harmony default export */ var default_views = (DEFAULT_VIEWS);
 
-;// CONCATENATED MODULE: ./packages/icons/build-module/library/columns.js
+;// CONCATENATED MODULE: ./packages/icons/build-module/library/block-table.js
 
 /**
  * WordPress dependencies
  */
 
-const columns = (0,external_React_.createElement)(external_wp_primitives_namespaceObject.SVG, {
+const blockTable = (0,external_React_.createElement)(external_wp_primitives_namespaceObject.SVG, {
   viewBox: "0 0 24 24",
   xmlns: "http://www.w3.org/2000/svg"
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "M19 6H6c-1.1 0-2 .9-2 2v9c0 1.1.9 2 2 2h13c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-4.1 1.5v10H10v-10h4.9zM5.5 17V8c0-.3.2-.5.5-.5h2.5v10H6c-.3 0-.5-.2-.5-.5zm14 0c0 .3-.2.5-.5.5h-2.6v-10H19c.3 0 .5.2.5.5v9z"
+  d: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM5 4.5h14c.3 0 .5.2.5.5v3.5h-15V5c0-.3.2-.5.5-.5zm8 5.5h6.5v3.5H13V10zm-1.5 3.5h-7V10h7v3.5zm-7 5.5v-4h7v4.5H5c-.3 0-.5-.2-.5-.5zm14.5.5h-6V15h6.5v4c0 .3-.2.5-.5.5z"
 }));
-/* harmony default export */ var library_columns = (columns);
+/* harmony default export */ var block_table = (blockTable);
 
-;// CONCATENATED MODULE: ./packages/icons/build-module/library/pull-right.js
+;// CONCATENATED MODULE: ./packages/icons/build-module/library/format-list-bullets-rtl.js
 
 /**
  * WordPress dependencies
  */
 
-const pullRight = (0,external_React_.createElement)(external_wp_primitives_namespaceObject.SVG, {
+const formatListBulletsRTL = (0,external_React_.createElement)(external_wp_primitives_namespaceObject.SVG, {
   xmlns: "http://www.w3.org/2000/svg",
   viewBox: "0 0 24 24"
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "M14 6v12h6V6h-6zM4 10h7V8.5H4V10zm0 5.5h7V14H4v1.5z"
+  d: "M4 8.8h8.9V7.2H4v1.6zm0 7h8.9v-1.5H4v1.5zM18 13c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-3c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"
 }));
-/* harmony default export */ var pull_right = (pullRight);
+/* harmony default export */ var format_list_bullets_rtl = (formatListBulletsRTL);
+
+;// CONCATENATED MODULE: ./packages/icons/build-module/library/format-list-bullets.js
+
+/**
+ * WordPress dependencies
+ */
+
+const formatListBullets = (0,external_React_.createElement)(external_wp_primitives_namespaceObject.SVG, {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
+  d: "M11.1 15.8H20v-1.5h-8.9v1.5zm0-8.6v1.5H20V7.2h-8.9zM6 13c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0-7c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"
+}));
+/* harmony default export */ var format_list_bullets = (formatListBullets);
+
+;// CONCATENATED MODULE: ./packages/icons/build-module/library/arrow-up.js
+
+/**
+ * WordPress dependencies
+ */
+
+const arrowUp = (0,external_React_.createElement)(external_wp_primitives_namespaceObject.SVG, {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
+  d: "M12 3.9 6.5 9.5l1 1 3.8-3.7V20h1.5V6.8l3.7 3.7 1-1z"
+}));
+/* harmony default export */ var arrow_up = (arrowUp);
+
+;// CONCATENATED MODULE: ./packages/icons/build-module/library/arrow-down.js
+
+/**
+ * WordPress dependencies
+ */
+
+const arrowDown = (0,external_React_.createElement)(external_wp_primitives_namespaceObject.SVG, {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
+  d: "m16.5 13.5-3.7 3.7V4h-1.5v13.2l-3.8-3.7-1 1 5.5 5.6 5.5-5.6z"
+}));
+/* harmony default export */ var arrow_down = (arrowDown);
+
+;// CONCATENATED MODULE: ./packages/icons/build-module/library/unseen.js
+
+/**
+ * WordPress dependencies
+ */
+
+const unseen = (0,external_React_.createElement)(external_wp_primitives_namespaceObject.SVG, {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
+  d: "M4.67 10.664s-2.09 1.11-2.917 1.582l.494.87 1.608-.914.002.002c.343.502.86 1.17 1.563 1.84.348.33.742.663 1.185.976L5.57 16.744l.858.515 1.02-1.701a9.1 9.1 0 0 0 4.051 1.18V19h1v-2.263a9.1 9.1 0 0 0 4.05-1.18l1.021 1.7.858-.514-1.034-1.723c.442-.313.837-.646 1.184-.977.703-.669 1.22-1.337 1.563-1.839l.002-.003 1.61.914.493-.87c-1.75-.994-2.918-1.58-2.918-1.58l-.003.005a8.29 8.29 0 0 1-.422.689 10.097 10.097 0 0 1-1.36 1.598c-1.218 1.16-3.042 2.293-5.544 2.293-2.503 0-4.327-1.132-5.546-2.293a10.099 10.099 0 0 1-1.359-1.599 8.267 8.267 0 0 1-.422-.689l-.003-.005Z"
+}));
+/* harmony default export */ var library_unseen = (unseen);
+
+;// CONCATENATED MODULE: ./packages/icons/build-module/library/funnel.js
+
+/**
+ * WordPress dependencies
+ */
+
+const funnel = (0,external_React_.createElement)(external_wp_primitives_namespaceObject.SVG, {
+  viewBox: "0 0 24 24",
+  xmlns: "http://www.w3.org/2000/svg"
+}, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
+  d: "M10 17.5H14V16H10V17.5ZM6 6V7.5H18V6H6ZM8 12.5H16V11H8V12.5Z"
+}));
+/* harmony default export */ var library_funnel = (funnel);
+
+;// CONCATENATED MODULE: ./packages/dataviews/build-module/lock-unlock.js
+/**
+ * WordPress dependencies
+ */
+
+const {
+  lock: lock_unlock_lock,
+  unlock: lock_unlock_unlock
+} = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I know using unstable features means my theme or plugin will inevitably break in the next version of WordPress.', '@wordpress/dataviews');
+
+;// CONCATENATED MODULE: ./packages/dataviews/build-module/item-actions.js
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+const {
+  DropdownMenuV2Ariakit: DropdownMenu,
+  DropdownMenuGroupV2Ariakit: DropdownMenuGroup,
+  DropdownMenuItemV2Ariakit: DropdownMenuItem,
+  DropdownMenuItemLabelV2Ariakit: DropdownMenuItemLabel
+} = lock_unlock_unlock(external_wp_components_namespaceObject.privateApis);
+function ButtonTrigger({
+  action,
+  onClick
+}) {
+  return (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
+    label: action.label,
+    icon: action.icon,
+    isDestructive: action.isDestructive,
+    size: "compact",
+    onClick: onClick
+  });
+}
+function DropdownMenuItemTrigger({
+  action,
+  onClick
+}) {
+  return (0,external_React_.createElement)(DropdownMenuItem, {
+    onClick: onClick,
+    hideOnClick: !action.RenderModal
+  }, (0,external_React_.createElement)(DropdownMenuItemLabel, null, action.label));
+}
+function ActionWithModal({
+  action,
+  item,
+  ActionTrigger
+}) {
+  const [isModalOpen, setIsModalOpen] = (0,external_wp_element_namespaceObject.useState)(false);
+  const actionTriggerProps = {
+    action,
+    onClick: () => setIsModalOpen(true)
+  };
+  const {
+    RenderModal,
+    hideModalHeader
+  } = action;
+  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(ActionTrigger, {
+    ...actionTriggerProps
+  }), isModalOpen && (0,external_React_.createElement)(external_wp_components_namespaceObject.Modal, {
+    title: !hideModalHeader && action.label,
+    __experimentalHideHeader: !!hideModalHeader,
+    onRequestClose: () => {
+      setIsModalOpen(false);
+    },
+    overlayClassName: "dataviews-action-modal"
+  }, (0,external_React_.createElement)(RenderModal, {
+    item: item,
+    closeModal: () => setIsModalOpen(false)
+  })));
+}
+function ActionsDropdownMenuGroup({
+  actions,
+  item
+}) {
+  return (0,external_React_.createElement)(DropdownMenuGroup, null, actions.map(action => {
+    if (!!action.RenderModal) {
+      return (0,external_React_.createElement)(ActionWithModal, {
+        key: action.id,
+        action: action,
+        item: item,
+        ActionTrigger: DropdownMenuItemTrigger
+      });
+    }
+    return (0,external_React_.createElement)(DropdownMenuItemTrigger, {
+      key: action.id,
+      action: action,
+      onClick: () => action.callback(item)
+    });
+  }));
+}
+function ItemActions({
+  item,
+  actions,
+  isCompact
+}) {
+  const {
+    primaryActions,
+    secondaryActions
+  } = (0,external_wp_element_namespaceObject.useMemo)(() => {
+    return actions.reduce((accumulator, action) => {
+      // If an action is eligible for all items, doesn't need
+      // to provide the `isEligible` function.
+      if (action.isEligible && !action.isEligible(item)) {
+        return accumulator;
+      }
+      if (action.isPrimary && !!action.icon) {
+        accumulator.primaryActions.push(action);
+      } else {
+        accumulator.secondaryActions.push(action);
+      }
+      return accumulator;
+    }, {
+      primaryActions: [],
+      secondaryActions: []
+    });
+  }, [actions, item]);
+  if (!primaryActions.length && !secondaryActions.length) {
+    return null;
+  }
+  if (isCompact) {
+    return (0,external_React_.createElement)(CompactItemActions, {
+      item: item,
+      primaryActions: primaryActions,
+      secondaryActions: secondaryActions
+    });
+  }
+  return (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
+    spacing: 1,
+    justify: "flex-end",
+    style: {
+      flexShrink: '0',
+      width: 'auto'
+    }
+  }, !!primaryActions.length && primaryActions.map(action => {
+    if (!!action.RenderModal) {
+      return (0,external_React_.createElement)(ActionWithModal, {
+        key: action.id,
+        action: action,
+        item: item,
+        ActionTrigger: ButtonTrigger
+      });
+    }
+    return (0,external_React_.createElement)(ButtonTrigger, {
+      key: action.id,
+      action: action,
+      onClick: () => action.callback(item)
+    });
+  }), !!secondaryActions.length && (0,external_React_.createElement)(DropdownMenu, {
+    trigger: (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
+      size: "compact",
+      icon: more_vertical,
+      label: (0,external_wp_i18n_namespaceObject.__)('Actions')
+    }),
+    placement: "bottom-end"
+  }, (0,external_React_.createElement)(ActionsDropdownMenuGroup, {
+    actions: secondaryActions,
+    item: item
+  })));
+}
+function CompactItemActions({
+  item,
+  primaryActions,
+  secondaryActions
+}) {
+  return (0,external_React_.createElement)(DropdownMenu, {
+    trigger: (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
+      size: "compact",
+      icon: more_vertical,
+      label: (0,external_wp_i18n_namespaceObject.__)('Actions')
+    }),
+    placement: "bottom-end"
+  }, !!primaryActions.length && (0,external_React_.createElement)(ActionsDropdownMenuGroup, {
+    actions: primaryActions,
+    item: item
+  }), !!secondaryActions.length && (0,external_React_.createElement)(ActionsDropdownMenuGroup, {
+    actions: secondaryActions,
+    item: item
+  }));
+}
+
+;// CONCATENATED MODULE: ./packages/dataviews/build-module/view-table.js
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+const {
+  DropdownMenuV2: view_table_DropdownMenu,
+  DropdownMenuGroupV2: view_table_DropdownMenuGroup,
+  DropdownMenuItemV2: view_table_DropdownMenuItem,
+  DropdownMenuSeparatorV2: DropdownMenuSeparator,
+  DropdownSubMenuV2: DropdownSubMenu,
+  DropdownSubMenuTriggerV2: DropdownSubMenuTrigger
+} = lock_unlock_unlock(external_wp_components_namespaceObject.privateApis);
+const sortingItemsInfo = {
+  asc: {
+    icon: arrow_up,
+    label: (0,external_wp_i18n_namespaceObject.__)('Sort ascending')
+  },
+  desc: {
+    icon: arrow_down,
+    label: (0,external_wp_i18n_namespaceObject.__)('Sort descending')
+  }
+};
+const sortIcons = {
+  asc: chevron_up,
+  desc: chevron_down
+};
+function HeaderMenu({
+  field,
+  view,
+  onChangeView
+}) {
+  const isSortable = field.enableSorting !== false;
+  const isHidable = field.enableHiding !== false;
+  if (!isSortable && !isHidable) {
+    return field.header;
+  }
+  const isSorted = view.sort?.field === field.id;
+  let filter, filterInView;
+  const otherFilters = [];
+  if (field.type === constants_ENUMERATION_TYPE) {
+    let columnOperators = field.filterBy?.operators;
+    if (!columnOperators || !Array.isArray(columnOperators)) {
+      columnOperators = [constants_OPERATOR_IN, constants_OPERATOR_NOT_IN];
+    }
+    const operators = columnOperators.filter(operator => [constants_OPERATOR_IN, constants_OPERATOR_NOT_IN].includes(operator));
+    if (operators.length >= 0) {
+      filter = {
+        field: field.id,
+        operators,
+        elements: field.elements || []
+      };
+      filterInView = {
+        field: filter.field,
+        operator: filter.operators[0],
+        value: undefined
+      };
+    }
+  }
+  const isFilterable = !!filter;
+  if (isFilterable) {
+    const columnFilters = view.filters;
+    columnFilters.forEach(columnFilter => {
+      if (columnFilter.field === filter.field) {
+        filterInView = {
+          ...columnFilter
+        };
+      } else {
+        otherFilters.push(columnFilter);
+      }
+    });
+  }
+  return (0,external_React_.createElement)(view_table_DropdownMenu, {
+    align: "start",
+    trigger: (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
+      icon: isSorted && sortIcons[view.sort.direction],
+      iconPosition: "right",
+      text: field.header,
+      style: {
+        padding: 0
+      },
+      size: "compact"
+    })
+  }, (0,external_React_.createElement)(WithSeparators, null, isSortable && (0,external_React_.createElement)(view_table_DropdownMenuGroup, null, Object.entries(sortingItemsInfo).map(([direction, info]) => {
+    const isActive = isSorted && view.sort.direction === direction;
+    return (0,external_React_.createElement)(view_table_DropdownMenuItem, {
+      key: direction,
+      role: "menuitemradio",
+      "aria-checked": isActive,
+      prefix: (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
+        icon: info.icon
+      }),
+      suffix: isActive && (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
+        icon: library_check
+      }),
+      onSelect: event => {
+        event.preventDefault();
+        onChangeView({
+          ...view,
+          sort: {
+            field: field.id,
+            direction
+          }
+        });
+      }
+    }, info.label);
+  })), isHidable && (0,external_React_.createElement)(view_table_DropdownMenuItem, {
+    role: "menuitemradio",
+    "aria-checked": false,
+    prefix: (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
+      icon: library_unseen
+    }),
+    onSelect: event => {
+      event.preventDefault();
+      onChangeView({
+        ...view,
+        hiddenFields: view.hiddenFields.concat(field.id)
+      });
+    }
+  }, (0,external_wp_i18n_namespaceObject.__)('Hide')), isFilterable && (0,external_React_.createElement)(view_table_DropdownMenuGroup, null, (0,external_React_.createElement)(DropdownSubMenu, {
+    key: filter.field,
+    trigger: (0,external_React_.createElement)(DropdownSubMenuTrigger, {
+      prefix: (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
+        icon: library_funnel
+      }),
+      suffix: (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
+        icon: chevron_right_small
+      })
+    }, (0,external_wp_i18n_namespaceObject.__)('Filter by'))
+  }, (0,external_React_.createElement)(WithSeparators, null, (0,external_React_.createElement)(view_table_DropdownMenuGroup, null, filter.elements.map(element => {
+    let isActive = false;
+    if (filterInView) {
+      // Intentionally use loose comparison, so it does type conversion.
+      // This covers the case where a top-level filter for the same field converts a number into a string.
+      /* eslint-disable eqeqeq */
+      isActive = element.value == filterInView.value;
+      /* eslint-enable eqeqeq */
+    }
+
+    return (0,external_React_.createElement)(view_table_DropdownMenuItem, {
+      key: element.value,
+      role: "menuitemradio",
+      "aria-checked": isActive,
+      prefix: isActive && (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
+        icon: library_check
+      }),
+      onSelect: () => {
+        onChangeView({
+          ...view,
+          filters: [...otherFilters, {
+            field: filter.field,
+            operator: filterInView?.operator,
+            value: isActive ? undefined : element.value
+          }]
+        });
+      }
+    }, element.label);
+  })), filter.operators.length > 1 && (0,external_React_.createElement)(DropdownSubMenu, {
+    trigger: (0,external_React_.createElement)(DropdownSubMenuTrigger, {
+      suffix: (0,external_React_.createElement)(external_wp_element_namespaceObject.Fragment, null, filterInView.operator === constants_OPERATOR_IN ? (0,external_wp_i18n_namespaceObject.__)('Is') : (0,external_wp_i18n_namespaceObject.__)('Is not'), (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
+        icon: chevron_right_small
+      }), ' ')
+    }, (0,external_wp_i18n_namespaceObject.__)('Conditions'))
+  }, (0,external_React_.createElement)(view_table_DropdownMenuItem, {
+    key: "in-filter",
+    role: "menuitemradio",
+    "aria-checked": filterInView?.operator === constants_OPERATOR_IN,
+    prefix: filterInView?.operator === constants_OPERATOR_IN && (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
+      icon: library_check
+    }),
+    onSelect: () => onChangeView({
+      ...view,
+      filters: [...otherFilters, {
+        field: filter.field,
+        operator: constants_OPERATOR_IN,
+        value: filterInView?.value
+      }]
+    })
+  }, (0,external_wp_i18n_namespaceObject.__)('Is')), (0,external_React_.createElement)(view_table_DropdownMenuItem, {
+    key: "not-in-filter",
+    role: "menuitemradio",
+    "aria-checked": filterInView?.operator === constants_OPERATOR_NOT_IN,
+    prefix: filterInView?.operator === constants_OPERATOR_NOT_IN && (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
+      icon: library_check
+    }),
+    onSelect: () => onChangeView({
+      ...view,
+      filters: [...otherFilters, {
+        field: filter.field,
+        operator: constants_OPERATOR_NOT_IN,
+        value: filterInView?.value
+      }]
+    })
+  }, (0,external_wp_i18n_namespaceObject.__)('Is not'))))))));
+}
+function WithSeparators({
+  children
+}) {
+  return external_wp_element_namespaceObject.Children.toArray(children).filter(Boolean).map((child, i) => (0,external_React_.createElement)(external_wp_element_namespaceObject.Fragment, {
+    key: i
+  }, i > 0 && (0,external_React_.createElement)(DropdownMenuSeparator, null), child));
+}
+function ViewTable({
+  view,
+  onChangeView,
+  fields,
+  actions,
+  data,
+  getItemId,
+  isLoading = false,
+  deferredRendering
+}) {
+  const visibleFields = fields.filter(field => !view.hiddenFields.includes(field.id) && ![view.layout.mediaField, view.layout.primaryField].includes(field.id));
+  const shownData = (0,external_wp_compose_namespaceObject.useAsyncList)(data);
+  const usedData = deferredRendering ? shownData : data;
+  const hasData = !!usedData?.length;
+  if (isLoading) {
+    // TODO:Add spinner or progress bar..
+    return (0,external_React_.createElement)("div", {
+      className: "dataviews-loading"
+    }, (0,external_React_.createElement)("h3", null, (0,external_wp_i18n_namespaceObject.__)('Loading')));
+  }
+  const sortValues = {
+    asc: 'ascending',
+    desc: 'descending'
+  };
+  return (0,external_React_.createElement)("div", {
+    className: "dataviews-table-view-wrapper"
+  }, hasData && (0,external_React_.createElement)("table", {
+    className: "dataviews-table-view"
+  }, (0,external_React_.createElement)("thead", null, (0,external_React_.createElement)("tr", null, visibleFields.map(field => (0,external_React_.createElement)("th", {
+    key: field.id,
+    style: {
+      width: field.width || undefined,
+      minWidth: field.minWidth || undefined,
+      maxWidth: field.maxWidth || undefined
+    },
+    "data-field-id": field.id,
+    "aria-sort": view.sort?.field === field.id && sortValues[view.sort.direction],
+    scope: "col"
+  }, (0,external_React_.createElement)(HeaderMenu, {
+    field: field,
+    view: view,
+    onChangeView: onChangeView
+  }))), !!actions?.length && (0,external_React_.createElement)("th", {
+    "data-field-id": "actions"
+  }, (0,external_wp_i18n_namespaceObject.__)('Actions')))), (0,external_React_.createElement)("tbody", null, usedData.map((item, index) => (0,external_React_.createElement)("tr", {
+    key: getItemId?.(item) || index
+  }, visibleFields.map(field => (0,external_React_.createElement)("td", {
+    key: field.id,
+    style: {
+      width: field.width || undefined,
+      minWidth: field.minWidth || undefined,
+      maxWidth: field.maxWidth || undefined
+    }
+  }, field.render({
+    item
+  }))), !!actions?.length && (0,external_React_.createElement)("td", null, (0,external_React_.createElement)(ItemActions, {
+    item: item,
+    actions: actions
+  })))))), !hasData && (0,external_React_.createElement)("div", {
+    className: "dataviews-no-results"
+  }, (0,external_React_.createElement)("p", null, (0,external_wp_i18n_namespaceObject.__)('No results'))));
+}
+/* harmony default export */ var view_table = (ViewTable);
+
+;// CONCATENATED MODULE: ./packages/dataviews/build-module/view-grid.js
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+/**
+ * Internal dependencies
+ */
+
+function ViewGrid({
+  data,
+  fields,
+  view,
+  actions,
+  getItemId,
+  deferredRendering
+}) {
+  const mediaField = fields.find(field => field.id === view.layout.mediaField);
+  const primaryField = fields.find(field => field.id === view.layout.primaryField);
+  const visibleFields = fields.filter(field => !view.hiddenFields.includes(field.id) && ![view.layout.mediaField, view.layout.primaryField].includes(field.id));
+  const shownData = (0,external_wp_compose_namespaceObject.useAsyncList)(data, {
+    step: 3
+  });
+  const usedData = deferredRendering ? shownData : data;
+  return (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalGrid, {
+    gap: 8,
+    columns: 2,
+    alignment: "top",
+    className: "dataviews-grid-view"
+  }, usedData.map((item, index) => (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalVStack, {
+    spacing: 3,
+    key: getItemId?.(item) || index,
+    className: "dataviews-view-grid__card"
+  }, (0,external_React_.createElement)("div", {
+    className: "dataviews-view-grid__media"
+  }, mediaField?.render({
+    item
+  })), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
+    className: "dataviews-view-grid__primary-field",
+    justify: "space-between"
+  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.FlexBlock, null, primaryField?.render({
+    item
+  })), (0,external_React_.createElement)(ItemActions, {
+    item: item,
+    actions: actions,
+    isCompact: true
+  })), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalVStack, {
+    className: "dataviews-view-grid__fields",
+    spacing: 3
+  }, visibleFields.map(field => {
+    const renderedValue = field.render({
+      item
+    });
+    if (!renderedValue) {
+      return null;
+    }
+    return (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalVStack, {
+      className: "dataviews-view-grid__field",
+      key: field.id,
+      spacing: 1
+    }, (0,external_React_.createElement)("div", {
+      className: "dataviews-view-grid__field-header"
+    }, field.header), (0,external_React_.createElement)("div", {
+      className: "dataviews-view-grid__field-value"
+    }, field.render({
+      item
+    })));
+  })))));
+}
+
+;// CONCATENATED MODULE: ./packages/dataviews/build-module/view-list.js
+
+/**
+ * External dependencies
+ */
+
+
+/**
+ * WordPress dependencies
+ */
+
+
+
+function ViewList({
+  view,
+  fields,
+  data,
+  getItemId,
+  onSelectionChange,
+  selection,
+  deferredRendering
+}) {
+  const shownData = (0,external_wp_compose_namespaceObject.useAsyncList)(data, {
+    step: 3
+  });
+  const usedData = deferredRendering ? shownData : data;
+  const mediaField = fields.find(field => field.id === view.layout.mediaField);
+  const primaryField = fields.find(field => field.id === view.layout.primaryField);
+  const visibleFields = fields.filter(field => !view.hiddenFields.includes(field.id) && ![view.layout.primaryField, view.layout.mediaField].includes(field.id));
+  const onEnter = item => event => {
+    const {
+      keyCode
+    } = event;
+    if ([external_wp_keycodes_namespaceObject.ENTER, external_wp_keycodes_namespaceObject.SPACE].includes(keyCode)) {
+      onSelectionChange([item]);
+    }
+  };
+  return (0,external_React_.createElement)("ul", {
+    className: "dataviews-list-view"
+  }, usedData.map((item, index) => {
+    return (0,external_React_.createElement)("li", {
+      key: getItemId?.(item) || index
+    }, (0,external_React_.createElement)("div", {
+      role: "button",
+      tabIndex: 0,
+      "aria-pressed": selection.includes(item.id),
+      onKeyDown: onEnter(item),
+      className: classnames_default()('dataviews-list-view__item', {
+        'dataviews-list-view__item-selected': selection.includes(item.id)
+      }),
+      onClick: () => onSelectionChange([item])
+    }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
+      spacing: 3
+    }, (0,external_React_.createElement)("div", {
+      className: "dataviews-list-view__media-wrapper"
+    }, mediaField?.render({
+      item
+    }) || (0,external_React_.createElement)("div", {
+      className: "dataviews-list-view__media-placeholder"
+    })), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalVStack, {
+      spacing: 1
+    }, primaryField?.render({
+      item
+    }), (0,external_React_.createElement)("div", {
+      className: "dataviews-list-view__fields"
+    }, visibleFields.map(field => {
+      return (0,external_React_.createElement)("span", {
+        key: field.id,
+        className: "dataviews-list-view__field"
+      }, field.render({
+        item
+      }));
+    })))))));
+  }));
+}
+
+;// CONCATENATED MODULE: ./packages/dataviews/build-module/constants.js
+/**
+ * WordPress dependencies
+ */
+
+
+
+/**
+ * Internal dependencies
+ */
+
+
+
+
+// Field types.
+const constants_ENUMERATION_TYPE = 'enumeration';
+
+// Filter operators.
+const constants_OPERATOR_IN = 'in';
+const constants_OPERATOR_NOT_IN = 'notIn';
+
+// View layouts.
+const constants_LAYOUT_TABLE = 'table';
+const constants_LAYOUT_GRID = 'grid';
+const constants_LAYOUT_LIST = 'list';
+const VIEW_LAYOUTS = [{
+  type: constants_LAYOUT_TABLE,
+  label: (0,external_wp_i18n_namespaceObject.__)('Table'),
+  component: view_table,
+  icon: block_table
+}, {
+  type: constants_LAYOUT_GRID,
+  label: (0,external_wp_i18n_namespaceObject.__)('Grid'),
+  component: ViewGrid,
+  icon: library_category
+}, {
+  type: constants_LAYOUT_LIST,
+  label: (0,external_wp_i18n_namespaceObject.__)('List'),
+  component: ViewList,
+  icon: (0,external_wp_i18n_namespaceObject.isRTL)() ? format_list_bullets_rtl : format_list_bullets
+}];
 
 ;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/sidebar-dataviews/dataview-item.js
 
@@ -20426,14 +21148,6 @@ const pullRight = (0,external_React_.createElement)(external_wp_primitives_names
 const {
   useLocation: dataview_item_useLocation
 } = unlock(external_wp_router_namespaceObject.privateApis);
-function getDataViewIcon(type) {
-  const icons = {
-    list: library_page,
-    grid: library_columns,
-    'side-by-side': pull_right
-  };
-  return icons[type];
-}
 function DataViewItem({
   title,
   slug,
@@ -20449,7 +21163,7 @@ function DataViewItem({
       path
     }
   } = dataview_item_useLocation();
-  const iconToUse = icon || getDataViewIcon(type);
+  const iconToUse = icon || VIEW_LAYOUTS.find(v => v.type === type).icon;
   const linkInfo = useLink({
     path,
     activeView: isCustom === 'true' ? customViewId : slug,
@@ -20820,6 +21534,11 @@ function DataViewsSidebarContent() {
 ;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/sidebar/index.js
 
 /**
+ * External dependencies
+ */
+
+
+/**
  * WordPress dependencies
  */
 
@@ -20849,35 +21568,44 @@ function DataViewsSidebarContent() {
 const {
   useLocation: sidebar_useLocation
 } = unlock(external_wp_router_namespaceObject.privateApis);
+function SidebarScreenWrapper({
+  className,
+  ...props
+}) {
+  return (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalNavigatorScreen, {
+    className: classnames_default()('edit-site-sidebar__screen-wrapper', className),
+    ...props
+  });
+}
 function SidebarScreens() {
   useSyncPathWithURL();
-  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalNavigatorScreen, {
+  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(SidebarScreenWrapper, {
     path: "/"
-  }, (0,external_React_.createElement)(SidebarNavigationScreenMain, null)), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalNavigatorScreen, {
+  }, (0,external_React_.createElement)(SidebarNavigationScreenMain, null)), (0,external_React_.createElement)(SidebarScreenWrapper, {
     path: "/navigation"
-  }, (0,external_React_.createElement)(SidebarNavigationScreenNavigationMenus, null)), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalNavigatorScreen, {
+  }, (0,external_React_.createElement)(SidebarNavigationScreenNavigationMenus, null)), (0,external_React_.createElement)(SidebarScreenWrapper, {
     path: "/navigation/:postType/:postId"
-  }, (0,external_React_.createElement)(SidebarNavigationScreenNavigationMenu, null)), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalNavigatorScreen, {
+  }, (0,external_React_.createElement)(SidebarNavigationScreenNavigationMenu, null)), (0,external_React_.createElement)(SidebarScreenWrapper, {
     path: "/wp_global_styles"
-  }, (0,external_React_.createElement)(SidebarNavigationScreenGlobalStyles, null)), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalNavigatorScreen, {
+  }, (0,external_React_.createElement)(SidebarNavigationScreenGlobalStyles, null)), (0,external_React_.createElement)(SidebarScreenWrapper, {
     path: "/page"
-  }, (0,external_React_.createElement)(SidebarNavigationScreenPages, null)), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalNavigatorScreen, {
+  }, (0,external_React_.createElement)(SidebarNavigationScreenPages, null)), (0,external_React_.createElement)(SidebarScreenWrapper, {
     path: "/page/:postId"
-  }, (0,external_React_.createElement)(SidebarNavigationScreenPage, null)), window?.__experimentalAdminViews && (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalNavigatorScreen, {
+  }, (0,external_React_.createElement)(SidebarNavigationScreenPage, null)), window?.__experimentalAdminViews && (0,external_React_.createElement)(SidebarScreenWrapper, {
     path: "/pages"
   }, (0,external_React_.createElement)(SidebarNavigationScreen, {
     title: (0,external_wp_i18n_namespaceObject.__)('Pages'),
     backPath: "/page",
     content: (0,external_React_.createElement)(DataViewsSidebarContent, null)
-  })), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalNavigatorScreen, {
+  })), (0,external_React_.createElement)(SidebarScreenWrapper, {
     path: "/:postType(wp_template)"
-  }, (0,external_React_.createElement)(SidebarNavigationScreenTemplates, null)), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalNavigatorScreen, {
+  }, (0,external_React_.createElement)(SidebarNavigationScreenTemplates, null)), (0,external_React_.createElement)(SidebarScreenWrapper, {
     path: "/patterns"
-  }, (0,external_React_.createElement)(SidebarNavigationScreenPatterns, null)), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalNavigatorScreen, {
+  }, (0,external_React_.createElement)(SidebarNavigationScreenPatterns, null)), (0,external_React_.createElement)(SidebarScreenWrapper, {
     path: "/:postType(wp_template|wp_template_part)/all"
-  }, (0,external_React_.createElement)(SidebarNavigationScreenTemplatesBrowse, null)), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalNavigatorScreen, {
+  }, (0,external_React_.createElement)(SidebarNavigationScreenTemplatesBrowse, null)), (0,external_React_.createElement)(SidebarScreenWrapper, {
     path: "/:postType(wp_template_part|wp_block)/:postId"
-  }, (0,external_React_.createElement)(SidebarNavigationScreenPattern, null)), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalNavigatorScreen, {
+  }, (0,external_React_.createElement)(SidebarNavigationScreenPattern, null)), (0,external_React_.createElement)(SidebarScreenWrapper, {
     path: "/:postType(wp_template)/:postId"
   }, (0,external_React_.createElement)(SidebarNavigationScreenTemplate, null)));
 }
@@ -21273,7 +22001,7 @@ function ScreenHeader({
     className: "edit-site-global-styles-header__description"
   }, description));
 }
-/* harmony default export */ var global_styles_header = (ScreenHeader);
+/* harmony default export */ var header = (ScreenHeader);
 
 ;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/global-styles/screen-block-list.js
 
@@ -21401,7 +22129,7 @@ const MemoizedBlockList = (0,external_wp_element_namespaceObject.memo)(BlockList
 function ScreenBlockList() {
   const [filterValue, setFilterValue] = (0,external_wp_element_namespaceObject.useState)('');
   const deferredFilterValue = (0,external_wp_element_namespaceObject.useDeferredValue)(filterValue);
-  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(global_styles_header, {
+  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(header, {
     title: (0,external_wp_i18n_namespaceObject.__)('Blocks'),
     description: (0,external_wp_i18n_namespaceObject.__)('Customize the appearance of specific blocks and for the whole site.')
   }), (0,external_React_.createElement)(external_wp_components_namespaceObject.SearchControl, {
@@ -21703,7 +22431,7 @@ function ScreenBlock({
       }
     });
   };
-  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(global_styles_header, {
+  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(header, {
     title: variation ? currentBlockStyle.label : blockType.title
   }), (0,external_React_.createElement)(block_preview_panel, {
     name: name,
@@ -22389,7 +23117,7 @@ function FontLibraryProvider({
       // Uninstall the font (remove the font files from the server and the post from the database).
       const response = await fetchUninstallFonts([font]);
       // Deactivate the font family (remove the font family from the global styles).
-      if (!response.errors) {
+      if (0 === response.errors.length) {
         deactivateFontFamily(font);
         // Save the global styles to the database.
         await saveSpecifiedEntityEdits('root', 'globalStyles', globalStylesId, ['settings.typography.fontFamilies']);
@@ -22752,6 +23480,94 @@ function FontFaceDemo({
 }
 /* harmony default export */ var font_demo = (FontFaceDemo);
 
+;// CONCATENATED MODULE: ./packages/block-editor/src/utils/object.js
+/**
+ * External dependencies
+ */
+
+
+/**
+ * Converts any string to kebab case.
+ * Backwards compatible with Lodash's `_.kebabCase()`.
+ * Backwards compatible with `_wp_to_kebab_case()`.
+ *
+ * @see https://lodash.com/docs/4.17.15#kebabCase
+ * @see https://developer.wordpress.org/reference/functions/_wp_to_kebab_case/
+ *
+ * @param {string} str String to convert.
+ * @return {string} Kebab-cased string
+ */
+function kebabCase( str ) {
+	let input = str;
+	if ( typeof str !== 'string' ) {
+		input = str?.toString?.() ?? '';
+	}
+
+	// See https://github.com/lodash/lodash/blob/b185fcee26b2133bd071f4aaca14b455c2ed1008/lodash.js#L4970
+	input = input.replace( /['\u2019]/, '' );
+
+	return paramCase( input, {
+		splitRegexp: [
+			/(?!(?:1ST|2ND|3RD|[4-9]TH)(?![a-z]))([a-z0-9])([A-Z])/g, // fooBar => foo-bar, 3Bar => 3-bar
+			/(?!(?:1st|2nd|3rd|[4-9]th)(?![a-z]))([0-9])([a-z])/g, // 3bar => 3-bar
+			/([A-Za-z])([0-9])/g, // Foo3 => foo-3, foo3 => foo-3
+			/([A-Z])([A-Z][a-z])/g, // FOOBar => foo-bar
+		],
+	} );
+}
+
+/**
+ * Immutably sets a value inside an object. Like `lodash#set`, but returning a
+ * new object. Treats nullish initial values as empty objects. Clones any
+ * nested objects. Supports arrays, too.
+ *
+ * @param {Object}              object Object to set a value in.
+ * @param {number|string|Array} path   Path in the object to modify.
+ * @param {*}                   value  New value to set.
+ * @return {Object} Cloned object with the new value set.
+ */
+function setImmutably( object, path, value ) {
+	// Normalize path
+	path = Array.isArray( path ) ? [ ...path ] : [ path ];
+
+	// Shallowly clone the base of the object
+	object = Array.isArray( object ) ? [ ...object ] : { ...object };
+
+	const leaf = path.pop();
+
+	// Traverse object from root to leaf, shallowly cloning at each level
+	let prev = object;
+	for ( const key of path ) {
+		const lvl = prev[ key ];
+		prev = prev[ key ] = Array.isArray( lvl ) ? [ ...lvl ] : { ...lvl };
+	}
+
+	prev[ leaf ] = value;
+
+	return object;
+}
+
+/**
+ * Helper util to return a value from a certain path of the object.
+ * Path is specified as either:
+ * - a string of properties, separated by dots, for example: "x.y".
+ * - an array of properties, for example `[ 'x', 'y' ]`.
+ * You can also specify a default value in case the result is nullish.
+ *
+ * @param {Object}       object       Input object.
+ * @param {string|Array} path         Path to the object property.
+ * @param {*}            defaultValue Default value if the value at the specified path is nullish.
+ * @return {*} Value of the object property at the specified path.
+ */
+const object_getValueFromObjectPath = ( object, path, defaultValue ) => {
+	const arrayPath = Array.isArray( path ) ? path : path.split( '.' );
+	let value = object;
+	arrayPath.forEach( ( fieldName ) => {
+		value = value?.[ fieldName ];
+	} );
+	return value ?? defaultValue;
+};
+
 ;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/global-styles/font-library-modal/library-font-variant.js
 
 /**
@@ -22759,14 +23575,12 @@ function FontFaceDemo({
  */
 
 
+
 /**
  * Internal dependencies
  */
 
 
-/**
- * Internal dependencies
- */
 
 
 function LibraryFontVariant({
@@ -22786,8 +23600,10 @@ function LibraryFontVariant({
     toggleActivateFont(font);
   };
   const displayName = font.name + ' ' + getFontFaceVariantName(face);
-  return (0,external_React_.createElement)("div", {
-    className: "font-library-modal__library-font-variant"
+  const checkboxId = kebabCase(`${font.slug}-${getFontFaceVariantName(face)}`);
+  return (0,external_React_.createElement)("label", {
+    className: "font-library-modal__library-font-variant",
+    htmlFor: checkboxId
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.Flex, {
     justify: "space-between",
     align: "center",
@@ -22798,7 +23614,9 @@ function LibraryFontVariant({
   }), (0,external_React_.createElement)(external_wp_components_namespaceObject.CheckboxControl, {
     checked: isIstalled,
     onChange: handleToggleActivation,
-    __nextHasNoMarginBottom: true
+    __nextHasNoMarginBottom: true,
+    id: checkboxId,
+    label: false
   })));
 }
 /* harmony default export */ var library_font_variant = (LibraryFontVariant);
@@ -23206,14 +24024,12 @@ function filterFonts(fonts, filters) {
  * WordPress dependencies
  */
 
+
 /**
  * Internal dependencies
  */
 
 
-/**
- * Internal dependencies
- */
 
 function CollectionFontVariant({
   face,
@@ -23229,8 +24045,10 @@ function CollectionFontVariant({
     handleToggleVariant(font);
   };
   const displayName = font.name + ' ' + getFontFaceVariantName(face);
-  return (0,external_React_.createElement)("div", {
-    className: "font-library-modal__library-font-variant"
+  const checkboxId = kebabCase(`${font.slug}-${getFontFaceVariantName(face)}`);
+  return (0,external_React_.createElement)("label", {
+    className: "font-library-modal__library-font-variant",
+    htmlFor: checkboxId
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.Flex, {
     justify: "space-between",
     align: "center",
@@ -23241,7 +24059,9 @@ function CollectionFontVariant({
   }), (0,external_React_.createElement)(external_wp_components_namespaceObject.CheckboxControl, {
     checked: selected,
     onChange: handleToggleActivation,
-    __nextHasNoMarginBottom: true
+    __nextHasNoMarginBottom: true,
+    id: checkboxId,
+    label: false
   })));
 }
 /* harmony default export */ var collection_font_variant = (CollectionFontVariant);
@@ -27756,7 +28576,7 @@ function FontFamilies() {
 
 
 function ScreenTypography() {
-  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(global_styles_header, {
+  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(header, {
     title: (0,external_wp_i18n_namespaceObject.__)('Typography'),
     description: (0,external_wp_i18n_namespaceObject.__)('Manage the typography settings for different elements.')
   }), (0,external_React_.createElement)("div", {
@@ -27904,7 +28724,7 @@ function ScreenTypographyElement({
   element
 }) {
   const [headingLevel, setHeadingLevel] = (0,external_wp_element_namespaceObject.useState)('heading');
-  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(global_styles_header, {
+  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(header, {
     title: screen_typography_element_elements[element].title,
     description: screen_typography_element_elements[element].description
   }), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
@@ -28084,7 +28904,7 @@ function ScreenColors() {
   });
   const [rawSettings] = screen_colors_useGlobalSetting('');
   const settings = screen_colors_useSettingsForBlockElement(rawSettings);
-  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(global_styles_header, {
+  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(header, {
     title: (0,external_wp_i18n_namespaceObject.__)('Colors'),
     description: (0,external_wp_i18n_namespaceObject.__)('Manage palettes and the default color of different global elements on the site.')
   }), (0,external_React_.createElement)("div", {
@@ -28258,7 +29078,7 @@ function GradientPalettePanel({
 function ScreenColorPalette({
   name
 }) {
-  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(global_styles_header, {
+  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(header, {
     title: (0,external_wp_i18n_namespaceObject.__)('Palette'),
     description: (0,external_wp_i18n_namespaceObject.__)('Palettes are used to provide default color options for blocks and various design tools. Here you can edit the colors with their labels.')
   }), (0,external_React_.createElement)(external_wp_components_namespaceObject.TabPanel, {
@@ -28383,7 +29203,7 @@ function ScreenLayout() {
   const [rawSettings] = screen_layout_useGlobalSetting('');
   const settings = screen_layout_useSettingsForBlockElement(rawSettings);
   const hasDimensionsPanel = screen_layout_useHasDimensionsPanel(settings);
-  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(global_styles_header, {
+  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(header, {
     title: (0,external_wp_i18n_namespaceObject.__)('Layout')
   }), hasDimensionsPanel && (0,external_React_.createElement)(DimensionsPanel, null));
 }
@@ -28440,7 +29260,7 @@ function ScreenStyleVariations() {
   const {
     __unstableSetEditorMode
   } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_blockEditor_namespaceObject.store);
-  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(global_styles_header, {
+  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(header, {
     back: "/",
     title: (0,external_wp_i18n_namespaceObject.__)('Browse styles'),
     description: (0,external_wp_i18n_namespaceObject.__)('Choose a variation to change the look of the site.')
@@ -28478,7 +29298,7 @@ function ScreenCSS() {
   const [inheritedStyle, setStyle] = screen_css_useGlobalStyle('', undefined, 'all', {
     shouldDecodeEncode: false
   });
-  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(global_styles_header, {
+  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(header, {
     title: (0,external_wp_i18n_namespaceObject.__)('CSS'),
     description: (0,external_React_.createElement)(external_React_.Fragment, null, description, (0,external_React_.createElement)(external_wp_components_namespaceObject.ExternalLink, {
       href: "https://wordpress.org/documentation/article/css/",
@@ -28597,6 +29417,146 @@ function SidebarFixedBottom({
 }
 
 
+;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/global-styles/screen-revisions/get-revision-changes.js
+/**
+ * WordPress dependencies
+ */
+
+const globalStylesChangesCache = new Map();
+const get_revision_changes_EMPTY_ARRAY = [];
+const translationMap = {
+  caption: (0,external_wp_i18n_namespaceObject.__)('Caption'),
+  link: (0,external_wp_i18n_namespaceObject.__)('Link'),
+  button: (0,external_wp_i18n_namespaceObject.__)('Button'),
+  heading: (0,external_wp_i18n_namespaceObject.__)('Heading'),
+  'settings.color': (0,external_wp_i18n_namespaceObject.__)('Color settings'),
+  'settings.typography': (0,external_wp_i18n_namespaceObject.__)('Typography settings'),
+  'styles.color': (0,external_wp_i18n_namespaceObject.__)('Colors'),
+  'styles.spacing': (0,external_wp_i18n_namespaceObject.__)('Spacing'),
+  'styles.typography': (0,external_wp_i18n_namespaceObject.__)('Typography')
+};
+const get_revision_changes_isObject = obj => obj !== null && typeof obj === 'object';
+
+/**
+ * Get the translation for a given global styles key.
+ * @param {string}                key        A key representing a path to a global style property or setting.
+ * @param {Record<string,string>} blockNames A key/value pair object of block names and their rendered titles.
+ * @return {string|undefined}                A translated key or undefined if no translation exists.
+ */
+function getTranslation(key, blockNames) {
+  if (translationMap[key]) {
+    return translationMap[key];
+  }
+  const keyArray = key.split('.');
+  if (keyArray?.[0] === 'blocks') {
+    const blockName = blockNames[keyArray[1]];
+    return blockName ? (0,external_wp_i18n_namespaceObject.sprintf)(
+    // translators: %s: block name.
+    (0,external_wp_i18n_namespaceObject.__)('%s block'), blockName) : keyArray[1];
+  }
+  if (keyArray?.[0] === 'elements') {
+    return (0,external_wp_i18n_namespaceObject.sprintf)(
+    // translators: %s: element name, e.g., heading button, link, caption.
+    (0,external_wp_i18n_namespaceObject.__)('%s element'), translationMap[keyArray[1]]);
+  }
+  return undefined;
+}
+
+/**
+ * A deep comparison of two objects, optimized for comparing global styles.
+ * @param {Object} changedObject  The changed object to compare.
+ * @param {Object} originalObject The original object to compare against.
+ * @param {string} parentPath     A key/value pair object of block names and their rendered titles.
+ * @return {string[]}             An array of paths whose values have changed.
+ */
+function deepCompare(changedObject, originalObject, parentPath = '') {
+  // We have two non-object values to compare.
+  if (!get_revision_changes_isObject(changedObject) && !get_revision_changes_isObject(originalObject)) {
+    /*
+     * Only return a path if the value has changed.
+     * And then only the path name up to 2 levels deep.
+     */
+    return changedObject !== originalObject ? parentPath.split('.').slice(0, 2).join('.') : undefined;
+  }
+
+  // Enable comparison when an object doesn't have a corresponding property to compare.
+  changedObject = get_revision_changes_isObject(changedObject) ? changedObject : {};
+  originalObject = get_revision_changes_isObject(originalObject) ? originalObject : {};
+  const allKeys = new Set([...Object.keys(changedObject), ...Object.keys(originalObject)]);
+  let diffs = [];
+  for (const key of allKeys) {
+    const path = parentPath ? parentPath + '.' + key : key;
+    const changedPath = deepCompare(changedObject[key], originalObject[key], path);
+    if (changedPath) {
+      diffs = diffs.concat(changedPath);
+    }
+  }
+  return diffs;
+}
+
+/**
+ * Get an array of translated summarized global styles changes.
+ * Results are cached using a Map() key of `JSON.stringify( { revision, previousRevision } )`.
+ *
+ * @param {Object}                revision         The changed object to compare.
+ * @param {Object}                previousRevision The original object to compare against.
+ * @param {Record<string,string>} blockNames       A key/value pair object of block names and their rendered titles.
+ * @return {string[]}                              An array of translated changes.
+ */
+function getRevisionChanges(revision, previousRevision, blockNames) {
+  const cacheKey = JSON.stringify({
+    revision,
+    previousRevision
+  });
+  if (globalStylesChangesCache.has(cacheKey)) {
+    return globalStylesChangesCache.get(cacheKey);
+  }
+
+  /*
+   * Compare the two revisions with normalized keys.
+   * The order of these keys determines the order in which
+   * they'll appear in the results.
+   */
+  const changedValueTree = deepCompare({
+    styles: {
+      color: revision?.styles?.color,
+      typography: revision?.styles?.typography,
+      spacing: revision?.styles?.spacing
+    },
+    blocks: revision?.styles?.blocks,
+    elements: revision?.styles?.elements,
+    settings: revision?.settings
+  }, {
+    styles: {
+      color: previousRevision?.styles?.color,
+      typography: previousRevision?.styles?.typography,
+      spacing: previousRevision?.styles?.spacing
+    },
+    blocks: previousRevision?.styles?.blocks,
+    elements: previousRevision?.styles?.elements,
+    settings: previousRevision?.settings
+  });
+  if (!changedValueTree.length) {
+    globalStylesChangesCache.set(cacheKey, get_revision_changes_EMPTY_ARRAY);
+    return get_revision_changes_EMPTY_ARRAY;
+  }
+
+  // Remove duplicate results.
+  const result = [...new Set(changedValueTree)]
+  /*
+   * Translate the keys.
+   * Remove duplicate or empty translations.
+   */.reduce((acc, curr) => {
+    const translation = getTranslation(curr, blockNames);
+    if (translation && !acc.includes(translation)) {
+      acc.push(translation);
+    }
+    return acc;
+  }, []);
+  globalStylesChangesCache.set(cacheKey, result);
+  return result;
+}
+
 ;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/global-styles/screen-revisions/revisions-buttons.js
 
 /**
@@ -28612,27 +29572,61 @@ function SidebarFixedBottom({
 
 
 
+
+
+
+/**
+ * Internal dependencies
+ */
+
 const DAY_IN_MILLISECONDS = 60 * 60 * 1000 * 24;
+const MAX_CHANGES = 7;
+function ChangesSummary({
+  revision,
+  previousRevision,
+  blockNames
+}) {
+  const changes = getRevisionChanges(revision, previousRevision, blockNames);
+  const changesLength = changes.length;
+  if (!changesLength) {
+    return null;
+  }
+
+  // Truncate to `n` results if necessary.
+  if (changesLength > MAX_CHANGES) {
+    const deleteCount = changesLength - MAX_CHANGES;
+    const andMoreText = (0,external_wp_i18n_namespaceObject.sprintf)(
+    // translators: %d: number of global styles changes that are not displayed in the UI.
+    (0,external_wp_i18n_namespaceObject._n)('…and %d more change.', '…and %d more changes.', deleteCount), deleteCount);
+    changes.splice(MAX_CHANGES, deleteCount, andMoreText);
+  }
+  return (0,external_React_.createElement)("span", {
+    "data-testid": "global-styles-revision-changes",
+    className: "edit-site-global-styles-screen-revisions__changes"
+  }, changes.join(', '));
+}
 
 /**
  * Returns a button label for the revision.
  *
  * @param {string|number} id                    A revision object.
- * @param {boolean}       isLatest              Whether the revision is the most current.
  * @param {string}        authorDisplayName     Author name.
  * @param {string}        formattedModifiedDate Revision modified date formatted.
+ * @param {boolean}       areStylesEqual        Whether the revision matches the current editor styles.
  * @return {string} Translated label.
  */
-function getRevisionLabel(id, isLatest, authorDisplayName, formattedModifiedDate) {
+function getRevisionLabel(id, authorDisplayName, formattedModifiedDate, areStylesEqual) {
   if ('parent' === id) {
     return (0,external_wp_i18n_namespaceObject.__)('Reset the styles to the theme defaults');
   }
   if ('unsaved' === id) {
-    return (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s author display name */
+    return (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: author display name */
     (0,external_wp_i18n_namespaceObject.__)('Unsaved changes by %s'), authorDisplayName);
   }
-  return isLatest ? (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %1$s author display name, %2$s: revision creation date */
-  (0,external_wp_i18n_namespaceObject.__)('Changes saved by %1$s on %2$s (current)'), authorDisplayName, formattedModifiedDate) : (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %1$s author display name, %2$s: revision creation date */
+  return areStylesEqual ? (0,external_wp_i18n_namespaceObject.sprintf)(
+  // translators: %1$s: author display name, %2$s: revision creation date.
+  (0,external_wp_i18n_namespaceObject.__)('Changes saved by %1$s on %2$s. This revision matches current editor styles.'), authorDisplayName, formattedModifiedDate) : (0,external_wp_i18n_namespaceObject.sprintf)(
+  // translators: %1$s: author display name, %2$s: revision creation date.
   (0,external_wp_i18n_namespaceObject.__)('Changes saved by %1$s on %2$s'), authorDisplayName, formattedModifiedDate);
 }
 
@@ -28650,7 +29644,8 @@ function getRevisionLabel(id, isLatest, authorDisplayName, formattedModifiedDate
 function RevisionsButtons({
   userRevisions,
   selectedRevisionId,
-  onChange
+  onChange,
+  canApplyRevision
 }) {
   const {
     currentThemeName,
@@ -28666,9 +29661,18 @@ function RevisionsButtons({
       currentUser: getCurrentUser()
     };
   }, []);
+  const blockNames = (0,external_wp_element_namespaceObject.useMemo)(() => {
+    const blockTypes = (0,external_wp_blocks_namespaceObject.getBlockTypes)();
+    return blockTypes.reduce((accumulator, {
+      name,
+      title
+    }) => {
+      accumulator[name] = title;
+      return accumulator;
+    }, {});
+  }, []);
   const dateNowInMs = (0,external_wp_date_namespaceObject.getDate)().getTime();
   const {
-    date: dateFormat,
     datetimeAbbreviated
   } = (0,external_wp_date_namespaceObject.getSettings)().formats;
   return (0,external_React_.createElement)("ol", {
@@ -28678,7 +29682,6 @@ function RevisionsButtons({
   }, userRevisions.map((revision, index) => {
     const {
       id,
-      isLatest,
       author,
       modified
     } = revision;
@@ -28687,14 +29690,17 @@ function RevisionsButtons({
     const revisionAuthor = isUnsaved ? currentUser : author;
     const authorDisplayName = revisionAuthor?.name || (0,external_wp_i18n_namespaceObject.__)('User');
     const authorAvatar = revisionAuthor?.avatar_urls?.['48'];
-    const isSelected = selectedRevisionId ? selectedRevisionId === id : index === 0;
+    const isFirstItem = index === 0;
+    const isSelected = selectedRevisionId ? selectedRevisionId === id : isFirstItem;
+    const areStylesEqual = !canApplyRevision && isSelected;
     const isReset = 'parent' === id;
     const modifiedDate = (0,external_wp_date_namespaceObject.getDate)(modified);
-    const displayDate = modified && dateNowInMs - modifiedDate.getTime() > DAY_IN_MILLISECONDS ? (0,external_wp_date_namespaceObject.dateI18n)(dateFormat, modifiedDate) : (0,external_wp_date_namespaceObject.humanTimeDiff)(modified);
-    const revisionLabel = getRevisionLabel(id, isLatest, authorDisplayName, (0,external_wp_date_namespaceObject.dateI18n)(datetimeAbbreviated, modifiedDate));
+    const displayDate = modified && dateNowInMs - modifiedDate.getTime() > DAY_IN_MILLISECONDS ? (0,external_wp_date_namespaceObject.dateI18n)(datetimeAbbreviated, modifiedDate) : (0,external_wp_date_namespaceObject.humanTimeDiff)(modified);
+    const revisionLabel = getRevisionLabel(id, authorDisplayName, (0,external_wp_date_namespaceObject.dateI18n)(datetimeAbbreviated, modifiedDate), areStylesEqual);
     return (0,external_React_.createElement)("li", {
       className: classnames_default()('edit-site-global-styles-screen-revisions__revision-item', {
         'is-selected': isSelected,
+        'is-active': areStylesEqual,
         'is-reset': isReset
       }),
       key: id
@@ -28704,7 +29710,7 @@ function RevisionsButtons({
       onClick: () => {
         onChange(revision);
       },
-      label: revisionLabel
+      "aria-label": revisionLabel
     }, isReset ? (0,external_React_.createElement)("span", {
       className: "edit-site-global-styles-screen-revisions__description"
     }, (0,external_wp_i18n_namespaceObject.__)('Default styles'), (0,external_React_.createElement)("span", {
@@ -28716,7 +29722,11 @@ function RevisionsButtons({
     }, (0,external_wp_i18n_namespaceObject.__)('(Unsaved)')) : (0,external_React_.createElement)("time", {
       className: "edit-site-global-styles-screen-revisions__date",
       dateTime: modified
-    }, displayDate), (0,external_React_.createElement)("span", {
+    }, displayDate), isSelected && (0,external_React_.createElement)(ChangesSummary, {
+      blockNames: blockNames,
+      revision: revision,
+      previousRevision: index < userRevisions.length ? userRevisions[index + 1] : {}
+    }), (0,external_React_.createElement)("span", {
       className: "edit-site-global-styles-screen-revisions__meta"
     }, (0,external_React_.createElement)("img", {
       alt: authorDisplayName,
@@ -28842,10 +29852,11 @@ function ScreenRevisions() {
     }
   }, [shouldSelectFirstItem, firstRevision]);
 
-  // Only display load button if there is a revision to load and it is different from the current editor styles.
+  // Only display load button if there is a revision to load,
+  // and it is different from the current editor styles.
   const isLoadButtonEnabled = !!currentlySelectedRevisionId && !selectedRevisionMatchesEditorStyles;
   const shouldShowRevisions = !isLoading && revisions.length;
-  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(global_styles_header, {
+  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(header, {
     title: revisionsCount &&
     // translators: %s: number of revisions.
     (0,external_wp_i18n_namespaceObject.sprintf)((0,external_wp_i18n_namespaceObject.__)('Revisions (%s)'), revisionsCount),
@@ -28853,7 +29864,7 @@ function ScreenRevisions() {
     onBack: onCloseRevisions
   }), isLoading && (0,external_React_.createElement)(external_wp_components_namespaceObject.Spinner, {
     className: "edit-site-global-styles-screen-revisions__loading"
-  }), shouldShowRevisions ? (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(components_revisions, {
+  }), shouldShowRevisions && (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(components_revisions, {
     blocks: blocks,
     userConfig: currentlySelectedRevision,
     onClose: onCloseRevisions
@@ -28862,7 +29873,8 @@ function ScreenRevisions() {
   }, (0,external_React_.createElement)(revisions_buttons, {
     onChange: selectRevision,
     selectedRevisionId: currentlySelectedRevisionId,
-    userRevisions: revisions
+    userRevisions: revisions,
+    canApplyRevision: isLoadButtonEnabled
   }), isLoadButtonEnabled && (0,external_React_.createElement)(SidebarFixedBottom, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
     variant: "primary",
     className: "edit-site-global-styles-screen-revisions__button",
@@ -28879,13 +29891,7 @@ function ScreenRevisions() {
     confirmButtonText: (0,external_wp_i18n_namespaceObject.__)('Apply'),
     onConfirm: () => restoreRevision(currentlySelectedRevision),
     onCancel: () => setIsLoadingRevisionWithUnsavedChanges(false)
-  }, (0,external_wp_i18n_namespaceObject.__)('Any unsaved changes will be lost when you apply this revision.'))) : (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalSpacer, {
-    marginX: 4,
-    "data-testid": "global-styles-no-revisions"
-  },
-  // Adding an existing translation here in case these changes are shipped to WordPress 6.3.
-  // Later we could update to something better, e.g., "There are currently no style revisions.".
-  (0,external_wp_i18n_namespaceObject.__)('No results found.')));
+  }, (0,external_wp_i18n_namespaceObject.__)('Any unsaved changes will be lost when you apply this revision.'))));
 }
 /* harmony default export */ var screen_revisions = (ScreenRevisions);
 
@@ -29618,290 +30624,6 @@ function PageStatus({
   }));
 }
 
-;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/sidebar-edit-mode/page-panels/hooks.js
-/**
- * WordPress dependencies
- */
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
-function useEditedPostContext() {
-  return (0,external_wp_data_namespaceObject.useSelect)(select => select(store_store).getEditedPostContext(), []);
-}
-function useAllowSwitchingTemplates() {
-  const {
-    postId
-  } = useEditedPostContext();
-  return (0,external_wp_data_namespaceObject.useSelect)(select => {
-    const {
-      getEntityRecord,
-      getEntityRecords
-    } = select(external_wp_coreData_namespaceObject.store);
-    const siteSettings = getEntityRecord('root', 'site');
-    const templates = getEntityRecords('postType', TEMPLATE_POST_TYPE, {
-      per_page: -1
-    });
-    const isPostsPage = +postId === siteSettings?.page_for_posts;
-    // If current page is set front page or posts page, we also need
-    // to check if the current theme has a template for it. If not
-    const isFrontPage = +postId === siteSettings?.page_on_front && templates?.some(({
-      slug
-    }) => slug === 'front-page');
-    return !isPostsPage && !isFrontPage;
-  }, [postId]);
-}
-function useTemplates() {
-  return (0,external_wp_data_namespaceObject.useSelect)(select => select(external_wp_coreData_namespaceObject.store).getEntityRecords('postType', TEMPLATE_POST_TYPE, {
-    per_page: -1,
-    post_type: 'page'
-  }), []);
-}
-function useAvailableTemplates() {
-  const currentTemplateSlug = useCurrentTemplateSlug();
-  const allowSwitchingTemplate = useAllowSwitchingTemplates();
-  const templates = useTemplates();
-  return (0,external_wp_element_namespaceObject.useMemo)(() => allowSwitchingTemplate && templates?.filter(template => template.is_custom && template.slug !== currentTemplateSlug && !!template.content.raw // Skip empty templates.
-  ), [templates, currentTemplateSlug, allowSwitchingTemplate]);
-}
-function useCurrentTemplateSlug() {
-  const {
-    postType,
-    postId
-  } = useEditedPostContext();
-  const templates = useTemplates();
-  const entityTemplate = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    const post = select(external_wp_coreData_namespaceObject.store).getEditedEntityRecord('postType', postType, postId);
-    return post?.template;
-  }, [postType, postId]);
-  if (!entityTemplate) {
-    return;
-  }
-  // If a page has a `template` set and is not included in the list
-  // of the theme's templates, do not return it, in order to resolve
-  // to the current theme's default template.
-  return templates?.find(template => template.slug === entityTemplate)?.slug;
-}
-
-;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/sidebar-edit-mode/page-panels/swap-template-button.js
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-
-
-
-
-
-
-/**
- * Internal dependencies
- */
-
-function SwapTemplateButton({
-  onClick
-}) {
-  const [showModal, setShowModal] = (0,external_wp_element_namespaceObject.useState)(false);
-  const availableTemplates = useAvailableTemplates();
-  const onClose = (0,external_wp_element_namespaceObject.useCallback)(() => {
-    setShowModal(false);
-  }, []);
-  const {
-    postType,
-    postId
-  } = useEditedPostContext();
-  const {
-    editEntityRecord
-  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_coreData_namespaceObject.store);
-  if (!availableTemplates?.length) {
-    return null;
-  }
-  const onTemplateSelect = async template => {
-    editEntityRecord('postType', postType, postId, {
-      template: template.name
-    }, {
-      undoIgnore: true
-    });
-    onClose(); // Close the template suggestions modal first.
-    onClick();
-  };
-  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.MenuItem, {
-    onClick: () => setShowModal(true)
-  }, (0,external_wp_i18n_namespaceObject.__)('Swap template')), showModal && (0,external_React_.createElement)(external_wp_components_namespaceObject.Modal, {
-    title: (0,external_wp_i18n_namespaceObject.__)('Choose a template'),
-    onRequestClose: onClose,
-    overlayClassName: "edit-site-swap-template-modal",
-    isFullScreen: true
-  }, (0,external_React_.createElement)("div", {
-    className: "edit-site-page-panels__swap-template__modal-content"
-  }, (0,external_React_.createElement)(TemplatesList, {
-    onSelect: onTemplateSelect
-  }))));
-}
-function TemplatesList({
-  onSelect
-}) {
-  const availableTemplates = useAvailableTemplates();
-  const templatesAsPatterns = (0,external_wp_element_namespaceObject.useMemo)(() => availableTemplates.map(template => ({
-    name: template.slug,
-    blocks: (0,external_wp_blocks_namespaceObject.parse)(template.content.raw),
-    title: (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(template.title.rendered),
-    id: template.id
-  })), [availableTemplates]);
-  const shownTemplates = (0,external_wp_compose_namespaceObject.useAsyncList)(templatesAsPatterns);
-  return (0,external_React_.createElement)(external_wp_blockEditor_namespaceObject.__experimentalBlockPatternsList, {
-    label: (0,external_wp_i18n_namespaceObject.__)('Templates'),
-    blockPatterns: templatesAsPatterns,
-    shownPatterns: shownTemplates,
-    onClickPattern: onSelect
-  });
-}
-
-;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/sidebar-edit-mode/page-panels/reset-default-template.js
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-
-/**
- * Internal dependencies
- */
-
-function ResetDefaultTemplate({
-  onClick
-}) {
-  const currentTemplateSlug = useCurrentTemplateSlug();
-  const allowSwitchingTemplate = useAllowSwitchingTemplates();
-  const {
-    postType,
-    postId
-  } = useEditedPostContext();
-  const {
-    editEntityRecord
-  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_coreData_namespaceObject.store);
-  // The default template in a post is indicated by an empty string.
-  if (!currentTemplateSlug || !allowSwitchingTemplate) {
-    return null;
-  }
-  return (0,external_React_.createElement)(external_wp_components_namespaceObject.MenuGroup, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.MenuItem, {
-    onClick: async () => {
-      editEntityRecord('postType', postType, postId, {
-        template: ''
-      }, {
-        undoIgnore: true
-      });
-      onClick();
-    }
-  }, (0,external_wp_i18n_namespaceObject.__)('Use default template')));
-}
-
-;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/sidebar-edit-mode/page-panels/edit-template.js
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
-
-
-const {
-  PostPanelRow: edit_template_PostPanelRow
-} = unlock(external_wp_editor_namespaceObject.privateApis);
-const edit_template_POPOVER_PROPS = {
-  className: 'edit-site-page-panels-edit-template__dropdown',
-  placement: 'bottom-start'
-};
-function EditTemplate() {
-  const {
-    hasResolved,
-    template,
-    isTemplateHidden
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    const {
-      getEditedPostContext,
-      getEditedPostType,
-      getEditedPostId
-    } = select(store_store);
-    const {
-      getRenderingMode
-    } = unlock(select(external_wp_editor_namespaceObject.store));
-    const {
-      getEditedEntityRecord,
-      hasFinishedResolution
-    } = select(external_wp_coreData_namespaceObject.store);
-    const _context = getEditedPostContext();
-    const _postType = getEditedPostType();
-    const queryArgs = ['postType', _postType, getEditedPostId()];
-    return {
-      context: _context,
-      hasResolved: hasFinishedResolution('getEditedEntityRecord', queryArgs),
-      template: getEditedEntityRecord(...queryArgs),
-      isTemplateHidden: getRenderingMode() === 'post-only',
-      postType: _postType
-    };
-  }, []);
-  const {
-    setRenderingMode
-  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_editor_namespaceObject.store);
-  if (!hasResolved) {
-    return null;
-  }
-  return (0,external_React_.createElement)(edit_template_PostPanelRow, {
-    label: (0,external_wp_i18n_namespaceObject.__)('Template')
-  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.DropdownMenu, {
-    popoverProps: edit_template_POPOVER_PROPS,
-    focusOnMount: true,
-    toggleProps: {
-      variant: 'tertiary',
-      className: 'edit-site-summary-field__trigger'
-    },
-    label: (0,external_wp_i18n_namespaceObject.__)('Template options'),
-    text: (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(template.title),
-    icon: null
-  }, ({
-    onClose
-  }) => (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.MenuGroup, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.MenuItem, {
-    onClick: () => {
-      setRenderingMode('template-only');
-      onClose();
-    }
-  }, (0,external_wp_i18n_namespaceObject.__)('Edit template')), (0,external_React_.createElement)(SwapTemplateButton, {
-    onClick: onClose
-  })), (0,external_React_.createElement)(ResetDefaultTemplate, {
-    onClick: onClose
-  }), (0,external_React_.createElement)(external_wp_components_namespaceObject.MenuGroup, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.MenuItem, {
-    icon: !isTemplateHidden ? library_check : undefined,
-    isPressed: !isTemplateHidden,
-    onClick: () => {
-      setRenderingMode(isTemplateHidden ? 'template-locked' : 'post-only');
-    }
-  }, (0,external_wp_i18n_namespaceObject.__)('Template preview'))))));
-}
-
 ;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/sidebar-edit-mode/page-panels/page-summary.js
 
 /**
@@ -29913,7 +30635,6 @@ function EditTemplate() {
 /**
  * Internal dependencies
  */
-
 
 function PageSummary({
   status,
@@ -29930,7 +30651,7 @@ function PageSummary({
     password: password,
     postId: postId,
     postType: postType
-  }), (0,external_React_.createElement)(external_wp_editor_namespaceObject.PostSchedulePanel, null), (0,external_React_.createElement)(EditTemplate, null), (0,external_React_.createElement)(external_wp_editor_namespaceObject.PostURLPanel, null), (0,external_React_.createElement)(external_wp_editor_namespaceObject.PostAuthorPanel, null));
+  }), (0,external_React_.createElement)(external_wp_editor_namespaceObject.PostSchedulePanel, null), (0,external_React_.createElement)(external_wp_editor_namespaceObject.PostTemplatePanel, null), (0,external_React_.createElement)(external_wp_editor_namespaceObject.PostURLPanel, null), (0,external_React_.createElement)(external_wp_editor_namespaceObject.PostAuthorPanel, null));
 }
 
 ;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/sidebar-edit-mode/page-panels/index.js
@@ -29938,6 +30659,7 @@ function PageSummary({
 /**
  * WordPress dependencies
  */
+
 
 
 
@@ -29962,7 +30684,8 @@ function PagePanels() {
     date,
     password,
     title,
-    modified
+    modified,
+    renderingMode
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       getEditedPostContext
@@ -29971,6 +30694,9 @@ function PagePanels() {
       getEditedEntityRecord,
       hasFinishedResolution
     } = select(external_wp_coreData_namespaceObject.store);
+    const {
+      getRenderingMode
+    } = select(external_wp_editor_namespaceObject.store);
     const context = getEditedPostContext();
     const queryArgs = ['postType', context.postType, context.postId];
     const page = getEditedEntityRecord(...queryArgs);
@@ -29982,7 +30708,8 @@ function PagePanels() {
       status: page?.status,
       date: page?.date,
       password: page?.password,
-      modified: page?.modified
+      modified: page?.modified,
+      renderingMode: getRenderingMode()
     };
   }, []);
   if (!hasResolved) {
@@ -30002,7 +30729,7 @@ function PagePanels() {
     password: password,
     postId: id,
     postType: type
-  })), (0,external_React_.createElement)(external_wp_components_namespaceObject.PanelBody, {
+  })), renderingMode !== 'post-only' && (0,external_React_.createElement)(external_wp_components_namespaceObject.PanelBody, {
     title: (0,external_wp_i18n_namespaceObject.__)('Content')
   }, (0,external_React_.createElement)(PageContent, null)));
 }
@@ -30066,12 +30793,12 @@ function ReplaceTemplateButton({
     isFullScreen: true
   }, (0,external_React_.createElement)("div", {
     className: "edit-site-template-panel__replace-template-modal__content"
-  }, (0,external_React_.createElement)(replace_template_button_TemplatesList, {
+  }, (0,external_React_.createElement)(TemplatesList, {
     availableTemplates: availableTemplates,
     onSelect: onTemplateSelect
   }))));
 }
-function replace_template_button_TemplatesList({
+function TemplatesList({
   availableTemplates,
   onSelect
 }) {
@@ -30240,7 +30967,7 @@ function TemplateAreaItem({
     }
   }, templatePartArea?.label);
 }
-function TemplateAreas() {
+function template_areas_TemplateAreas() {
   const templateParts = (0,external_wp_data_namespaceObject.useSelect)(select => select(store_store).getCurrentTemplateTemplateParts(), []);
   if (!templateParts.length) {
     return null;
@@ -30607,7 +31334,7 @@ function TemplatePanel() {
     actions: (0,external_React_.createElement)(Actions, {
       template: record
     })
-  }, (0,external_React_.createElement)(TemplateAreas, null)), (0,external_React_.createElement)(LastRevision, null), postType === PATTERN_TYPES.user && (0,external_React_.createElement)(PatternCategories, {
+  }, (0,external_React_.createElement)(template_areas_TemplateAreas, null)), (0,external_React_.createElement)(LastRevision, null), postType === PATTERN_TYPES.user && (0,external_React_.createElement)(PatternCategories, {
     post: record
   }));
 }
@@ -31264,7 +31991,7 @@ function WelcomeGuideStyles() {
         className: "edit-site-welcome-guide__heading"
       }, (0,external_wp_i18n_namespaceObject.__)('Learn more')), (0,external_React_.createElement)("p", {
         className: "edit-site-welcome-guide__text"
-      }, (0,external_wp_i18n_namespaceObject.__)('New to block themes and styling your site?'), (0,external_React_.createElement)(external_wp_components_namespaceObject.ExternalLink, {
+      }, (0,external_wp_i18n_namespaceObject.__)('New to block themes and styling your site?'), ' ', (0,external_React_.createElement)(external_wp_components_namespaceObject.ExternalLink, {
         href: (0,external_wp_i18n_namespaceObject.__)('https://wordpress.org/documentation/article/styles-overview/')
       }, (0,external_wp_i18n_namespaceObject.__)('Here’s a detailed guide to learn how to make the most of it.'))))
     }]
@@ -31663,13 +32390,12 @@ function useTitle(title) {
     }
     if (title && siteTitle) {
       // @see https://github.com/WordPress/wordpress-develop/blob/94849898192d271d533e09756007e176feb80697/src/wp-admin/admin-header.php#L67-L68
-      const formattedTitle = (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: Admin screen title. 1: Admin screen name, 2: Network or site name. */
-      (0,external_wp_i18n_namespaceObject.__)('%1$s ‹ %2$s — WordPress'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(siteTitle));
+      const formattedTitle = (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: Admin document title. 1: Admin screen name, 2: Network or site name. */
+      (0,external_wp_i18n_namespaceObject.__)('%1$s ‹ %2$s ‹ Editor — WordPress'), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(title), (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(siteTitle));
       document.title = formattedTitle;
 
       // Announce title on route change for screen readers.
-      (0,external_wp_a11y_namespaceObject.speak)((0,external_wp_i18n_namespaceObject.sprintf)( /* translators: The page title that is currently displaying. */
-      (0,external_wp_i18n_namespaceObject.__)('Now displaying: %s'), document.title), 'assertive');
+      (0,external_wp_a11y_namespaceObject.speak)(title, 'assertive');
     }
   }, [title, siteTitle, location]);
 }
@@ -31908,34 +32634,49 @@ function BackButton() {
 
 
 
+
 /**
  * Internal dependencies
  */
 
 
+
 const {
-  ExperimentalBlockCanvas: BlockCanvas
-} = unlock(external_wp_blockEditor_namespaceObject.privateApis);
+  EditorCanvas: EditorCanvasRoot
+} = unlock(external_wp_editor_namespaceObject.privateApis);
 function EditorCanvas({
   enableResizing,
   settings,
   children,
-  contentRef,
   ...props
 }) {
   const {
+    hasBlocks,
+    isFocusMode,
+    templateType,
     canvasMode,
-    deviceType,
     isZoomOutMode
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => ({
-    deviceType: select(store_store).__experimentalGetPreviewDeviceType(),
-    isZoomOutMode: select(external_wp_blockEditor_namespaceObject.store).__unstableGetEditorMode() === 'zoom-out',
-    canvasMode: unlock(select(store_store)).getCanvasMode()
-  }), []);
+  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    const {
+      getBlockCount,
+      __unstableGetEditorMode
+    } = select(external_wp_blockEditor_namespaceObject.store);
+    const {
+      getEditedPostType,
+      getCanvasMode
+    } = unlock(select(store_store));
+    const _templateType = getEditedPostType();
+    return {
+      templateType: _templateType,
+      isFocusMode: FOCUSABLE_ENTITIES.includes(_templateType),
+      isZoomOutMode: __unstableGetEditorMode() === 'zoom-out',
+      canvasMode: getCanvasMode(),
+      hasBlocks: !!getBlockCount()
+    };
+  }, []);
   const {
     setCanvasMode
   } = unlock((0,external_wp_data_namespaceObject.useDispatch)(store_store));
-  const deviceStyles = (0,external_wp_blockEditor_namespaceObject.__experimentalUseResizeCanvas)(deviceType);
   const [isFocused, setIsFocused] = (0,external_wp_element_namespaceObject.useState)(false);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     if (canvasMode === 'edit') {
@@ -31960,28 +32701,38 @@ function EditorCanvas({
     onClick: () => setCanvasMode('edit'),
     readonly: true
   };
-  return (0,external_React_.createElement)(BlockCanvas, {
-    height: "100%",
+  const isTemplateTypeNavigation = templateType === NAVIGATION_POST_TYPE;
+  const isNavigationFocusMode = isTemplateTypeNavigation && isFocusMode;
+  // Hide the appender when:
+  // - In navigation focus mode (should only allow the root Nav block).
+  // - In view mode (i.e. not editing).
+  const showBlockAppender = isNavigationFocusMode && hasBlocks || canvasMode === 'view' ? false : undefined;
+  const styles = (0,external_wp_element_namespaceObject.useMemo)(() => [...settings.styles, {
+    // Forming a "block formatting context" to prevent margin collapsing.
+    // @see https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Block_formatting_context
+
+    css: `.is-root-container{display:flow-root;${
+    // Some themes will have `min-height: 100vh` for the root container,
+    // which isn't a requirement in auto resize mode.
+    enableResizing ? 'min-height:0!important;' : ''}}body{position:relative; ${canvasMode === 'view' ? 'cursor: pointer; min-height: 100vh;' : ''}}}`
+  }], [settings.styles, enableResizing, canvasMode]);
+  return (0,external_React_.createElement)(EditorCanvasRoot, {
+    className: classnames_default()('edit-site-editor-canvas__block-list', {
+      'is-navigation-block': isTemplateTypeNavigation
+    }),
+    renderAppender: showBlockAppender,
+    styles: styles,
     iframeProps: {
       expand: isZoomOutMode,
       scale: isZoomOutMode ? 0.45 : undefined,
       frameSize: isZoomOutMode ? 100 : undefined,
-      style: enableResizing ? {} : deviceStyles,
       className: classnames_default()('edit-site-visual-editor__editor-canvas', {
         'is-focused': isFocused && canvasMode === 'view'
       }),
       ...props,
       ...(canvasMode === 'view' ? viewModeProps : {})
-    },
-    styles: settings.styles,
-    contentRef: contentRef
-  }, (0,external_React_.createElement)("style", null,
-  // Forming a "block formatting context" to prevent margin collapsing.
-  // @see https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Block_formatting_context
-  `.is-root-container{display:flow-root;${
-  // Some themes will have `min-height: 100vh` for the root container,
-  // which isn't a requirement in auto resize mode.
-  enableResizing ? 'min-height:0!important;' : ''}}body{position:relative; ${canvasMode === 'view' ? 'cursor: pointer; min-height: 100vh;' : ''}}}`), children);
+    }
+  }, children);
 }
 /* harmony default export */ var editor_canvas = (EditorCanvas);
 
@@ -31989,6 +32740,7 @@ function EditorCanvas({
 /**
  * WordPress dependencies
  */
+
 
 
 
@@ -32073,6 +32825,7 @@ function useSpecificEditorSettings() {
   const {
     setIsInserterOpened
   } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
+  const isLargeViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium');
   const {
     templateSlug,
     focusMode,
@@ -32080,11 +32833,13 @@ function useSpecificEditorSettings() {
     hasFixedToolbar,
     keepCaretInsideBlock,
     canvasMode,
-    settings
+    settings,
+    postWithTemplate
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       getEditedPostType,
       getEditedPostId,
+      getEditedPostContext,
       getCanvasMode,
       getSettings
     } = unlock(select(store_store));
@@ -32097,30 +32852,35 @@ function useSpecificEditorSettings() {
     const usedPostType = getEditedPostType();
     const usedPostId = getEditedPostId();
     const _record = getEditedEntityRecord('postType', usedPostType, usedPostId);
+    const _context = getEditedPostContext();
     return {
       templateSlug: _record.slug,
       focusMode: !!getPreference('core/edit-site', 'focusMode'),
       isDistractionFree: !!getPreference('core/edit-site', 'distractionFree'),
-      hasFixedToolbar: !!getPreference('core/edit-site', 'fixedToolbar'),
+      hasFixedToolbar: !!getPreference('core/edit-site', 'fixedToolbar') || !isLargeViewport,
       keepCaretInsideBlock: !!getPreference('core/edit-site', 'keepCaretInsideBlock'),
       canvasMode: getCanvasMode(),
-      settings: getSettings()
+      settings: getSettings(),
+      postWithTemplate: _context?.postId
     };
-  }, []);
+  }, [isLargeViewport]);
   const archiveLabels = useArchiveLabel(templateSlug);
+  const defaultRenderingMode = postWithTemplate ? 'template-locked' : 'all';
   const defaultEditorSettings = (0,external_wp_element_namespaceObject.useMemo)(() => {
     return {
       ...settings,
+      supportsTemplateMode: true,
       __experimentalSetIsInserterOpened: setIsInserterOpened,
       focusMode: canvasMode === 'view' && focusMode ? false : focusMode,
       isDistractionFree,
       hasFixedToolbar,
       keepCaretInsideBlock,
+      defaultRenderingMode,
       // I wonder if they should be set in the post editor too
       __experimentalArchiveTitleTypeLabel: archiveLabels.archiveTypeLabel,
       __experimentalArchiveTitleNameLabel: archiveLabels.archiveNameLabel
     };
-  }, [settings, setIsInserterOpened, focusMode, isDistractionFree, hasFixedToolbar, keepCaretInsideBlock, canvasMode, archiveLabels.archiveTypeLabel, archiveLabels.archiveNameLabel]);
+  }, [settings, setIsInserterOpened, focusMode, isDistractionFree, hasFixedToolbar, keepCaretInsideBlock, canvasMode, archiveLabels.archiveTypeLabel, archiveLabels.archiveNameLabel, defaultRenderingMode]);
   return defaultEditorSettings;
 }
 function useSiteEditorSettings() {
@@ -32143,173 +32903,6 @@ function useSiteEditorSettings() {
   return useBlockEditorSettings(defaultEditorSettings, postType, postId);
 }
 
-;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/page-content-focus-notifications/edit-template-notification.js
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-
-
-
-/**
- * Component that:
- *
- * - Displays a 'Edit your template to edit this block' notification when the
- *   user is focusing on editing page content and clicks on a disabled template
- *   block.
- * - Displays a 'Edit your template to edit this block' dialog when the user
- *   is focusing on editing page conetnt and double clicks on a disabled
- *   template block.
- *
- * @param {Object}                                 props
- * @param {import('react').RefObject<HTMLElement>} props.contentRef Ref to the block
- *                                                                  editor iframe canvas.
- */
-function EditTemplateNotification({
-  contentRef
-}) {
-  const renderingMode = (0,external_wp_data_namespaceObject.useSelect)(select => select(external_wp_editor_namespaceObject.store).getRenderingMode(), []);
-  const {
-    getNotices
-  } = (0,external_wp_data_namespaceObject.useSelect)(external_wp_notices_namespaceObject.store);
-  const {
-    createInfoNotice,
-    removeNotice
-  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_notices_namespaceObject.store);
-  const {
-    setRenderingMode
-  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_editor_namespaceObject.store);
-  const [isDialogOpen, setIsDialogOpen] = (0,external_wp_element_namespaceObject.useState)(false);
-  const lastNoticeId = (0,external_wp_element_namespaceObject.useRef)(0);
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    const handleClick = async event => {
-      if (renderingMode === 'template-only') {
-        return;
-      }
-      if (!event.target.classList.contains('is-root-container')) {
-        return;
-      }
-      const isNoticeAlreadyShowing = getNotices().some(notice => notice.id === lastNoticeId.current);
-      if (isNoticeAlreadyShowing) {
-        return;
-      }
-      const {
-        notice
-      } = await createInfoNotice((0,external_wp_i18n_namespaceObject.__)('Edit your template to edit this block.'), {
-        isDismissible: true,
-        type: 'snackbar',
-        actions: [{
-          label: (0,external_wp_i18n_namespaceObject.__)('Edit template'),
-          onClick: () => setRenderingMode('template-only')
-        }]
-      });
-      lastNoticeId.current = notice.id;
-    };
-    const handleDblClick = event => {
-      if (renderingMode === 'template-only') {
-        return;
-      }
-      if (!event.target.classList.contains('is-root-container')) {
-        return;
-      }
-      if (lastNoticeId.current) {
-        removeNotice(lastNoticeId.current);
-      }
-      setIsDialogOpen(true);
-    };
-    const canvas = contentRef.current;
-    canvas?.addEventListener('click', handleClick);
-    canvas?.addEventListener('dblclick', handleDblClick);
-    return () => {
-      canvas?.removeEventListener('click', handleClick);
-      canvas?.removeEventListener('dblclick', handleDblClick);
-    };
-  }, [lastNoticeId, renderingMode, contentRef.current]);
-  return (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalConfirmDialog, {
-    isOpen: isDialogOpen,
-    confirmButtonText: (0,external_wp_i18n_namespaceObject.__)('Edit template'),
-    onConfirm: () => {
-      setIsDialogOpen(false);
-      setRenderingMode('template-only');
-    },
-    onCancel: () => setIsDialogOpen(false)
-  }, (0,external_wp_i18n_namespaceObject.__)('Edit your template to edit this block.'));
-}
-
-;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/page-content-focus-notifications/back-to-page-notification.js
-/**
- * WordPress dependencies
- */
-
-
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
-/**
- * Component that displays a 'You are editing a template' notification when the
- * user switches from focusing on editing page content to editing a template.
- */
-function BackToPageNotification() {
-  useBackToPageNotification();
-  return null;
-}
-
-/**
- * Hook that displays a 'You are editing a template' notification when the user
- * switches from focusing on editing page content to editing a template.
- */
-function useBackToPageNotification() {
-  const renderingMode = (0,external_wp_data_namespaceObject.useSelect)(select => select(external_wp_editor_namespaceObject.store).getRenderingMode(), []);
-  const {
-    isPage
-  } = (0,external_wp_data_namespaceObject.useSelect)(store_store);
-  const {
-    setRenderingMode
-  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_editor_namespaceObject.store);
-  const {
-    createInfoNotice
-  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_notices_namespaceObject.store);
-  const alreadySeen = (0,external_wp_element_namespaceObject.useRef)(false);
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (isPage() && !alreadySeen.current && renderingMode === 'template-only') {
-      createInfoNotice((0,external_wp_i18n_namespaceObject.__)('You are editing a template.'), {
-        isDismissible: true,
-        type: 'snackbar',
-        actions: [{
-          label: (0,external_wp_i18n_namespaceObject.__)('Back to page'),
-          onClick: () => setRenderingMode('template-locked')
-        }]
-      });
-      alreadySeen.current = true;
-    }
-  }, [isPage, renderingMode, createInfoNotice, setRenderingMode]);
-}
-
-;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/page-content-focus-notifications/index.js
-
-/**
- * Internal dependencies
- */
-
-
-function PageContentFocusNotifications({
-  contentRef
-}) {
-  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(EditTemplateNotification, {
-    contentRef: contentRef
-  }), (0,external_React_.createElement)(BackToPageNotification, null));
-}
-
 ;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/block-editor/site-editor-canvas.js
 
 /**
@@ -32322,7 +32915,6 @@ function PageContentFocusNotifications({
 
 
 
-
 /**
  * Internal dependencies
  */
@@ -32334,16 +32926,7 @@ function PageContentFocusNotifications({
 
 
 
-
-const LAYOUT = {
-  type: 'default',
-  // At the root level of the site editor, no alignments should be allowed.
-  alignments: []
-};
 function SiteEditorCanvas() {
-  const {
-    clearSelectedBlock
-  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_blockEditor_namespaceObject.store);
   const {
     templateType,
     isFocusMode,
@@ -32362,65 +32945,27 @@ function SiteEditorCanvas() {
   }, []);
   const [resizeObserver, sizes] = (0,external_wp_compose_namespaceObject.useResizeObserver)();
   const settings = useSiteEditorSettings();
-  const {
-    hasBlocks
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    const {
-      getBlockCount
-    } = select(external_wp_blockEditor_namespaceObject.store);
-    const blocks = getBlockCount();
-    return {
-      hasBlocks: !!blocks
-    };
-  }, []);
   const isMobileViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('small', '<');
   const enableResizing = isFocusMode && !isViewMode &&
   // Disable resizing in mobile viewport.
   !isMobileViewport;
-  const contentRef = (0,external_wp_element_namespaceObject.useRef)();
   const isTemplateTypeNavigation = templateType === NAVIGATION_POST_TYPE;
   const isNavigationFocusMode = isTemplateTypeNavigation && isFocusMode;
-
-  // Hide the appender when:
-  // - In navigation focus mode (should only allow the root Nav block).
-  // - In view mode (i.e. not editing).
-  const showBlockAppender = isNavigationFocusMode && hasBlocks || isViewMode ? false : undefined;
   const forceFullHeight = isNavigationFocusMode;
-  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(editor_canvas_container.Slot, null, ([editorCanvasView]) => editorCanvasView ? (0,external_React_.createElement)("div", {
+  return (0,external_React_.createElement)(editor_canvas_container.Slot, null, ([editorCanvasView]) => editorCanvasView ? (0,external_React_.createElement)("div", {
     className: "edit-site-visual-editor is-focus-mode"
-  }, editorCanvasView) : (0,external_React_.createElement)(external_wp_blockEditor_namespaceObject.BlockTools, {
+  }, editorCanvasView) : (0,external_React_.createElement)("div", {
     className: classnames_default()('edit-site-visual-editor', {
       'is-focus-mode': isFocusMode || !!editorCanvasView,
       'is-view-mode': isViewMode
-    }),
-    __unstableContentRef: contentRef,
-    onClick: event => {
-      // Clear selected block when clicking on the gray background.
-      if (event.target === event.currentTarget) {
-        clearSelectedBlock();
-      }
-    }
+    })
   }, (0,external_React_.createElement)(back_button, null), (0,external_React_.createElement)(resizable_editor, {
     enableResizing: enableResizing,
     height: sizes.height && !forceFullHeight ? sizes.height : '100%'
   }, (0,external_React_.createElement)(editor_canvas, {
     enableResizing: enableResizing,
-    settings: settings,
-    contentRef: contentRef
-  }, resizeObserver, (0,external_React_.createElement)(external_wp_blockEditor_namespaceObject.BlockList, {
-    className: classnames_default()('edit-site-block-editor__block-list wp-site-blocks', {
-      'is-navigation-block': isTemplateTypeNavigation
-    }),
-    dropZoneElement:
-    // Pass in the html element of the iframe to ensure that
-    // the drop zone extends to the very edges of the iframe,
-    // even if the template is shorter than the viewport.
-    contentRef.current?.parentNode,
-    layout: LAYOUT,
-    renderAppender: showBlockAppender
-  }))))), (0,external_React_.createElement)(PageContentFocusNotifications, {
-    contentRef: contentRef
-  }));
+    settings: settings
+  }, resizeObserver))));
 }
 
 ;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/template-part-converter/convert-to-regular.js
@@ -32587,7 +33132,6 @@ function TemplatePartConverterMenuItem({
 
 
 
-
 /**
  * Internal dependencies
  */
@@ -32646,6 +33190,7 @@ function Editor({
   const {
     type: editedPostType
   } = editedPost;
+  const isLargeViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium');
   const {
     context,
     contextPost,
@@ -32696,9 +33241,6 @@ function Editor({
       showBlockBreadcrumbs: select(external_wp_preferences_namespaceObject.store).get('core/edit-site', 'showBlockBreadcrumbs')
     };
   }, []);
-  const {
-    setRenderingMode
-  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_editor_namespaceObject.store);
   const isViewMode = canvasMode === 'view';
   const isEditMode = canvasMode === 'edit';
   const showVisualEditor = isViewMode || editorMode === 'visual';
@@ -32711,8 +33253,8 @@ function Editor({
   if (hasLoadedPost) {
     var _POST_TYPE_LABELS$edi;
     title = (0,external_wp_i18n_namespaceObject.sprintf)(
-    // translators: A breadcrumb trail in browser tab. %1$s: title of template being edited, %2$s: type of template (Template or Template Part).
-    (0,external_wp_i18n_namespaceObject.__)('%1$s ‹ %2$s ‹ Editor'), getTitle(), (_POST_TYPE_LABELS$edi = POST_TYPE_LABELS[editedPostType]) !== null && _POST_TYPE_LABELS$edi !== void 0 ? _POST_TYPE_LABELS$edi : POST_TYPE_LABELS[TEMPLATE_POST_TYPE]);
+    // translators: A breadcrumb trail for the Admin document title. %1$s: title of template being edited, %2$s: type of template (Template or Template Part).
+    (0,external_wp_i18n_namespaceObject.__)('%1$s ‹ %2$s'), getTitle(), (_POST_TYPE_LABELS$edi = POST_TYPE_LABELS[editedPostType]) !== null && _POST_TYPE_LABELS$edi !== void 0 ? _POST_TYPE_LABELS$edi : POST_TYPE_LABELS[TEMPLATE_POST_TYPE]);
   }
 
   // Only announce the title once the editor is ready to prevent "Replace"
@@ -32721,16 +33263,6 @@ function Editor({
   const loadingProgressId = (0,external_wp_compose_namespaceObject.useInstanceId)(CanvasLoader, 'edit-site-editor__loading-progress');
   const settings = useSpecificEditorSettings();
   const isReady = !isLoading && (postWithTemplate && !!contextPost && !!editedPost || !postWithTemplate && !!editedPost);
-
-  // This is the only reliable way I've found to reinitialize the rendering mode
-  // when the canvas mode or the edited entity changes.
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (canvasMode === 'edit' && postWithTemplate) {
-      setRenderingMode('template-locked');
-    } else {
-      setRenderingMode('all');
-    }
-  }, [canvasMode, postWithTemplate, setRenderingMode]);
   return (0,external_React_.createElement)(external_React_.Fragment, null, !isReady ? (0,external_React_.createElement)(CanvasLoader, {
     id: loadingProgressId
   }) : null, isEditMode && (0,external_React_.createElement)(WelcomeGuide, null), hasLoadedPost && !editedPost && (0,external_React_.createElement)(external_wp_components_namespaceObject.Notice, {
@@ -32748,7 +33280,9 @@ function Editor({
       'show-icon-labels': showIconLabels
     }),
     notices: (0,external_React_.createElement)(external_wp_editor_namespaceObject.EditorSnackbars, null),
-    content: (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(GlobalStylesRenderer, null), isEditMode && (0,external_React_.createElement)(external_wp_editor_namespaceObject.EditorNotices, null), showVisualEditor && (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(TemplatePartConverter, null), (0,external_React_.createElement)(SidebarInspectorFill, null, (0,external_React_.createElement)(external_wp_blockEditor_namespaceObject.BlockInspector, null)), (0,external_React_.createElement)(SiteEditorCanvas, null), (0,external_React_.createElement)(BlockRemovalWarningModal, {
+    content: (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(GlobalStylesRenderer, null), isEditMode && (0,external_React_.createElement)(external_wp_editor_namespaceObject.EditorNotices, null), showVisualEditor && (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(TemplatePartConverter, null), (0,external_React_.createElement)(SidebarInspectorFill, null, (0,external_React_.createElement)(external_wp_blockEditor_namespaceObject.BlockInspector, null)), !isLargeViewport && (0,external_React_.createElement)(external_wp_blockEditor_namespaceObject.BlockToolbar, {
+      hideDragHandle: true
+    }), (0,external_React_.createElement)(SiteEditorCanvas, null), (0,external_React_.createElement)(BlockRemovalWarningModal, {
       rules: blockRemovalRules
     }), (0,external_React_.createElement)(PatternModal, null)), editorMode === 'text' && isEditMode && (0,external_React_.createElement)(CodeEditor, null), isEditMode && (0,external_React_.createElement)(edit_mode, null)),
     secondarySidebar: isEditMode && (shouldShowInserter && (0,external_React_.createElement)(InserterSidebar, null) || shouldShowListView && (0,external_React_.createElement)(ListViewSidebar, {
@@ -33238,26 +33772,15 @@ function EditSitePreferencesModal() {
       closeGeneralSidebar();
     });
   };
+  const turnOffDistractionFree = () => {
+    setPreference('core/edit-site', 'distractionFree', false);
+  };
   const sections = (0,external_wp_element_namespaceObject.useMemo)(() => [{
     name: 'general',
     tabLabel: (0,external_wp_i18n_namespaceObject.__)('General'),
     content: (0,external_React_.createElement)(preferences_modal_section, {
-      title: (0,external_wp_i18n_namespaceObject.__)('Appearance'),
-      description: (0,external_wp_i18n_namespaceObject.__)('Customize options related to the block editor interface and editing flow.')
+      title: (0,external_wp_i18n_namespaceObject.__)('Interface')
     }, (0,external_React_.createElement)(EnableFeature, {
-      featureName: "distractionFree",
-      onToggle: toggleDistractionFree,
-      help: (0,external_wp_i18n_namespaceObject.__)('Reduce visual distractions by hiding the toolbar and other elements to focus on writing.'),
-      label: (0,external_wp_i18n_namespaceObject.__)('Distraction free')
-    }), (0,external_React_.createElement)(EnableFeature, {
-      featureName: "focusMode",
-      help: (0,external_wp_i18n_namespaceObject.__)('Highlights the current block and fades other content.'),
-      label: (0,external_wp_i18n_namespaceObject.__)('Spotlight mode')
-    }), (0,external_React_.createElement)(EnableFeature, {
-      featureName: "showIconLabels",
-      label: (0,external_wp_i18n_namespaceObject.__)('Show button text labels'),
-      help: (0,external_wp_i18n_namespaceObject.__)('Show text instead of icons on buttons.')
-    }), (0,external_React_.createElement)(EnableFeature, {
       featureName: "showListViewByDefault",
       help: (0,external_wp_i18n_namespaceObject.__)('Opens the block list view sidebar by default.'),
       label: (0,external_wp_i18n_namespaceObject.__)('Always open list view')
@@ -33267,16 +33790,43 @@ function EditSitePreferencesModal() {
       label: (0,external_wp_i18n_namespaceObject.__)('Display block breadcrumbs')
     }))
   }, {
-    name: 'blocks',
-    tabLabel: (0,external_wp_i18n_namespaceObject.__)('Blocks'),
+    name: 'appearance',
+    tabLabel: (0,external_wp_i18n_namespaceObject.__)('Appearance'),
     content: (0,external_React_.createElement)(preferences_modal_section, {
-      title: (0,external_wp_i18n_namespaceObject.__)('Block interactions'),
-      description: (0,external_wp_i18n_namespaceObject.__)('Customize how you interact with blocks in the block library and editing canvas.')
+      title: (0,external_wp_i18n_namespaceObject.__)('Appearance'),
+      description: (0,external_wp_i18n_namespaceObject.__)('Customize the editor interface to suit your needs.')
+    }, (0,external_React_.createElement)(EnableFeature, {
+      featureName: "fixedToolbar",
+      onToggle: turnOffDistractionFree,
+      help: (0,external_wp_i18n_namespaceObject.__)('Access all block and document tools in a single place.'),
+      label: (0,external_wp_i18n_namespaceObject.__)('Top toolbar')
+    }), (0,external_React_.createElement)(EnableFeature, {
+      featureName: "distractionFree",
+      onToggle: toggleDistractionFree,
+      help: (0,external_wp_i18n_namespaceObject.__)('Reduce visual distractions by hiding the toolbar and other elements to focus on writing.'),
+      label: (0,external_wp_i18n_namespaceObject.__)('Distraction free')
+    }), (0,external_React_.createElement)(EnableFeature, {
+      featureName: "focusMode",
+      help: (0,external_wp_i18n_namespaceObject.__)('Highlights the current block and fades other content.'),
+      label: (0,external_wp_i18n_namespaceObject.__)('Spotlight mode')
+    }))
+  }, {
+    name: 'accessibility',
+    tabLabel: (0,external_wp_i18n_namespaceObject.__)('Accessibility'),
+    content: (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(preferences_modal_section, {
+      title: (0,external_wp_i18n_namespaceObject.__)('Navigation'),
+      description: (0,external_wp_i18n_namespaceObject.__)('Optimize the editing experience for enhanced control.')
     }, (0,external_React_.createElement)(EnableFeature, {
       featureName: "keepCaretInsideBlock",
-      help: (0,external_wp_i18n_namespaceObject.__)('Aids screen readers by stopping text caret from leaving blocks.'),
+      help: (0,external_wp_i18n_namespaceObject.__)('Keeps the text cursor within the block boundaries, aiding users with screen readers by preventing unintentional cursor movement outside the block.'),
       label: (0,external_wp_i18n_namespaceObject.__)('Contain text cursor inside block')
-    }))
+    })), (0,external_React_.createElement)(preferences_modal_section, {
+      title: (0,external_wp_i18n_namespaceObject.__)('Interface')
+    }, (0,external_React_.createElement)(EnableFeature, {
+      featureName: "showIconLabels",
+      label: (0,external_wp_i18n_namespaceObject.__)('Show button text labels'),
+      help: (0,external_wp_i18n_namespaceObject.__)('Show text instead of icons on buttons across the interface.')
+    })))
   }]);
   if (!isModalActive) {
     return null;
@@ -33528,7 +34078,6 @@ function MoreMenu({
   showIconLabels
 }) {
   const registry = (0,external_wp_data_namespaceObject.useRegistry)();
-  const isDistractionFree = (0,external_wp_data_namespaceObject.useSelect)(select => select(external_wp_preferences_namespaceObject.store).get('core/edit-site', 'distractionFree'), []);
   const {
     setIsInserterOpened,
     setIsListViewOpened,
@@ -33548,6 +34097,9 @@ function MoreMenu({
       closeGeneralSidebar();
     });
   };
+  const turnOffDistractionFree = () => {
+    setPreference('core/edit-site', 'distractionFree', false);
+  };
   return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(MoreMenuDropdown, {
     toggleProps: {
       showTooltip: !showIconLabels,
@@ -33562,18 +34114,11 @@ function MoreMenu({
   }, (0,external_React_.createElement)(external_wp_preferences_namespaceObject.PreferenceToggleMenuItem, {
     scope: "core/edit-site",
     name: "fixedToolbar",
-    disabled: isDistractionFree,
+    onToggle: turnOffDistractionFree,
     label: (0,external_wp_i18n_namespaceObject.__)('Top toolbar'),
     info: (0,external_wp_i18n_namespaceObject.__)('Access all block and document tools in a single place'),
     messageActivated: (0,external_wp_i18n_namespaceObject.__)('Top toolbar activated'),
     messageDeactivated: (0,external_wp_i18n_namespaceObject.__)('Top toolbar deactivated')
-  }), (0,external_React_.createElement)(external_wp_preferences_namespaceObject.PreferenceToggleMenuItem, {
-    scope: "core/edit-site",
-    name: "focusMode",
-    label: (0,external_wp_i18n_namespaceObject.__)('Spotlight mode'),
-    info: (0,external_wp_i18n_namespaceObject.__)('Focus on one block at a time'),
-    messageActivated: (0,external_wp_i18n_namespaceObject.__)('Spotlight mode activated'),
-    messageDeactivated: (0,external_wp_i18n_namespaceObject.__)('Spotlight mode deactivated')
   }), (0,external_React_.createElement)(external_wp_preferences_namespaceObject.PreferenceToggleMenuItem, {
     scope: "core/edit-site",
     name: "distractionFree",
@@ -33583,6 +34128,13 @@ function MoreMenu({
     messageActivated: (0,external_wp_i18n_namespaceObject.__)('Distraction free mode activated'),
     messageDeactivated: (0,external_wp_i18n_namespaceObject.__)('Distraction free mode deactivated'),
     shortcut: external_wp_keycodes_namespaceObject.displayShortcut.primaryShift('\\')
+  }), (0,external_React_.createElement)(external_wp_preferences_namespaceObject.PreferenceToggleMenuItem, {
+    scope: "core/edit-site",
+    name: "focusMode",
+    label: (0,external_wp_i18n_namespaceObject.__)('Spotlight mode'),
+    info: (0,external_wp_i18n_namespaceObject.__)('Focus on one block at a time'),
+    messageActivated: (0,external_wp_i18n_namespaceObject.__)('Spotlight mode activated'),
+    messageDeactivated: (0,external_wp_i18n_namespaceObject.__)('Spotlight mode deactivated')
   })), (0,external_React_.createElement)(mode_switcher, null), (0,external_React_.createElement)(action_item.Slot, {
     name: "core/edit-site/plugin-more-menu",
     label: (0,external_wp_i18n_namespaceObject.__)('Plugins'),
@@ -33611,171 +34163,6 @@ function MoreMenu({
   })), (0,external_React_.createElement)(external_wp_components_namespaceObject.MenuGroup, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.MenuItem, {
     onClick: () => openModal(PREFERENCES_MODAL_NAME)
   }, (0,external_wp_i18n_namespaceObject.__)('Preferences'))))), (0,external_React_.createElement)(KeyboardShortcutHelpModal, null), (0,external_React_.createElement)(EditSitePreferencesModal, null));
-}
-
-;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/header-edit-mode/document-actions/index.js
-
-/**
- * External dependencies
- */
-
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-
-
-
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
-
-const typeLabels = {
-  [PATTERN_TYPES.user]: (0,external_wp_i18n_namespaceObject.__)('Editing pattern:'),
-  [NAVIGATION_POST_TYPE]: (0,external_wp_i18n_namespaceObject.__)('Editing navigation menu:'),
-  [TEMPLATE_POST_TYPE]: (0,external_wp_i18n_namespaceObject.__)('Editing template:'),
-  [TEMPLATE_PART_POST_TYPE]: (0,external_wp_i18n_namespaceObject.__)('Editing template part:')
-};
-function DocumentActions() {
-  const isPage = (0,external_wp_data_namespaceObject.useSelect)(select => select(store_store).isPage(), []);
-  return isPage ? (0,external_React_.createElement)(PageDocumentActions, null) : (0,external_React_.createElement)(TemplateDocumentActions, null);
-}
-function PageDocumentActions() {
-  const {
-    isEditingPage,
-    hasResolved,
-    isFound,
-    title
-  } = (0,external_wp_data_namespaceObject.useSelect)(select => {
-    const {
-      getEditedPostContext
-    } = select(store_store);
-    const {
-      getEditedEntityRecord,
-      hasFinishedResolution
-    } = select(external_wp_coreData_namespaceObject.store);
-    const {
-      getRenderingMode
-    } = select(external_wp_editor_namespaceObject.store);
-    const context = getEditedPostContext();
-    const queryArgs = ['postType', context.postType, context.postId];
-    const page = getEditedEntityRecord(...queryArgs);
-    return {
-      isEditingPage: !!context.postId && getRenderingMode() !== 'template-only',
-      hasResolved: hasFinishedResolution('getEditedEntityRecord', queryArgs),
-      isFound: !!page,
-      title: page?.title
-    };
-  }, []);
-  const {
-    setRenderingMode
-  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_editor_namespaceObject.store);
-  const [isAnimated, setIsAnimated] = (0,external_wp_element_namespaceObject.useState)(false);
-  const isLoading = (0,external_wp_element_namespaceObject.useRef)(true);
-  (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (!isLoading.current) {
-      setIsAnimated(true);
-    }
-    isLoading.current = false;
-  }, [isEditingPage]);
-  if (!hasResolved) {
-    return null;
-  }
-  if (!isFound) {
-    return (0,external_React_.createElement)("div", {
-      className: "edit-site-document-actions"
-    }, (0,external_wp_i18n_namespaceObject.__)('Document not found'));
-  }
-  return isEditingPage ? (0,external_React_.createElement)(BaseDocumentActions, {
-    className: classnames_default()('is-page', {
-      'is-animated': isAnimated
-    }),
-    icon: library_page
-  }, title) : (0,external_React_.createElement)(TemplateDocumentActions, {
-    className: classnames_default()({
-      'is-animated': isAnimated
-    }),
-    onBack: () => setRenderingMode('template-locked')
-  });
-}
-function TemplateDocumentActions({
-  className,
-  onBack
-}) {
-  var _typeLabels$record$ty;
-  const {
-    isLoaded,
-    record,
-    getTitle,
-    icon
-  } = useEditedEntityRecord();
-  if (!isLoaded) {
-    return null;
-  }
-  if (!record) {
-    return (0,external_React_.createElement)("div", {
-      className: "edit-site-document-actions"
-    }, (0,external_wp_i18n_namespaceObject.__)('Document not found'));
-  }
-  let typeIcon = icon;
-  if (record.type === NAVIGATION_POST_TYPE) {
-    typeIcon = library_navigation;
-  } else if (record.type === PATTERN_TYPES.user) {
-    typeIcon = library_symbol;
-  }
-  return (0,external_React_.createElement)(BaseDocumentActions, {
-    className: classnames_default()(className, {
-      'is-synced-entity': record.wp_pattern_sync_status !== PATTERN_SYNC_TYPES.unsynced
-    }),
-    icon: typeIcon,
-    onBack: onBack
-  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.VisuallyHidden, {
-    as: "span"
-  }, (_typeLabels$record$ty = typeLabels[record.type]) !== null && _typeLabels$record$ty !== void 0 ? _typeLabels$record$ty : typeLabels[TEMPLATE_POST_TYPE]), getTitle());
-}
-function BaseDocumentActions({
-  className,
-  icon,
-  children,
-  onBack
-}) {
-  const {
-    open: openCommandCenter
-  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_commands_namespaceObject.store);
-  return (0,external_React_.createElement)("div", {
-    className: classnames_default()('edit-site-document-actions', className)
-  }, onBack && (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
-    className: "edit-site-document-actions__back",
-    icon: (0,external_wp_i18n_namespaceObject.isRTL)() ? chevron_right_small : chevron_left_small,
-    onClick: event => {
-      event.stopPropagation();
-      onBack();
-    }
-  }, (0,external_wp_i18n_namespaceObject.__)('Back')), (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
-    className: "edit-site-document-actions__command",
-    onClick: () => openCommandCenter()
-  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
-    className: "edit-site-document-actions__title",
-    spacing: 1,
-    justify: "center"
-  }, (0,external_React_.createElement)(external_wp_blockEditor_namespaceObject.BlockIcon, {
-    icon: icon
-  }), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalText, {
-    size: "body",
-    as: "h1"
-  }, children)), (0,external_React_.createElement)("span", {
-    className: "edit-site-document-actions__shortcut"
-  }, external_wp_keycodes_namespaceObject.displayShortcut.primary('k'))));
 }
 
 ;// CONCATENATED MODULE: ./packages/icons/build-module/library/list-view.js
@@ -33915,6 +34302,7 @@ function RedoButton(props, ref) {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -33943,7 +34331,6 @@ function DocumentTools({
     isVisualMode
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
-      __experimentalGetPreviewDeviceType,
       isInserterOpened,
       isListViewOpened,
       getEditorMode
@@ -33952,7 +34339,6 @@ function DocumentTools({
       getShortcutRepresentation
     } = select(external_wp_keyboardShortcuts_namespaceObject.store);
     return {
-      deviceType: __experimentalGetPreviewDeviceType(),
       isInserterOpen: isInserterOpened(),
       isListViewOpen: isListViewOpened(),
       listViewShortcut: getShortcutRepresentation('core/edit-site/toggle-list-view'),
@@ -33960,13 +34346,15 @@ function DocumentTools({
     };
   }, []);
   const {
-    __experimentalSetPreviewDeviceType: setPreviewDeviceType,
     setIsInserterOpened,
     setIsListViewOpened
   } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
   const {
     __unstableSetEditorMode
   } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_blockEditor_namespaceObject.store);
+  const {
+    setDeviceType
+  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_editor_namespaceObject.store);
   const isLargeViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium');
   const toggleInserter = (0,external_wp_element_namespaceObject.useCallback)(() => {
     if (isInserterOpen) {
@@ -34012,20 +34400,24 @@ function DocumentTools({
     icon: library_plus,
     label: showIconLabels ? shortLabel : longLabel,
     showTooltip: !showIconLabels,
-    "aria-expanded": isInserterOpen
+    "aria-expanded": isInserterOpen,
+    size: "compact"
   }), isLargeViewport && (0,external_React_.createElement)(external_React_.Fragment, null, !hasFixedToolbar && (0,external_React_.createElement)(external_wp_components_namespaceObject.ToolbarItem, {
     as: external_wp_blockEditor_namespaceObject.ToolSelector,
     showTooltip: !showIconLabels,
     variant: showIconLabels ? 'tertiary' : undefined,
-    disabled: !isVisualMode
+    disabled: !isVisualMode,
+    size: "compact"
   }), (0,external_React_.createElement)(external_wp_components_namespaceObject.ToolbarItem, {
     as: undo_redo_undo,
     showTooltip: !showIconLabels,
-    variant: showIconLabels ? 'tertiary' : undefined
+    variant: showIconLabels ? 'tertiary' : undefined,
+    size: "compact"
   }), (0,external_React_.createElement)(external_wp_components_namespaceObject.ToolbarItem, {
     as: undo_redo_redo,
     showTooltip: !showIconLabels,
-    variant: showIconLabels ? 'tertiary' : undefined
+    variant: showIconLabels ? 'tertiary' : undefined,
+    size: "compact"
   }), !isDistractionFree && (0,external_React_.createElement)(external_wp_components_namespaceObject.ToolbarItem, {
     as: external_wp_components_namespaceObject.Button,
     className: "edit-site-header-edit-mode__list-view-toggle",
@@ -34039,7 +34431,8 @@ function DocumentTools({
     shortcut: listViewShortcut,
     showTooltip: !showIconLabels,
     variant: showIconLabels ? 'tertiary' : undefined,
-    "aria-expanded": isListViewOpen
+    "aria-expanded": isListViewOpen,
+    size: "compact"
   }), isZoomedOutViewExperimentEnabled && !isDistractionFree && !hasFixedToolbar && (0,external_React_.createElement)(external_wp_components_namespaceObject.ToolbarItem, {
     as: external_wp_components_namespaceObject.Button,
     className: "edit-site-header-edit-mode__zoom-out-view-toggle",
@@ -34048,9 +34441,10 @@ function DocumentTools({
     /* translators: button label text should, if possible, be under 16 characters. */,
     label: (0,external_wp_i18n_namespaceObject.__)('Zoom-out View'),
     onClick: () => {
-      setPreviewDeviceType('Desktop');
+      setDeviceType('Desktop');
       __unstableSetEditorMode(isZoomedOutView ? 'edit' : 'zoom-out');
-    }
+    },
+    size: "compact"
   }))));
 }
 
@@ -34085,46 +34479,40 @@ function DocumentTools({
 
 
 
-
 const {
-  BlockContextualToolbar
-} = unlock(external_wp_blockEditor_namespaceObject.privateApis);
+  PreviewDropdown
+} = unlock(external_wp_editor_namespaceObject.privateApis);
 function HeaderEditMode({
   setListViewToggleElement
 }) {
   const {
-    deviceType,
     templateType,
     isDistractionFree,
     blockEditorMode,
     blockSelectionStart,
-    homeUrl,
     showIconLabels,
     editorCanvasView,
     hasFixedToolbar,
     isZoomOutMode
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
-      __experimentalGetPreviewDeviceType,
       getEditedPostType
     } = select(store_store);
     const {
       getBlockSelectionStart,
       __unstableGetEditorMode
     } = select(external_wp_blockEditor_namespaceObject.store);
-    const postType = getEditedPostType();
-    const {
-      getUnstableBase // Site index.
-    } = select(external_wp_coreData_namespaceObject.store);
     const {
       get: getPreference
     } = select(external_wp_preferences_namespaceObject.store);
+    const {
+      getDeviceType
+    } = select(external_wp_editor_namespaceObject.store);
     return {
-      deviceType: __experimentalGetPreviewDeviceType(),
-      templateType: postType,
+      deviceType: getDeviceType(),
+      templateType: getEditedPostType(),
       blockEditorMode: __unstableGetEditorMode(),
       blockSelectionStart: getBlockSelectionStart(),
-      homeUrl: getUnstableBase()?.home,
       showIconLabels: getPreference(store_store.name, 'showIconLabels'),
       editorCanvasView: unlock(select(store_store)).getEditorCanvasContainerView(),
       hasFixedToolbar: getPreference(store_store.name, 'fixedToolbar'),
@@ -34135,9 +34523,6 @@ function HeaderEditMode({
   const isLargeViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium');
   const isTopToolbar = !isZoomOutMode && hasFixedToolbar && isLargeViewport;
   const blockToolbarRef = (0,external_wp_element_namespaceObject.useRef)();
-  const {
-    __experimentalSetPreviewDeviceType: setPreviewDeviceType
-  } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
   const disableMotion = (0,external_wp_compose_namespaceObject.useReducedMotion)();
   const hasDefaultEditorCanvasView = !useHasEditorCanvasContainer();
   const isFocusMode = FOCUSABLE_ENTITIES.includes(templateType);
@@ -34186,8 +34571,8 @@ function HeaderEditMode({
     className: classnames_default()('selected-block-tools-wrapper', {
       'is-collapsed': isBlockToolsCollapsed
     })
-  }, (0,external_React_.createElement)(BlockContextualToolbar, {
-    isFixed: true
+  }, (0,external_React_.createElement)(external_wp_blockEditor_namespaceObject.BlockToolbar, {
+    hideDragHandle: true
   })), (0,external_React_.createElement)(external_wp_components_namespaceObject.Popover.Slot, {
     ref: blockToolbarRef,
     name: "block-toolbar"
@@ -34202,33 +34587,20 @@ function HeaderEditMode({
     className: classnames_default()('edit-site-header-edit-mode__center', {
       'is-collapsed': !isBlockToolsCollapsed && isLargeViewport
     })
-  }, !hasDefaultEditorCanvasView ? getEditorCanvasContainerTitle(editorCanvasView) : (0,external_React_.createElement)(DocumentActions, null)), (0,external_React_.createElement)("div", {
+  }, !hasDefaultEditorCanvasView ? getEditorCanvasContainerTitle(editorCanvasView) : (0,external_React_.createElement)(external_wp_editor_namespaceObject.DocumentBar, null)), (0,external_React_.createElement)("div", {
     className: "edit-site-header-edit-mode__end"
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__unstableMotion.div, {
     className: "edit-site-header-edit-mode__actions",
     variants: toolbarVariants,
     transition: toolbarTransition
-  }, (0,external_React_.createElement)("div", {
+  }, isLargeViewport && (0,external_React_.createElement)("div", {
     className: classnames_default()('edit-site-header-edit-mode__preview-options', {
       'is-zoomed-out': isZoomedOutView
     })
-  }, (0,external_React_.createElement)(external_wp_blockEditor_namespaceObject.__experimentalPreviewOptions, {
-    deviceType: deviceType,
-    setDeviceType: setPreviewDeviceType,
-    label: (0,external_wp_i18n_namespaceObject.__)('View'),
-    isEnabled: !isFocusMode && hasDefaultEditorCanvasView,
-    showIconLabels: showIconLabels
-  }, ({
-    onClose
-  }) => (0,external_React_.createElement)(external_wp_components_namespaceObject.MenuGroup, null, (0,external_React_.createElement)(external_wp_components_namespaceObject.MenuItem, {
-    href: homeUrl,
-    target: "_blank",
-    icon: library_external,
-    onClick: onClose
-  }, (0,external_wp_i18n_namespaceObject.__)('View site'), (0,external_React_.createElement)(external_wp_components_namespaceObject.VisuallyHidden, {
-    as: "span"
-  }, /* translators: accessibility text */
-  (0,external_wp_i18n_namespaceObject.__)('(opens in a new tab)')))))), (0,external_React_.createElement)(SaveButton, null), !isDistractionFree && (0,external_React_.createElement)(pinned_items.Slot, {
+  }, (0,external_React_.createElement)(PreviewDropdown, {
+    showIconLabels: showIconLabels,
+    disabled: isFocusMode || !hasDefaultEditorCanvasView
+  })), (0,external_React_.createElement)(SaveButton, null), !isDistractionFree && (0,external_React_.createElement)(pinned_items.Slot, {
     scope: "core/edit-site"
   }), (0,external_React_.createElement)(MoreMenu, {
     showIconLabels: showIconLabels
@@ -34322,6 +34694,7 @@ function SiteIcon({
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -34359,12 +34732,14 @@ const SiteHub = (0,external_wp_element_namespaceObject.memo)(({
   } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_commands_namespaceObject.store);
   const disableMotion = (0,external_wp_compose_namespaceObject.useReducedMotion)();
   const {
-    setCanvasMode,
-    __experimentalSetPreviewDeviceType: setPreviewDeviceType
+    setCanvasMode
   } = unlock((0,external_wp_data_namespaceObject.useDispatch)(store_store));
   const {
     clearSelectedBlock
   } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_blockEditor_namespaceObject.store);
+  const {
+    setDeviceType
+  } = (0,external_wp_data_namespaceObject.useDispatch)(external_wp_editor_namespaceObject.store);
   const isBackToDashboardButton = canvasMode === 'view';
   const siteIconButtonProps = isBackToDashboardButton ? {
     href: dashboardLink,
@@ -34378,7 +34753,7 @@ const SiteHub = (0,external_wp_element_namespaceObject.memo)(({
       event.preventDefault();
       if (canvasMode === 'edit') {
         clearSelectedBlock();
-        setPreviewDeviceType('Desktop');
+        setDeviceType('Desktop');
         setCanvasMode('view');
       }
     }
@@ -35428,7 +35803,15 @@ function useGlobalStylesOpenRevisionsCommands() {
   const isMobileViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium', '<');
   const isEditorPage = !getIsListPage(params, isMobileViewport);
   const history = use_common_commands_useHistory();
-  const hasRevisions = (0,external_wp_data_namespaceObject.useSelect)(select => select(external_wp_coreData_namespaceObject.store).getCurrentThemeGlobalStylesRevisions()?.length, []);
+  const hasRevisions = (0,external_wp_data_namespaceObject.useSelect)(select => {
+    const {
+      getEntityRecord,
+      __experimentalGetCurrentGlobalStylesId
+    } = select(external_wp_coreData_namespaceObject.store);
+    const globalStylesId = __experimentalGetCurrentGlobalStylesId();
+    const globalStyles = globalStylesId ? getEntityRecord('root', 'globalStyles', globalStylesId) : undefined;
+    return !!globalStyles?._links?.['version-history']?.[0]?.count;
+  }, []);
   const commands = (0,external_wp_element_namespaceObject.useMemo)(() => {
     if (!hasRevisions) {
       return [];
@@ -35993,7 +36376,8 @@ function Header({
     className: "edit-site-page-header__page-title"
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHeading, {
     as: "h2",
-    level: 4,
+    level: 3,
+    weight: 500,
     className: "edit-site-page-header__title"
   }, title), subTitle && (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalText, {
     as: "p",
@@ -36253,6 +36637,35 @@ function PatternsHeader({
   }, description) : null);
 }
 
+;// CONCATENATED MODULE: ./packages/icons/build-module/library/header.js
+
+/**
+ * WordPress dependencies
+ */
+
+const header_header = (0,external_React_.createElement)(external_wp_primitives_namespaceObject.SVG, {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
+  d: "M18.5 10.5H10v8h8a.5.5 0 00.5-.5v-7.5zm-10 0h-3V18a.5.5 0 00.5.5h2.5v-8zM6 4h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2z"
+}));
+/* harmony default export */ var library_header = (header_header);
+
+;// CONCATENATED MODULE: ./packages/icons/build-module/library/footer.js
+
+/**
+ * WordPress dependencies
+ */
+
+const footer = (0,external_React_.createElement)(external_wp_primitives_namespaceObject.SVG, {
+  xmlns: "http://www.w3.org/2000/svg",
+  viewBox: "0 0 24 24"
+}, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
+  fillRule: "evenodd",
+  d: "M18 5.5h-8v8h8.5V6a.5.5 0 00-.5-.5zm-9.5 8h-3V6a.5.5 0 01.5-.5h2.5v8zM6 4h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2z"
+}));
+/* harmony default export */ var library_footer = (footer);
+
 ;// CONCATENATED MODULE: ./packages/icons/build-module/library/lock-small.js
 
 /**
@@ -36349,6 +36762,7 @@ function rename_menu_item_RenameMenuItem({
     spacing: "5"
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.TextControl, {
     __nextHasNoMarginBottom: true,
+    __next40pxDefaultSize: true,
     label: (0,external_wp_i18n_namespaceObject.__)('Name'),
     value: title,
     onChange: setTitle,
@@ -36356,12 +36770,14 @@ function rename_menu_item_RenameMenuItem({
   }), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
     justify: "right"
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
+    __next40pxDefaultSize: true,
     variant: "tertiary",
     onClick: () => {
       setIsModalOpen(false);
       onClose();
     }
   }, (0,external_wp_i18n_namespaceObject.__)('Cancel')), (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
+    __next40pxDefaultSize: true,
     variant: "primary",
     type: "submit"
   }, (0,external_wp_i18n_namespaceObject.__)('Save')))))));
@@ -36787,7 +37203,6 @@ function Pagination({
 
 
 
-
 const {
   useLocation: patterns_list_useLocation,
   useHistory: patterns_list_useHistory
@@ -36810,7 +37225,7 @@ function PatternsList({
   const location = patterns_list_useLocation();
   const history = patterns_list_useHistory();
   const isMobileViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium', '<');
-  const [filterValue, setFilterValue, delayedFilterValue] = useDebouncedInput('');
+  const [filterValue, setFilterValue, delayedFilterValue] = (0,external_wp_compose_namespaceObject.useDebouncedInput)('');
   const deferredFilterValue = (0,external_wp_element_namespaceObject.useDeferredValue)(delayedFilterValue);
   const [syncFilter, setSyncFilter] = (0,external_wp_element_namespaceObject.useState)('all');
   const [currentPage, setCurrentPage] = (0,external_wp_element_namespaceObject.useState)(1);
@@ -37236,4441 +37651,7 @@ function PageTemplates() {
   }));
 }
 
-;// CONCATENATED MODULE: ./node_modules/@tanstack/table-core/build/lib/index.mjs
-/**
- * table-core
- *
- * Copyright (c) TanStack
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.md file in the root directory of this source tree.
- *
- * @license MIT
- */
-// Is this type a tuple?
-
-// If this type is a tuple, what indices are allowed?
-
-///
-
-function functionalUpdate(updater, input) {
-  return typeof updater === 'function' ? updater(input) : updater;
-}
-function lib_noop() {
-  //
-}
-function makeStateUpdater(key, instance) {
-  return updater => {
-    instance.setState(old => {
-      return {
-        ...old,
-        [key]: functionalUpdate(updater, old[key])
-      };
-    });
-  };
-}
-function isFunction(d) {
-  return d instanceof Function;
-}
-function isNumberArray(d) {
-  return Array.isArray(d) && d.every(val => typeof val === 'number');
-}
-function flattenBy(arr, getChildren) {
-  const flat = [];
-  const recurse = subArr => {
-    subArr.forEach(item => {
-      flat.push(item);
-      const children = getChildren(item);
-      if (children != null && children.length) {
-        recurse(children);
-      }
-    });
-  };
-  recurse(arr);
-  return flat;
-}
-function memo(getDeps, fn, opts) {
-  let deps = [];
-  let result;
-  return () => {
-    let depTime;
-    if (opts.key && opts.debug) depTime = Date.now();
-    const newDeps = getDeps();
-    const depsChanged = newDeps.length !== deps.length || newDeps.some((dep, index) => deps[index] !== dep);
-    if (!depsChanged) {
-      return result;
-    }
-    deps = newDeps;
-    let resultTime;
-    if (opts.key && opts.debug) resultTime = Date.now();
-    result = fn(...newDeps);
-    opts == null || opts.onChange == null || opts.onChange(result);
-    if (opts.key && opts.debug) {
-      if (opts != null && opts.debug()) {
-        const depEndTime = Math.round((Date.now() - depTime) * 100) / 100;
-        const resultEndTime = Math.round((Date.now() - resultTime) * 100) / 100;
-        const resultFpsPercentage = resultEndTime / 16;
-        const pad = (str, num) => {
-          str = String(str);
-          while (str.length < num) {
-            str = ' ' + str;
-          }
-          return str;
-        };
-        console.info(`%c⏱ ${pad(resultEndTime, 5)} /${pad(depEndTime, 5)} ms`, `
-            font-size: .6rem;
-            font-weight: bold;
-            color: hsl(${Math.max(0, Math.min(120 - 120 * resultFpsPercentage, 120))}deg 100% 31%);`, opts == null ? void 0 : opts.key);
-      }
-    }
-    return result;
-  };
-}
-
-function createColumn(table, columnDef, depth, parent) {
-  var _ref, _resolvedColumnDef$id;
-  const defaultColumn = table._getDefaultColumnDef();
-  const resolvedColumnDef = {
-    ...defaultColumn,
-    ...columnDef
-  };
-  const accessorKey = resolvedColumnDef.accessorKey;
-  let id = (_ref = (_resolvedColumnDef$id = resolvedColumnDef.id) != null ? _resolvedColumnDef$id : accessorKey ? accessorKey.replace('.', '_') : undefined) != null ? _ref : typeof resolvedColumnDef.header === 'string' ? resolvedColumnDef.header : undefined;
-  let accessorFn;
-  if (resolvedColumnDef.accessorFn) {
-    accessorFn = resolvedColumnDef.accessorFn;
-  } else if (accessorKey) {
-    // Support deep accessor keys
-    if (accessorKey.includes('.')) {
-      accessorFn = originalRow => {
-        let result = originalRow;
-        for (const key of accessorKey.split('.')) {
-          var _result;
-          result = (_result = result) == null ? void 0 : _result[key];
-          if (false) {}
-        }
-        return result;
-      };
-    } else {
-      accessorFn = originalRow => originalRow[resolvedColumnDef.accessorKey];
-    }
-  }
-  if (!id) {
-    if (false) {}
-    throw new Error();
-  }
-  let column = {
-    id: `${String(id)}`,
-    accessorFn,
-    parent: parent,
-    depth,
-    columnDef: resolvedColumnDef,
-    columns: [],
-    getFlatColumns: memo(() => [true], () => {
-      var _column$columns;
-      return [column, ...((_column$columns = column.columns) == null ? void 0 : _column$columns.flatMap(d => d.getFlatColumns()))];
-    }, {
-      key:  true && 'column.getFlatColumns',
-      debug: () => {
-        var _table$options$debugA;
-        return (_table$options$debugA = table.options.debugAll) != null ? _table$options$debugA : table.options.debugColumns;
-      }
-    }),
-    getLeafColumns: memo(() => [table._getOrderColumnsFn()], orderColumns => {
-      var _column$columns2;
-      if ((_column$columns2 = column.columns) != null && _column$columns2.length) {
-        let leafColumns = column.columns.flatMap(column => column.getLeafColumns());
-        return orderColumns(leafColumns);
-      }
-      return [column];
-    }, {
-      key:  true && 'column.getLeafColumns',
-      debug: () => {
-        var _table$options$debugA2;
-        return (_table$options$debugA2 = table.options.debugAll) != null ? _table$options$debugA2 : table.options.debugColumns;
-      }
-    })
-  };
-  for (const feature of table._features) {
-    feature.createColumn == null || feature.createColumn(column, table);
-  }
-
-  // Yes, we have to convert table to uknown, because we know more than the compiler here.
-  return column;
-}
-
-//
-
-function createHeader(table, column, options) {
-  var _options$id;
-  const id = (_options$id = options.id) != null ? _options$id : column.id;
-  let header = {
-    id,
-    column,
-    index: options.index,
-    isPlaceholder: !!options.isPlaceholder,
-    placeholderId: options.placeholderId,
-    depth: options.depth,
-    subHeaders: [],
-    colSpan: 0,
-    rowSpan: 0,
-    headerGroup: null,
-    getLeafHeaders: () => {
-      const leafHeaders = [];
-      const recurseHeader = h => {
-        if (h.subHeaders && h.subHeaders.length) {
-          h.subHeaders.map(recurseHeader);
-        }
-        leafHeaders.push(h);
-      };
-      recurseHeader(header);
-      return leafHeaders;
-    },
-    getContext: () => ({
-      table,
-      header: header,
-      column
-    })
-  };
-  table._features.forEach(feature => {
-    feature.createHeader == null || feature.createHeader(header, table);
-  });
-  return header;
-}
-const Headers = {
-  createTable: table => {
-    // Header Groups
-
-    table.getHeaderGroups = memo(() => [table.getAllColumns(), table.getVisibleLeafColumns(), table.getState().columnPinning.left, table.getState().columnPinning.right], (allColumns, leafColumns, left, right) => {
-      var _left$map$filter, _right$map$filter;
-      const leftColumns = (_left$map$filter = left == null ? void 0 : left.map(columnId => leafColumns.find(d => d.id === columnId)).filter(Boolean)) != null ? _left$map$filter : [];
-      const rightColumns = (_right$map$filter = right == null ? void 0 : right.map(columnId => leafColumns.find(d => d.id === columnId)).filter(Boolean)) != null ? _right$map$filter : [];
-      const centerColumns = leafColumns.filter(column => !(left != null && left.includes(column.id)) && !(right != null && right.includes(column.id)));
-      const headerGroups = buildHeaderGroups(allColumns, [...leftColumns, ...centerColumns, ...rightColumns], table);
-      return headerGroups;
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA;
-        return (_table$options$debugA = table.options.debugAll) != null ? _table$options$debugA : table.options.debugHeaders;
-      }
-    });
-    table.getCenterHeaderGroups = memo(() => [table.getAllColumns(), table.getVisibleLeafColumns(), table.getState().columnPinning.left, table.getState().columnPinning.right], (allColumns, leafColumns, left, right) => {
-      leafColumns = leafColumns.filter(column => !(left != null && left.includes(column.id)) && !(right != null && right.includes(column.id)));
-      return buildHeaderGroups(allColumns, leafColumns, table, 'center');
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA2;
-        return (_table$options$debugA2 = table.options.debugAll) != null ? _table$options$debugA2 : table.options.debugHeaders;
-      }
-    });
-    table.getLeftHeaderGroups = memo(() => [table.getAllColumns(), table.getVisibleLeafColumns(), table.getState().columnPinning.left], (allColumns, leafColumns, left) => {
-      var _left$map$filter2;
-      const orderedLeafColumns = (_left$map$filter2 = left == null ? void 0 : left.map(columnId => leafColumns.find(d => d.id === columnId)).filter(Boolean)) != null ? _left$map$filter2 : [];
-      return buildHeaderGroups(allColumns, orderedLeafColumns, table, 'left');
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA3;
-        return (_table$options$debugA3 = table.options.debugAll) != null ? _table$options$debugA3 : table.options.debugHeaders;
-      }
-    });
-    table.getRightHeaderGroups = memo(() => [table.getAllColumns(), table.getVisibleLeafColumns(), table.getState().columnPinning.right], (allColumns, leafColumns, right) => {
-      var _right$map$filter2;
-      const orderedLeafColumns = (_right$map$filter2 = right == null ? void 0 : right.map(columnId => leafColumns.find(d => d.id === columnId)).filter(Boolean)) != null ? _right$map$filter2 : [];
-      return buildHeaderGroups(allColumns, orderedLeafColumns, table, 'right');
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA4;
-        return (_table$options$debugA4 = table.options.debugAll) != null ? _table$options$debugA4 : table.options.debugHeaders;
-      }
-    });
-
-    // Footer Groups
-
-    table.getFooterGroups = memo(() => [table.getHeaderGroups()], headerGroups => {
-      return [...headerGroups].reverse();
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA5;
-        return (_table$options$debugA5 = table.options.debugAll) != null ? _table$options$debugA5 : table.options.debugHeaders;
-      }
-    });
-    table.getLeftFooterGroups = memo(() => [table.getLeftHeaderGroups()], headerGroups => {
-      return [...headerGroups].reverse();
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA6;
-        return (_table$options$debugA6 = table.options.debugAll) != null ? _table$options$debugA6 : table.options.debugHeaders;
-      }
-    });
-    table.getCenterFooterGroups = memo(() => [table.getCenterHeaderGroups()], headerGroups => {
-      return [...headerGroups].reverse();
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA7;
-        return (_table$options$debugA7 = table.options.debugAll) != null ? _table$options$debugA7 : table.options.debugHeaders;
-      }
-    });
-    table.getRightFooterGroups = memo(() => [table.getRightHeaderGroups()], headerGroups => {
-      return [...headerGroups].reverse();
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA8;
-        return (_table$options$debugA8 = table.options.debugAll) != null ? _table$options$debugA8 : table.options.debugHeaders;
-      }
-    });
-
-    // Flat Headers
-
-    table.getFlatHeaders = memo(() => [table.getHeaderGroups()], headerGroups => {
-      return headerGroups.map(headerGroup => {
-        return headerGroup.headers;
-      }).flat();
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA9;
-        return (_table$options$debugA9 = table.options.debugAll) != null ? _table$options$debugA9 : table.options.debugHeaders;
-      }
-    });
-    table.getLeftFlatHeaders = memo(() => [table.getLeftHeaderGroups()], left => {
-      return left.map(headerGroup => {
-        return headerGroup.headers;
-      }).flat();
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA10;
-        return (_table$options$debugA10 = table.options.debugAll) != null ? _table$options$debugA10 : table.options.debugHeaders;
-      }
-    });
-    table.getCenterFlatHeaders = memo(() => [table.getCenterHeaderGroups()], left => {
-      return left.map(headerGroup => {
-        return headerGroup.headers;
-      }).flat();
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA11;
-        return (_table$options$debugA11 = table.options.debugAll) != null ? _table$options$debugA11 : table.options.debugHeaders;
-      }
-    });
-    table.getRightFlatHeaders = memo(() => [table.getRightHeaderGroups()], left => {
-      return left.map(headerGroup => {
-        return headerGroup.headers;
-      }).flat();
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA12;
-        return (_table$options$debugA12 = table.options.debugAll) != null ? _table$options$debugA12 : table.options.debugHeaders;
-      }
-    });
-
-    // Leaf Headers
-
-    table.getCenterLeafHeaders = memo(() => [table.getCenterFlatHeaders()], flatHeaders => {
-      return flatHeaders.filter(header => {
-        var _header$subHeaders;
-        return !((_header$subHeaders = header.subHeaders) != null && _header$subHeaders.length);
-      });
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA13;
-        return (_table$options$debugA13 = table.options.debugAll) != null ? _table$options$debugA13 : table.options.debugHeaders;
-      }
-    });
-    table.getLeftLeafHeaders = memo(() => [table.getLeftFlatHeaders()], flatHeaders => {
-      return flatHeaders.filter(header => {
-        var _header$subHeaders2;
-        return !((_header$subHeaders2 = header.subHeaders) != null && _header$subHeaders2.length);
-      });
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA14;
-        return (_table$options$debugA14 = table.options.debugAll) != null ? _table$options$debugA14 : table.options.debugHeaders;
-      }
-    });
-    table.getRightLeafHeaders = memo(() => [table.getRightFlatHeaders()], flatHeaders => {
-      return flatHeaders.filter(header => {
-        var _header$subHeaders3;
-        return !((_header$subHeaders3 = header.subHeaders) != null && _header$subHeaders3.length);
-      });
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA15;
-        return (_table$options$debugA15 = table.options.debugAll) != null ? _table$options$debugA15 : table.options.debugHeaders;
-      }
-    });
-    table.getLeafHeaders = memo(() => [table.getLeftHeaderGroups(), table.getCenterHeaderGroups(), table.getRightHeaderGroups()], (left, center, right) => {
-      var _left$0$headers, _left$, _center$0$headers, _center$, _right$0$headers, _right$;
-      return [...((_left$0$headers = (_left$ = left[0]) == null ? void 0 : _left$.headers) != null ? _left$0$headers : []), ...((_center$0$headers = (_center$ = center[0]) == null ? void 0 : _center$.headers) != null ? _center$0$headers : []), ...((_right$0$headers = (_right$ = right[0]) == null ? void 0 : _right$.headers) != null ? _right$0$headers : [])].map(header => {
-        return header.getLeafHeaders();
-      }).flat();
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA16;
-        return (_table$options$debugA16 = table.options.debugAll) != null ? _table$options$debugA16 : table.options.debugHeaders;
-      }
-    });
-  }
-};
-function buildHeaderGroups(allColumns, columnsToGroup, table, headerFamily) {
-  var _headerGroups$0$heade, _headerGroups$;
-  // Find the max depth of the columns:
-  // build the leaf column row
-  // build each buffer row going up
-  //    placeholder for non-existent level
-  //    real column for existing level
-
-  let maxDepth = 0;
-  const findMaxDepth = function (columns, depth) {
-    if (depth === void 0) {
-      depth = 1;
-    }
-    maxDepth = Math.max(maxDepth, depth);
-    columns.filter(column => column.getIsVisible()).forEach(column => {
-      var _column$columns;
-      if ((_column$columns = column.columns) != null && _column$columns.length) {
-        findMaxDepth(column.columns, depth + 1);
-      }
-    }, 0);
-  };
-  findMaxDepth(allColumns);
-  let headerGroups = [];
-  const createHeaderGroup = (headersToGroup, depth) => {
-    // The header group we are creating
-    const headerGroup = {
-      depth,
-      id: [headerFamily, `${depth}`].filter(Boolean).join('_'),
-      headers: []
-    };
-
-    // The parent columns we're going to scan next
-    const pendingParentHeaders = [];
-
-    // Scan each column for parents
-    headersToGroup.forEach(headerToGroup => {
-      // What is the latest (last) parent column?
-
-      const latestPendingParentHeader = [...pendingParentHeaders].reverse()[0];
-      const isLeafHeader = headerToGroup.column.depth === headerGroup.depth;
-      let column;
-      let isPlaceholder = false;
-      if (isLeafHeader && headerToGroup.column.parent) {
-        // The parent header is new
-        column = headerToGroup.column.parent;
-      } else {
-        // The parent header is repeated
-        column = headerToGroup.column;
-        isPlaceholder = true;
-      }
-      if (latestPendingParentHeader && (latestPendingParentHeader == null ? void 0 : latestPendingParentHeader.column) === column) {
-        // This column is repeated. Add it as a sub header to the next batch
-        latestPendingParentHeader.subHeaders.push(headerToGroup);
-      } else {
-        // This is a new header. Let's create it
-        const header = createHeader(table, column, {
-          id: [headerFamily, depth, column.id, headerToGroup == null ? void 0 : headerToGroup.id].filter(Boolean).join('_'),
-          isPlaceholder,
-          placeholderId: isPlaceholder ? `${pendingParentHeaders.filter(d => d.column === column).length}` : undefined,
-          depth,
-          index: pendingParentHeaders.length
-        });
-
-        // Add the headerToGroup as a subHeader of the new header
-        header.subHeaders.push(headerToGroup);
-        // Add the new header to the pendingParentHeaders to get grouped
-        // in the next batch
-        pendingParentHeaders.push(header);
-      }
-      headerGroup.headers.push(headerToGroup);
-      headerToGroup.headerGroup = headerGroup;
-    });
-    headerGroups.push(headerGroup);
-    if (depth > 0) {
-      createHeaderGroup(pendingParentHeaders, depth - 1);
-    }
-  };
-  const bottomHeaders = columnsToGroup.map((column, index) => createHeader(table, column, {
-    depth: maxDepth,
-    index
-  }));
-  createHeaderGroup(bottomHeaders, maxDepth - 1);
-  headerGroups.reverse();
-
-  // headerGroups = headerGroups.filter(headerGroup => {
-  //   return !headerGroup.headers.every(header => header.isPlaceholder)
-  // })
-
-  const recurseHeadersForSpans = headers => {
-    const filteredHeaders = headers.filter(header => header.column.getIsVisible());
-    return filteredHeaders.map(header => {
-      let colSpan = 0;
-      let rowSpan = 0;
-      let childRowSpans = [0];
-      if (header.subHeaders && header.subHeaders.length) {
-        childRowSpans = [];
-        recurseHeadersForSpans(header.subHeaders).forEach(_ref => {
-          let {
-            colSpan: childColSpan,
-            rowSpan: childRowSpan
-          } = _ref;
-          colSpan += childColSpan;
-          childRowSpans.push(childRowSpan);
-        });
-      } else {
-        colSpan = 1;
-      }
-      const minChildRowSpan = Math.min(...childRowSpans);
-      rowSpan = rowSpan + minChildRowSpan;
-      header.colSpan = colSpan;
-      header.rowSpan = rowSpan;
-      return {
-        colSpan,
-        rowSpan
-      };
-    });
-  };
-  recurseHeadersForSpans((_headerGroups$0$heade = (_headerGroups$ = headerGroups[0]) == null ? void 0 : _headerGroups$.headers) != null ? _headerGroups$0$heade : []);
-  return headerGroups;
-}
-
-//
-
-//
-
-const defaultColumnSizing = {
-  size: 150,
-  minSize: 20,
-  maxSize: Number.MAX_SAFE_INTEGER
-};
-const getDefaultColumnSizingInfoState = () => ({
-  startOffset: null,
-  startSize: null,
-  deltaOffset: null,
-  deltaPercentage: null,
-  isResizingColumn: false,
-  columnSizingStart: []
-});
-const ColumnSizing = {
-  getDefaultColumnDef: () => {
-    return defaultColumnSizing;
-  },
-  getInitialState: state => {
-    return {
-      columnSizing: {},
-      columnSizingInfo: getDefaultColumnSizingInfoState(),
-      ...state
-    };
-  },
-  getDefaultOptions: table => {
-    return {
-      columnResizeMode: 'onEnd',
-      onColumnSizingChange: makeStateUpdater('columnSizing', table),
-      onColumnSizingInfoChange: makeStateUpdater('columnSizingInfo', table)
-    };
-  },
-  createColumn: (column, table) => {
-    column.getSize = () => {
-      var _column$columnDef$min, _ref, _column$columnDef$max;
-      const columnSize = table.getState().columnSizing[column.id];
-      return Math.min(Math.max((_column$columnDef$min = column.columnDef.minSize) != null ? _column$columnDef$min : defaultColumnSizing.minSize, (_ref = columnSize != null ? columnSize : column.columnDef.size) != null ? _ref : defaultColumnSizing.size), (_column$columnDef$max = column.columnDef.maxSize) != null ? _column$columnDef$max : defaultColumnSizing.maxSize);
-    };
-    column.getStart = position => {
-      const columns = !position ? table.getVisibleLeafColumns() : position === 'left' ? table.getLeftVisibleLeafColumns() : table.getRightVisibleLeafColumns();
-      const index = columns.findIndex(d => d.id === column.id);
-      if (index > 0) {
-        const prevSiblingColumn = columns[index - 1];
-        return prevSiblingColumn.getStart(position) + prevSiblingColumn.getSize();
-      }
-      return 0;
-    };
-    column.resetSize = () => {
-      table.setColumnSizing(_ref2 => {
-        let {
-          [column.id]: _,
-          ...rest
-        } = _ref2;
-        return rest;
-      });
-    };
-    column.getCanResize = () => {
-      var _column$columnDef$ena, _table$options$enable;
-      return ((_column$columnDef$ena = column.columnDef.enableResizing) != null ? _column$columnDef$ena : true) && ((_table$options$enable = table.options.enableColumnResizing) != null ? _table$options$enable : true);
-    };
-    column.getIsResizing = () => {
-      return table.getState().columnSizingInfo.isResizingColumn === column.id;
-    };
-  },
-  createHeader: (header, table) => {
-    header.getSize = () => {
-      let sum = 0;
-      const recurse = header => {
-        if (header.subHeaders.length) {
-          header.subHeaders.forEach(recurse);
-        } else {
-          var _header$column$getSiz;
-          sum += (_header$column$getSiz = header.column.getSize()) != null ? _header$column$getSiz : 0;
-        }
-      };
-      recurse(header);
-      return sum;
-    };
-    header.getStart = () => {
-      if (header.index > 0) {
-        const prevSiblingHeader = header.headerGroup.headers[header.index - 1];
-        return prevSiblingHeader.getStart() + prevSiblingHeader.getSize();
-      }
-      return 0;
-    };
-    header.getResizeHandler = () => {
-      const column = table.getColumn(header.column.id);
-      const canResize = column == null ? void 0 : column.getCanResize();
-      return e => {
-        if (!column || !canResize) {
-          return;
-        }
-        e.persist == null || e.persist();
-        if (isTouchStartEvent(e)) {
-          // lets not respond to multiple touches (e.g. 2 or 3 fingers)
-          if (e.touches && e.touches.length > 1) {
-            return;
-          }
-        }
-        const startSize = header.getSize();
-        const columnSizingStart = header ? header.getLeafHeaders().map(d => [d.column.id, d.column.getSize()]) : [[column.id, column.getSize()]];
-        const clientX = isTouchStartEvent(e) ? Math.round(e.touches[0].clientX) : e.clientX;
-        const newColumnSizing = {};
-        const updateOffset = (eventType, clientXPos) => {
-          if (typeof clientXPos !== 'number') {
-            return;
-          }
-          table.setColumnSizingInfo(old => {
-            var _old$startOffset, _old$startSize;
-            const deltaOffset = clientXPos - ((_old$startOffset = old == null ? void 0 : old.startOffset) != null ? _old$startOffset : 0);
-            const deltaPercentage = Math.max(deltaOffset / ((_old$startSize = old == null ? void 0 : old.startSize) != null ? _old$startSize : 0), -0.999999);
-            old.columnSizingStart.forEach(_ref3 => {
-              let [columnId, headerSize] = _ref3;
-              newColumnSizing[columnId] = Math.round(Math.max(headerSize + headerSize * deltaPercentage, 0) * 100) / 100;
-            });
-            return {
-              ...old,
-              deltaOffset,
-              deltaPercentage
-            };
-          });
-          if (table.options.columnResizeMode === 'onChange' || eventType === 'end') {
-            table.setColumnSizing(old => ({
-              ...old,
-              ...newColumnSizing
-            }));
-          }
-        };
-        const onMove = clientXPos => updateOffset('move', clientXPos);
-        const onEnd = clientXPos => {
-          updateOffset('end', clientXPos);
-          table.setColumnSizingInfo(old => ({
-            ...old,
-            isResizingColumn: false,
-            startOffset: null,
-            startSize: null,
-            deltaOffset: null,
-            deltaPercentage: null,
-            columnSizingStart: []
-          }));
-        };
-        const mouseEvents = {
-          moveHandler: e => onMove(e.clientX),
-          upHandler: e => {
-            document.removeEventListener('mousemove', mouseEvents.moveHandler);
-            document.removeEventListener('mouseup', mouseEvents.upHandler);
-            onEnd(e.clientX);
-          }
-        };
-        const touchEvents = {
-          moveHandler: e => {
-            if (e.cancelable) {
-              e.preventDefault();
-              e.stopPropagation();
-            }
-            onMove(e.touches[0].clientX);
-            return false;
-          },
-          upHandler: e => {
-            var _e$touches$;
-            document.removeEventListener('touchmove', touchEvents.moveHandler);
-            document.removeEventListener('touchend', touchEvents.upHandler);
-            if (e.cancelable) {
-              e.preventDefault();
-              e.stopPropagation();
-            }
-            onEnd((_e$touches$ = e.touches[0]) == null ? void 0 : _e$touches$.clientX);
-          }
-        };
-        const passiveIfSupported = passiveEventSupported() ? {
-          passive: false
-        } : false;
-        if (isTouchStartEvent(e)) {
-          document.addEventListener('touchmove', touchEvents.moveHandler, passiveIfSupported);
-          document.addEventListener('touchend', touchEvents.upHandler, passiveIfSupported);
-        } else {
-          document.addEventListener('mousemove', mouseEvents.moveHandler, passiveIfSupported);
-          document.addEventListener('mouseup', mouseEvents.upHandler, passiveIfSupported);
-        }
-        table.setColumnSizingInfo(old => ({
-          ...old,
-          startOffset: clientX,
-          startSize,
-          deltaOffset: 0,
-          deltaPercentage: 0,
-          columnSizingStart,
-          isResizingColumn: column.id
-        }));
-      };
-    };
-  },
-  createTable: table => {
-    table.setColumnSizing = updater => table.options.onColumnSizingChange == null ? void 0 : table.options.onColumnSizingChange(updater);
-    table.setColumnSizingInfo = updater => table.options.onColumnSizingInfoChange == null ? void 0 : table.options.onColumnSizingInfoChange(updater);
-    table.resetColumnSizing = defaultState => {
-      var _table$initialState$c;
-      table.setColumnSizing(defaultState ? {} : (_table$initialState$c = table.initialState.columnSizing) != null ? _table$initialState$c : {});
-    };
-    table.resetHeaderSizeInfo = defaultState => {
-      var _table$initialState$c2;
-      table.setColumnSizingInfo(defaultState ? getDefaultColumnSizingInfoState() : (_table$initialState$c2 = table.initialState.columnSizingInfo) != null ? _table$initialState$c2 : getDefaultColumnSizingInfoState());
-    };
-    table.getTotalSize = () => {
-      var _table$getHeaderGroup, _table$getHeaderGroup2;
-      return (_table$getHeaderGroup = (_table$getHeaderGroup2 = table.getHeaderGroups()[0]) == null ? void 0 : _table$getHeaderGroup2.headers.reduce((sum, header) => {
-        return sum + header.getSize();
-      }, 0)) != null ? _table$getHeaderGroup : 0;
-    };
-    table.getLeftTotalSize = () => {
-      var _table$getLeftHeaderG, _table$getLeftHeaderG2;
-      return (_table$getLeftHeaderG = (_table$getLeftHeaderG2 = table.getLeftHeaderGroups()[0]) == null ? void 0 : _table$getLeftHeaderG2.headers.reduce((sum, header) => {
-        return sum + header.getSize();
-      }, 0)) != null ? _table$getLeftHeaderG : 0;
-    };
-    table.getCenterTotalSize = () => {
-      var _table$getCenterHeade, _table$getCenterHeade2;
-      return (_table$getCenterHeade = (_table$getCenterHeade2 = table.getCenterHeaderGroups()[0]) == null ? void 0 : _table$getCenterHeade2.headers.reduce((sum, header) => {
-        return sum + header.getSize();
-      }, 0)) != null ? _table$getCenterHeade : 0;
-    };
-    table.getRightTotalSize = () => {
-      var _table$getRightHeader, _table$getRightHeader2;
-      return (_table$getRightHeader = (_table$getRightHeader2 = table.getRightHeaderGroups()[0]) == null ? void 0 : _table$getRightHeader2.headers.reduce((sum, header) => {
-        return sum + header.getSize();
-      }, 0)) != null ? _table$getRightHeader : 0;
-    };
-  }
-};
-let passiveSupported = null;
-function passiveEventSupported() {
-  if (typeof passiveSupported === 'boolean') return passiveSupported;
-  let supported = false;
-  try {
-    const options = {
-      get passive() {
-        supported = true;
-        return false;
-      }
-    };
-    const noop = () => {};
-    window.addEventListener('test', noop, options);
-    window.removeEventListener('test', noop);
-  } catch (err) {
-    supported = false;
-  }
-  passiveSupported = supported;
-  return passiveSupported;
-}
-function isTouchStartEvent(e) {
-  return e.type === 'touchstart';
-}
-
-//
-
-const Expanding = {
-  getInitialState: state => {
-    return {
-      expanded: {},
-      ...state
-    };
-  },
-  getDefaultOptions: table => {
-    return {
-      onExpandedChange: makeStateUpdater('expanded', table),
-      paginateExpandedRows: true
-    };
-  },
-  createTable: table => {
-    let registered = false;
-    let queued = false;
-    table._autoResetExpanded = () => {
-      var _ref, _table$options$autoRe;
-      if (!registered) {
-        table._queue(() => {
-          registered = true;
-        });
-        return;
-      }
-      if ((_ref = (_table$options$autoRe = table.options.autoResetAll) != null ? _table$options$autoRe : table.options.autoResetExpanded) != null ? _ref : !table.options.manualExpanding) {
-        if (queued) return;
-        queued = true;
-        table._queue(() => {
-          table.resetExpanded();
-          queued = false;
-        });
-      }
-    };
-    table.setExpanded = updater => table.options.onExpandedChange == null ? void 0 : table.options.onExpandedChange(updater);
-    table.toggleAllRowsExpanded = expanded => {
-      if (expanded != null ? expanded : !table.getIsAllRowsExpanded()) {
-        table.setExpanded(true);
-      } else {
-        table.setExpanded({});
-      }
-    };
-    table.resetExpanded = defaultState => {
-      var _table$initialState$e, _table$initialState;
-      table.setExpanded(defaultState ? {} : (_table$initialState$e = (_table$initialState = table.initialState) == null ? void 0 : _table$initialState.expanded) != null ? _table$initialState$e : {});
-    };
-    table.getCanSomeRowsExpand = () => {
-      return table.getPrePaginationRowModel().flatRows.some(row => row.getCanExpand());
-    };
-    table.getToggleAllRowsExpandedHandler = () => {
-      return e => {
-        e.persist == null || e.persist();
-        table.toggleAllRowsExpanded();
-      };
-    };
-    table.getIsSomeRowsExpanded = () => {
-      const expanded = table.getState().expanded;
-      return expanded === true || Object.values(expanded).some(Boolean);
-    };
-    table.getIsAllRowsExpanded = () => {
-      const expanded = table.getState().expanded;
-
-      // If expanded is true, save some cycles and return true
-      if (typeof expanded === 'boolean') {
-        return expanded === true;
-      }
-      if (!Object.keys(expanded).length) {
-        return false;
-      }
-
-      // If any row is not expanded, return false
-      if (table.getRowModel().flatRows.some(row => !row.getIsExpanded())) {
-        return false;
-      }
-
-      // They must all be expanded :shrug:
-      return true;
-    };
-    table.getExpandedDepth = () => {
-      let maxDepth = 0;
-      const rowIds = table.getState().expanded === true ? Object.keys(table.getRowModel().rowsById) : Object.keys(table.getState().expanded);
-      rowIds.forEach(id => {
-        const splitId = id.split('.');
-        maxDepth = Math.max(maxDepth, splitId.length);
-      });
-      return maxDepth;
-    };
-    table.getPreExpandedRowModel = () => table.getSortedRowModel();
-    table.getExpandedRowModel = () => {
-      if (!table._getExpandedRowModel && table.options.getExpandedRowModel) {
-        table._getExpandedRowModel = table.options.getExpandedRowModel(table);
-      }
-      if (table.options.manualExpanding || !table._getExpandedRowModel) {
-        return table.getPreExpandedRowModel();
-      }
-      return table._getExpandedRowModel();
-    };
-  },
-  createRow: (row, table) => {
-    row.toggleExpanded = expanded => {
-      table.setExpanded(old => {
-        var _expanded;
-        const exists = old === true ? true : !!(old != null && old[row.id]);
-        let oldExpanded = {};
-        if (old === true) {
-          Object.keys(table.getRowModel().rowsById).forEach(rowId => {
-            oldExpanded[rowId] = true;
-          });
-        } else {
-          oldExpanded = old;
-        }
-        expanded = (_expanded = expanded) != null ? _expanded : !exists;
-        if (!exists && expanded) {
-          return {
-            ...oldExpanded,
-            [row.id]: true
-          };
-        }
-        if (exists && !expanded) {
-          const {
-            [row.id]: _,
-            ...rest
-          } = oldExpanded;
-          return rest;
-        }
-        return old;
-      });
-    };
-    row.getIsExpanded = () => {
-      var _table$options$getIsR;
-      const expanded = table.getState().expanded;
-      return !!((_table$options$getIsR = table.options.getIsRowExpanded == null ? void 0 : table.options.getIsRowExpanded(row)) != null ? _table$options$getIsR : expanded === true || (expanded == null ? void 0 : expanded[row.id]));
-    };
-    row.getCanExpand = () => {
-      var _table$options$getRow, _table$options$enable, _row$subRows;
-      return (_table$options$getRow = table.options.getRowCanExpand == null ? void 0 : table.options.getRowCanExpand(row)) != null ? _table$options$getRow : ((_table$options$enable = table.options.enableExpanding) != null ? _table$options$enable : true) && !!((_row$subRows = row.subRows) != null && _row$subRows.length);
-    };
-    row.getIsAllParentsExpanded = () => {
-      let isFullyExpanded = true;
-      let currentRow = row;
-      while (isFullyExpanded && currentRow.parentId) {
-        currentRow = table.getRow(currentRow.parentId, true);
-        isFullyExpanded = currentRow.getIsExpanded();
-      }
-      return isFullyExpanded;
-    };
-    row.getToggleExpandedHandler = () => {
-      const canExpand = row.getCanExpand();
-      return () => {
-        if (!canExpand) return;
-        row.toggleExpanded();
-      };
-    };
-  }
-};
-
-const includesString = (row, columnId, filterValue) => {
-  var _row$getValue;
-  const search = filterValue.toLowerCase();
-  return Boolean((_row$getValue = row.getValue(columnId)) == null || (_row$getValue = _row$getValue.toString()) == null || (_row$getValue = _row$getValue.toLowerCase()) == null ? void 0 : _row$getValue.includes(search));
-};
-includesString.autoRemove = val => testFalsey(val);
-const includesStringSensitive = (row, columnId, filterValue) => {
-  var _row$getValue2;
-  return Boolean((_row$getValue2 = row.getValue(columnId)) == null || (_row$getValue2 = _row$getValue2.toString()) == null ? void 0 : _row$getValue2.includes(filterValue));
-};
-includesStringSensitive.autoRemove = val => testFalsey(val);
-const equalsString = (row, columnId, filterValue) => {
-  var _row$getValue3;
-  return ((_row$getValue3 = row.getValue(columnId)) == null || (_row$getValue3 = _row$getValue3.toString()) == null ? void 0 : _row$getValue3.toLowerCase()) === (filterValue == null ? void 0 : filterValue.toLowerCase());
-};
-equalsString.autoRemove = val => testFalsey(val);
-const arrIncludes = (row, columnId, filterValue) => {
-  var _row$getValue4;
-  return (_row$getValue4 = row.getValue(columnId)) == null ? void 0 : _row$getValue4.includes(filterValue);
-};
-arrIncludes.autoRemove = val => testFalsey(val) || !(val != null && val.length);
-const arrIncludesAll = (row, columnId, filterValue) => {
-  return !filterValue.some(val => {
-    var _row$getValue5;
-    return !((_row$getValue5 = row.getValue(columnId)) != null && _row$getValue5.includes(val));
-  });
-};
-arrIncludesAll.autoRemove = val => testFalsey(val) || !(val != null && val.length);
-const arrIncludesSome = (row, columnId, filterValue) => {
-  return filterValue.some(val => {
-    var _row$getValue6;
-    return (_row$getValue6 = row.getValue(columnId)) == null ? void 0 : _row$getValue6.includes(val);
-  });
-};
-arrIncludesSome.autoRemove = val => testFalsey(val) || !(val != null && val.length);
-const equals = (row, columnId, filterValue) => {
-  return row.getValue(columnId) === filterValue;
-};
-equals.autoRemove = val => testFalsey(val);
-const weakEquals = (row, columnId, filterValue) => {
-  return row.getValue(columnId) == filterValue;
-};
-weakEquals.autoRemove = val => testFalsey(val);
-const inNumberRange = (row, columnId, filterValue) => {
-  let [min, max] = filterValue;
-  const rowValue = row.getValue(columnId);
-  return rowValue >= min && rowValue <= max;
-};
-inNumberRange.resolveFilterValue = val => {
-  let [unsafeMin, unsafeMax] = val;
-  let parsedMin = typeof unsafeMin !== 'number' ? parseFloat(unsafeMin) : unsafeMin;
-  let parsedMax = typeof unsafeMax !== 'number' ? parseFloat(unsafeMax) : unsafeMax;
-  let min = unsafeMin === null || Number.isNaN(parsedMin) ? -Infinity : parsedMin;
-  let max = unsafeMax === null || Number.isNaN(parsedMax) ? Infinity : parsedMax;
-  if (min > max) {
-    const temp = min;
-    min = max;
-    max = temp;
-  }
-  return [min, max];
-};
-inNumberRange.autoRemove = val => testFalsey(val) || testFalsey(val[0]) && testFalsey(val[1]);
-
-// Export
-
-const filterFns = {
-  includesString,
-  includesStringSensitive,
-  equalsString,
-  arrIncludes,
-  arrIncludesAll,
-  arrIncludesSome,
-  equals,
-  weakEquals,
-  inNumberRange
-};
-// Utils
-
-function testFalsey(val) {
-  return val === undefined || val === null || val === '';
-}
-
-//
-
-const Filters = {
-  getDefaultColumnDef: () => {
-    return {
-      filterFn: 'auto'
-    };
-  },
-  getInitialState: state => {
-    return {
-      columnFilters: [],
-      globalFilter: undefined,
-      // filtersProgress: 1,
-      // facetProgress: {},
-      ...state
-    };
-  },
-  getDefaultOptions: table => {
-    return {
-      onColumnFiltersChange: makeStateUpdater('columnFilters', table),
-      onGlobalFilterChange: makeStateUpdater('globalFilter', table),
-      filterFromLeafRows: false,
-      maxLeafRowFilterDepth: 100,
-      globalFilterFn: 'auto',
-      getColumnCanGlobalFilter: column => {
-        var _table$getCoreRowMode;
-        const value = (_table$getCoreRowMode = table.getCoreRowModel().flatRows[0]) == null || (_table$getCoreRowMode = _table$getCoreRowMode._getAllCellsByColumnId()[column.id]) == null ? void 0 : _table$getCoreRowMode.getValue();
-        return typeof value === 'string' || typeof value === 'number';
-      }
-    };
-  },
-  createColumn: (column, table) => {
-    column.getAutoFilterFn = () => {
-      const firstRow = table.getCoreRowModel().flatRows[0];
-      const value = firstRow == null ? void 0 : firstRow.getValue(column.id);
-      if (typeof value === 'string') {
-        return filterFns.includesString;
-      }
-      if (typeof value === 'number') {
-        return filterFns.inNumberRange;
-      }
-      if (typeof value === 'boolean') {
-        return filterFns.equals;
-      }
-      if (value !== null && typeof value === 'object') {
-        return filterFns.equals;
-      }
-      if (Array.isArray(value)) {
-        return filterFns.arrIncludes;
-      }
-      return filterFns.weakEquals;
-    };
-    column.getFilterFn = () => {
-      var _table$options$filter, _table$options$filter2;
-      return isFunction(column.columnDef.filterFn) ? column.columnDef.filterFn : column.columnDef.filterFn === 'auto' ? column.getAutoFilterFn() : // @ts-ignore
-      (_table$options$filter = (_table$options$filter2 = table.options.filterFns) == null ? void 0 : _table$options$filter2[column.columnDef.filterFn]) != null ? _table$options$filter : filterFns[column.columnDef.filterFn];
-    };
-    column.getCanFilter = () => {
-      var _column$columnDef$ena, _table$options$enable, _table$options$enable2;
-      return ((_column$columnDef$ena = column.columnDef.enableColumnFilter) != null ? _column$columnDef$ena : true) && ((_table$options$enable = table.options.enableColumnFilters) != null ? _table$options$enable : true) && ((_table$options$enable2 = table.options.enableFilters) != null ? _table$options$enable2 : true) && !!column.accessorFn;
-    };
-    column.getCanGlobalFilter = () => {
-      var _column$columnDef$ena2, _table$options$enable3, _table$options$enable4, _table$options$getCol;
-      return ((_column$columnDef$ena2 = column.columnDef.enableGlobalFilter) != null ? _column$columnDef$ena2 : true) && ((_table$options$enable3 = table.options.enableGlobalFilter) != null ? _table$options$enable3 : true) && ((_table$options$enable4 = table.options.enableFilters) != null ? _table$options$enable4 : true) && ((_table$options$getCol = table.options.getColumnCanGlobalFilter == null ? void 0 : table.options.getColumnCanGlobalFilter(column)) != null ? _table$options$getCol : true) && !!column.accessorFn;
-    };
-    column.getIsFiltered = () => column.getFilterIndex() > -1;
-    column.getFilterValue = () => {
-      var _table$getState$colum;
-      return (_table$getState$colum = table.getState().columnFilters) == null || (_table$getState$colum = _table$getState$colum.find(d => d.id === column.id)) == null ? void 0 : _table$getState$colum.value;
-    };
-    column.getFilterIndex = () => {
-      var _table$getState$colum2, _table$getState$colum3;
-      return (_table$getState$colum2 = (_table$getState$colum3 = table.getState().columnFilters) == null ? void 0 : _table$getState$colum3.findIndex(d => d.id === column.id)) != null ? _table$getState$colum2 : -1;
-    };
-    column.setFilterValue = value => {
-      table.setColumnFilters(old => {
-        const filterFn = column.getFilterFn();
-        const previousfilter = old == null ? void 0 : old.find(d => d.id === column.id);
-        const newFilter = functionalUpdate(value, previousfilter ? previousfilter.value : undefined);
-
-        //
-        if (shouldAutoRemoveFilter(filterFn, newFilter, column)) {
-          var _old$filter;
-          return (_old$filter = old == null ? void 0 : old.filter(d => d.id !== column.id)) != null ? _old$filter : [];
-        }
-        const newFilterObj = {
-          id: column.id,
-          value: newFilter
-        };
-        if (previousfilter) {
-          var _old$map;
-          return (_old$map = old == null ? void 0 : old.map(d => {
-            if (d.id === column.id) {
-              return newFilterObj;
-            }
-            return d;
-          })) != null ? _old$map : [];
-        }
-        if (old != null && old.length) {
-          return [...old, newFilterObj];
-        }
-        return [newFilterObj];
-      });
-    };
-    column._getFacetedRowModel = table.options.getFacetedRowModel && table.options.getFacetedRowModel(table, column.id);
-    column.getFacetedRowModel = () => {
-      if (!column._getFacetedRowModel) {
-        return table.getPreFilteredRowModel();
-      }
-      return column._getFacetedRowModel();
-    };
-    column._getFacetedUniqueValues = table.options.getFacetedUniqueValues && table.options.getFacetedUniqueValues(table, column.id);
-    column.getFacetedUniqueValues = () => {
-      if (!column._getFacetedUniqueValues) {
-        return new Map();
-      }
-      return column._getFacetedUniqueValues();
-    };
-    column._getFacetedMinMaxValues = table.options.getFacetedMinMaxValues && table.options.getFacetedMinMaxValues(table, column.id);
-    column.getFacetedMinMaxValues = () => {
-      if (!column._getFacetedMinMaxValues) {
-        return undefined;
-      }
-      return column._getFacetedMinMaxValues();
-    };
-    // () => [column.getFacetedRowModel()],
-    // facetedRowModel => getRowModelMinMaxValues(facetedRowModel, column.id),
-  },
-
-  createRow: (row, table) => {
-    row.columnFilters = {};
-    row.columnFiltersMeta = {};
-  },
-  createTable: table => {
-    table.getGlobalAutoFilterFn = () => {
-      return filterFns.includesString;
-    };
-    table.getGlobalFilterFn = () => {
-      var _table$options$filter3, _table$options$filter4;
-      const {
-        globalFilterFn: globalFilterFn
-      } = table.options;
-      return isFunction(globalFilterFn) ? globalFilterFn : globalFilterFn === 'auto' ? table.getGlobalAutoFilterFn() : // @ts-ignore
-      (_table$options$filter3 = (_table$options$filter4 = table.options.filterFns) == null ? void 0 : _table$options$filter4[globalFilterFn]) != null ? _table$options$filter3 : filterFns[globalFilterFn];
-    };
-    table.setColumnFilters = updater => {
-      const leafColumns = table.getAllLeafColumns();
-      const updateFn = old => {
-        var _functionalUpdate;
-        return (_functionalUpdate = functionalUpdate(updater, old)) == null ? void 0 : _functionalUpdate.filter(filter => {
-          const column = leafColumns.find(d => d.id === filter.id);
-          if (column) {
-            const filterFn = column.getFilterFn();
-            if (shouldAutoRemoveFilter(filterFn, filter.value, column)) {
-              return false;
-            }
-          }
-          return true;
-        });
-      };
-      table.options.onColumnFiltersChange == null || table.options.onColumnFiltersChange(updateFn);
-    };
-    table.setGlobalFilter = updater => {
-      table.options.onGlobalFilterChange == null || table.options.onGlobalFilterChange(updater);
-    };
-    table.resetGlobalFilter = defaultState => {
-      table.setGlobalFilter(defaultState ? undefined : table.initialState.globalFilter);
-    };
-    table.resetColumnFilters = defaultState => {
-      var _table$initialState$c, _table$initialState;
-      table.setColumnFilters(defaultState ? [] : (_table$initialState$c = (_table$initialState = table.initialState) == null ? void 0 : _table$initialState.columnFilters) != null ? _table$initialState$c : []);
-    };
-    table.getPreFilteredRowModel = () => table.getCoreRowModel();
-    table.getFilteredRowModel = () => {
-      if (!table._getFilteredRowModel && table.options.getFilteredRowModel) {
-        table._getFilteredRowModel = table.options.getFilteredRowModel(table);
-      }
-      if (table.options.manualFiltering || !table._getFilteredRowModel) {
-        return table.getPreFilteredRowModel();
-      }
-      return table._getFilteredRowModel();
-    };
-    table._getGlobalFacetedRowModel = table.options.getFacetedRowModel && table.options.getFacetedRowModel(table, '__global__');
-    table.getGlobalFacetedRowModel = () => {
-      if (table.options.manualFiltering || !table._getGlobalFacetedRowModel) {
-        return table.getPreFilteredRowModel();
-      }
-      return table._getGlobalFacetedRowModel();
-    };
-    table._getGlobalFacetedUniqueValues = table.options.getFacetedUniqueValues && table.options.getFacetedUniqueValues(table, '__global__');
-    table.getGlobalFacetedUniqueValues = () => {
-      if (!table._getGlobalFacetedUniqueValues) {
-        return new Map();
-      }
-      return table._getGlobalFacetedUniqueValues();
-    };
-    table._getGlobalFacetedMinMaxValues = table.options.getFacetedMinMaxValues && table.options.getFacetedMinMaxValues(table, '__global__');
-    table.getGlobalFacetedMinMaxValues = () => {
-      if (!table._getGlobalFacetedMinMaxValues) {
-        return;
-      }
-      return table._getGlobalFacetedMinMaxValues();
-    };
-  }
-};
-function shouldAutoRemoveFilter(filterFn, value, column) {
-  return (filterFn && filterFn.autoRemove ? filterFn.autoRemove(value, column) : false) || typeof value === 'undefined' || typeof value === 'string' && !value;
-}
-
-const sum = (columnId, _leafRows, childRows) => {
-  // It's faster to just add the aggregations together instead of
-  // process leaf nodes individually
-  return childRows.reduce((sum, next) => {
-    const nextValue = next.getValue(columnId);
-    return sum + (typeof nextValue === 'number' ? nextValue : 0);
-  }, 0);
-};
-const min = (columnId, _leafRows, childRows) => {
-  let min;
-  childRows.forEach(row => {
-    const value = row.getValue(columnId);
-    if (value != null && (min > value || min === undefined && value >= value)) {
-      min = value;
-    }
-  });
-  return min;
-};
-const max = (columnId, _leafRows, childRows) => {
-  let max;
-  childRows.forEach(row => {
-    const value = row.getValue(columnId);
-    if (value != null && (max < value || max === undefined && value >= value)) {
-      max = value;
-    }
-  });
-  return max;
-};
-const extent = (columnId, _leafRows, childRows) => {
-  let min;
-  let max;
-  childRows.forEach(row => {
-    const value = row.getValue(columnId);
-    if (value != null) {
-      if (min === undefined) {
-        if (value >= value) min = max = value;
-      } else {
-        if (min > value) min = value;
-        if (max < value) max = value;
-      }
-    }
-  });
-  return [min, max];
-};
-const mean = (columnId, leafRows) => {
-  let count = 0;
-  let sum = 0;
-  leafRows.forEach(row => {
-    let value = row.getValue(columnId);
-    if (value != null && (value = +value) >= value) {
-      ++count, sum += value;
-    }
-  });
-  if (count) return sum / count;
-  return;
-};
-const median = (columnId, leafRows) => {
-  if (!leafRows.length) {
-    return;
-  }
-  const values = leafRows.map(row => row.getValue(columnId));
-  if (!isNumberArray(values)) {
-    return;
-  }
-  if (values.length === 1) {
-    return values[0];
-  }
-  const mid = Math.floor(values.length / 2);
-  const nums = values.sort((a, b) => a - b);
-  return values.length % 2 !== 0 ? nums[mid] : (nums[mid - 1] + nums[mid]) / 2;
-};
-const unique = (columnId, leafRows) => {
-  return Array.from(new Set(leafRows.map(d => d.getValue(columnId))).values());
-};
-const uniqueCount = (columnId, leafRows) => {
-  return new Set(leafRows.map(d => d.getValue(columnId))).size;
-};
-const count = (_columnId, leafRows) => {
-  return leafRows.length;
-};
-const aggregationFns = {
-  sum,
-  min,
-  max,
-  extent,
-  mean,
-  median,
-  unique,
-  uniqueCount,
-  count
-};
-
-//
-
-const Grouping = {
-  getDefaultColumnDef: () => {
-    return {
-      aggregatedCell: props => {
-        var _toString, _props$getValue;
-        return (_toString = (_props$getValue = props.getValue()) == null || _props$getValue.toString == null ? void 0 : _props$getValue.toString()) != null ? _toString : null;
-      },
-      aggregationFn: 'auto'
-    };
-  },
-  getInitialState: state => {
-    return {
-      grouping: [],
-      ...state
-    };
-  },
-  getDefaultOptions: table => {
-    return {
-      onGroupingChange: makeStateUpdater('grouping', table),
-      groupedColumnMode: 'reorder'
-    };
-  },
-  createColumn: (column, table) => {
-    column.toggleGrouping = () => {
-      table.setGrouping(old => {
-        // Find any existing grouping for this column
-        if (old != null && old.includes(column.id)) {
-          return old.filter(d => d !== column.id);
-        }
-        return [...(old != null ? old : []), column.id];
-      });
-    };
-    column.getCanGroup = () => {
-      var _ref, _ref2, _ref3, _column$columnDef$ena;
-      return (_ref = (_ref2 = (_ref3 = (_column$columnDef$ena = column.columnDef.enableGrouping) != null ? _column$columnDef$ena : true) != null ? _ref3 : table.options.enableGrouping) != null ? _ref2 : true) != null ? _ref : !!column.accessorFn;
-    };
-    column.getIsGrouped = () => {
-      var _table$getState$group;
-      return (_table$getState$group = table.getState().grouping) == null ? void 0 : _table$getState$group.includes(column.id);
-    };
-    column.getGroupedIndex = () => {
-      var _table$getState$group2;
-      return (_table$getState$group2 = table.getState().grouping) == null ? void 0 : _table$getState$group2.indexOf(column.id);
-    };
-    column.getToggleGroupingHandler = () => {
-      const canGroup = column.getCanGroup();
-      return () => {
-        if (!canGroup) return;
-        column.toggleGrouping();
-      };
-    };
-    column.getAutoAggregationFn = () => {
-      const firstRow = table.getCoreRowModel().flatRows[0];
-      const value = firstRow == null ? void 0 : firstRow.getValue(column.id);
-      if (typeof value === 'number') {
-        return aggregationFns.sum;
-      }
-      if (Object.prototype.toString.call(value) === '[object Date]') {
-        return aggregationFns.extent;
-      }
-    };
-    column.getAggregationFn = () => {
-      var _table$options$aggreg, _table$options$aggreg2;
-      if (!column) {
-        throw new Error();
-      }
-      return isFunction(column.columnDef.aggregationFn) ? column.columnDef.aggregationFn : column.columnDef.aggregationFn === 'auto' ? column.getAutoAggregationFn() : (_table$options$aggreg = (_table$options$aggreg2 = table.options.aggregationFns) == null ? void 0 : _table$options$aggreg2[column.columnDef.aggregationFn]) != null ? _table$options$aggreg : aggregationFns[column.columnDef.aggregationFn];
-    };
-  },
-  createTable: table => {
-    table.setGrouping = updater => table.options.onGroupingChange == null ? void 0 : table.options.onGroupingChange(updater);
-    table.resetGrouping = defaultState => {
-      var _table$initialState$g, _table$initialState;
-      table.setGrouping(defaultState ? [] : (_table$initialState$g = (_table$initialState = table.initialState) == null ? void 0 : _table$initialState.grouping) != null ? _table$initialState$g : []);
-    };
-    table.getPreGroupedRowModel = () => table.getFilteredRowModel();
-    table.getGroupedRowModel = () => {
-      if (!table._getGroupedRowModel && table.options.getGroupedRowModel) {
-        table._getGroupedRowModel = table.options.getGroupedRowModel(table);
-      }
-      if (table.options.manualGrouping || !table._getGroupedRowModel) {
-        return table.getPreGroupedRowModel();
-      }
-      return table._getGroupedRowModel();
-    };
-  },
-  createRow: (row, table) => {
-    row.getIsGrouped = () => !!row.groupingColumnId;
-    row.getGroupingValue = columnId => {
-      if (row._groupingValuesCache.hasOwnProperty(columnId)) {
-        return row._groupingValuesCache[columnId];
-      }
-      const column = table.getColumn(columnId);
-      if (!(column != null && column.columnDef.getGroupingValue)) {
-        return row.getValue(columnId);
-      }
-      row._groupingValuesCache[columnId] = column.columnDef.getGroupingValue(row.original);
-      return row._groupingValuesCache[columnId];
-    };
-    row._groupingValuesCache = {};
-  },
-  createCell: (cell, column, row, table) => {
-    cell.getIsGrouped = () => column.getIsGrouped() && column.id === row.groupingColumnId;
-    cell.getIsPlaceholder = () => !cell.getIsGrouped() && column.getIsGrouped();
-    cell.getIsAggregated = () => {
-      var _row$subRows;
-      return !cell.getIsGrouped() && !cell.getIsPlaceholder() && !!((_row$subRows = row.subRows) != null && _row$subRows.length);
-    };
-  }
-};
-function orderColumns(leafColumns, grouping, groupedColumnMode) {
-  if (!(grouping != null && grouping.length) || !groupedColumnMode) {
-    return leafColumns;
-  }
-  const nonGroupingColumns = leafColumns.filter(col => !grouping.includes(col.id));
-  if (groupedColumnMode === 'remove') {
-    return nonGroupingColumns;
-  }
-  const groupingColumns = grouping.map(g => leafColumns.find(col => col.id === g)).filter(Boolean);
-  return [...groupingColumns, ...nonGroupingColumns];
-}
-
-//
-
-const Ordering = {
-  getInitialState: state => {
-    return {
-      columnOrder: [],
-      ...state
-    };
-  },
-  getDefaultOptions: table => {
-    return {
-      onColumnOrderChange: makeStateUpdater('columnOrder', table)
-    };
-  },
-  createTable: table => {
-    table.setColumnOrder = updater => table.options.onColumnOrderChange == null ? void 0 : table.options.onColumnOrderChange(updater);
-    table.resetColumnOrder = defaultState => {
-      var _table$initialState$c;
-      table.setColumnOrder(defaultState ? [] : (_table$initialState$c = table.initialState.columnOrder) != null ? _table$initialState$c : []);
-    };
-    table._getOrderColumnsFn = memo(() => [table.getState().columnOrder, table.getState().grouping, table.options.groupedColumnMode], (columnOrder, grouping, groupedColumnMode) => columns => {
-      // Sort grouped columns to the start of the column list
-      // before the headers are built
-      let orderedColumns = [];
-
-      // If there is no order, return the normal columns
-      if (!(columnOrder != null && columnOrder.length)) {
-        orderedColumns = columns;
-      } else {
-        const columnOrderCopy = [...columnOrder];
-
-        // If there is an order, make a copy of the columns
-        const columnsCopy = [...columns];
-
-        // And make a new ordered array of the columns
-
-        // Loop over the columns and place them in order into the new array
-        while (columnsCopy.length && columnOrderCopy.length) {
-          const targetColumnId = columnOrderCopy.shift();
-          const foundIndex = columnsCopy.findIndex(d => d.id === targetColumnId);
-          if (foundIndex > -1) {
-            orderedColumns.push(columnsCopy.splice(foundIndex, 1)[0]);
-          }
-        }
-
-        // If there are any columns left, add them to the end
-        orderedColumns = [...orderedColumns, ...columnsCopy];
-      }
-      return orderColumns(orderedColumns, grouping, groupedColumnMode);
-    }, {
-      key:  false && 0
-      // debug: () => table.options.debugAll ?? table.options.debugTable,
-    });
-  }
-};
-
-//
-
-const defaultPageIndex = 0;
-const defaultPageSize = 10;
-const getDefaultPaginationState = () => ({
-  pageIndex: defaultPageIndex,
-  pageSize: defaultPageSize
-});
-const lib_Pagination = {
-  getInitialState: state => {
-    return {
-      ...state,
-      pagination: {
-        ...getDefaultPaginationState(),
-        ...(state == null ? void 0 : state.pagination)
-      }
-    };
-  },
-  getDefaultOptions: table => {
-    return {
-      onPaginationChange: makeStateUpdater('pagination', table)
-    };
-  },
-  createTable: table => {
-    let registered = false;
-    let queued = false;
-    table._autoResetPageIndex = () => {
-      var _ref, _table$options$autoRe;
-      if (!registered) {
-        table._queue(() => {
-          registered = true;
-        });
-        return;
-      }
-      if ((_ref = (_table$options$autoRe = table.options.autoResetAll) != null ? _table$options$autoRe : table.options.autoResetPageIndex) != null ? _ref : !table.options.manualPagination) {
-        if (queued) return;
-        queued = true;
-        table._queue(() => {
-          table.resetPageIndex();
-          queued = false;
-        });
-      }
-    };
-    table.setPagination = updater => {
-      const safeUpdater = old => {
-        let newState = functionalUpdate(updater, old);
-        return newState;
-      };
-      return table.options.onPaginationChange == null ? void 0 : table.options.onPaginationChange(safeUpdater);
-    };
-    table.resetPagination = defaultState => {
-      var _table$initialState$p;
-      table.setPagination(defaultState ? getDefaultPaginationState() : (_table$initialState$p = table.initialState.pagination) != null ? _table$initialState$p : getDefaultPaginationState());
-    };
-    table.setPageIndex = updater => {
-      table.setPagination(old => {
-        let pageIndex = functionalUpdate(updater, old.pageIndex);
-        const maxPageIndex = typeof table.options.pageCount === 'undefined' || table.options.pageCount === -1 ? Number.MAX_SAFE_INTEGER : table.options.pageCount - 1;
-        pageIndex = Math.max(0, Math.min(pageIndex, maxPageIndex));
-        return {
-          ...old,
-          pageIndex
-        };
-      });
-    };
-    table.resetPageIndex = defaultState => {
-      var _table$initialState$p2, _table$initialState;
-      table.setPageIndex(defaultState ? defaultPageIndex : (_table$initialState$p2 = (_table$initialState = table.initialState) == null || (_table$initialState = _table$initialState.pagination) == null ? void 0 : _table$initialState.pageIndex) != null ? _table$initialState$p2 : defaultPageIndex);
-    };
-    table.resetPageSize = defaultState => {
-      var _table$initialState$p3, _table$initialState2;
-      table.setPageSize(defaultState ? defaultPageSize : (_table$initialState$p3 = (_table$initialState2 = table.initialState) == null || (_table$initialState2 = _table$initialState2.pagination) == null ? void 0 : _table$initialState2.pageSize) != null ? _table$initialState$p3 : defaultPageSize);
-    };
-    table.setPageSize = updater => {
-      table.setPagination(old => {
-        const pageSize = Math.max(1, functionalUpdate(updater, old.pageSize));
-        const topRowIndex = old.pageSize * old.pageIndex;
-        const pageIndex = Math.floor(topRowIndex / pageSize);
-        return {
-          ...old,
-          pageIndex,
-          pageSize
-        };
-      });
-    };
-    table.setPageCount = updater => table.setPagination(old => {
-      var _table$options$pageCo;
-      let newPageCount = functionalUpdate(updater, (_table$options$pageCo = table.options.pageCount) != null ? _table$options$pageCo : -1);
-      if (typeof newPageCount === 'number') {
-        newPageCount = Math.max(-1, newPageCount);
-      }
-      return {
-        ...old,
-        pageCount: newPageCount
-      };
-    });
-    table.getPageOptions = memo(() => [table.getPageCount()], pageCount => {
-      let pageOptions = [];
-      if (pageCount && pageCount > 0) {
-        pageOptions = [...new Array(pageCount)].fill(null).map((_, i) => i);
-      }
-      return pageOptions;
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA;
-        return (_table$options$debugA = table.options.debugAll) != null ? _table$options$debugA : table.options.debugTable;
-      }
-    });
-    table.getCanPreviousPage = () => table.getState().pagination.pageIndex > 0;
-    table.getCanNextPage = () => {
-      const {
-        pageIndex
-      } = table.getState().pagination;
-      const pageCount = table.getPageCount();
-      if (pageCount === -1) {
-        return true;
-      }
-      if (pageCount === 0) {
-        return false;
-      }
-      return pageIndex < pageCount - 1;
-    };
-    table.previousPage = () => {
-      return table.setPageIndex(old => old - 1);
-    };
-    table.nextPage = () => {
-      return table.setPageIndex(old => {
-        return old + 1;
-      });
-    };
-    table.getPrePaginationRowModel = () => table.getExpandedRowModel();
-    table.getPaginationRowModel = () => {
-      if (!table._getPaginationRowModel && table.options.getPaginationRowModel) {
-        table._getPaginationRowModel = table.options.getPaginationRowModel(table);
-      }
-      if (table.options.manualPagination || !table._getPaginationRowModel) {
-        return table.getPrePaginationRowModel();
-      }
-      return table._getPaginationRowModel();
-    };
-    table.getPageCount = () => {
-      var _table$options$pageCo2;
-      return (_table$options$pageCo2 = table.options.pageCount) != null ? _table$options$pageCo2 : Math.ceil(table.getPrePaginationRowModel().rows.length / table.getState().pagination.pageSize);
-    };
-  }
-};
-
-//
-
-const getDefaultColumnPinningState = () => ({
-  left: [],
-  right: []
-});
-const getDefaultRowPinningState = () => ({
-  top: [],
-  bottom: []
-});
-const Pinning = {
-  getInitialState: state => {
-    return {
-      columnPinning: getDefaultColumnPinningState(),
-      rowPinning: getDefaultRowPinningState(),
-      ...state
-    };
-  },
-  getDefaultOptions: table => {
-    return {
-      onColumnPinningChange: makeStateUpdater('columnPinning', table),
-      onRowPinningChange: makeStateUpdater('rowPinning', table)
-    };
-  },
-  createColumn: (column, table) => {
-    column.pin = position => {
-      const columnIds = column.getLeafColumns().map(d => d.id).filter(Boolean);
-      table.setColumnPinning(old => {
-        var _old$left3, _old$right3;
-        if (position === 'right') {
-          var _old$left, _old$right;
-          return {
-            left: ((_old$left = old == null ? void 0 : old.left) != null ? _old$left : []).filter(d => !(columnIds != null && columnIds.includes(d))),
-            right: [...((_old$right = old == null ? void 0 : old.right) != null ? _old$right : []).filter(d => !(columnIds != null && columnIds.includes(d))), ...columnIds]
-          };
-        }
-        if (position === 'left') {
-          var _old$left2, _old$right2;
-          return {
-            left: [...((_old$left2 = old == null ? void 0 : old.left) != null ? _old$left2 : []).filter(d => !(columnIds != null && columnIds.includes(d))), ...columnIds],
-            right: ((_old$right2 = old == null ? void 0 : old.right) != null ? _old$right2 : []).filter(d => !(columnIds != null && columnIds.includes(d)))
-          };
-        }
-        return {
-          left: ((_old$left3 = old == null ? void 0 : old.left) != null ? _old$left3 : []).filter(d => !(columnIds != null && columnIds.includes(d))),
-          right: ((_old$right3 = old == null ? void 0 : old.right) != null ? _old$right3 : []).filter(d => !(columnIds != null && columnIds.includes(d)))
-        };
-      });
-    };
-    column.getCanPin = () => {
-      const leafColumns = column.getLeafColumns();
-      return leafColumns.some(d => {
-        var _d$columnDef$enablePi, _ref, _table$options$enable;
-        return ((_d$columnDef$enablePi = d.columnDef.enablePinning) != null ? _d$columnDef$enablePi : true) && ((_ref = (_table$options$enable = table.options.enableColumnPinning) != null ? _table$options$enable : table.options.enablePinning) != null ? _ref : true);
-      });
-    };
-    column.getIsPinned = () => {
-      const leafColumnIds = column.getLeafColumns().map(d => d.id);
-      const {
-        left,
-        right
-      } = table.getState().columnPinning;
-      const isLeft = leafColumnIds.some(d => left == null ? void 0 : left.includes(d));
-      const isRight = leafColumnIds.some(d => right == null ? void 0 : right.includes(d));
-      return isLeft ? 'left' : isRight ? 'right' : false;
-    };
-    column.getPinnedIndex = () => {
-      var _table$getState$colum, _table$getState$colum2;
-      const position = column.getIsPinned();
-      return position ? (_table$getState$colum = (_table$getState$colum2 = table.getState().columnPinning) == null || (_table$getState$colum2 = _table$getState$colum2[position]) == null ? void 0 : _table$getState$colum2.indexOf(column.id)) != null ? _table$getState$colum : -1 : 0;
-    };
-  },
-  createRow: (row, table) => {
-    row.pin = (position, includeLeafRows, includeParentRows) => {
-      const leafRowIds = includeLeafRows ? row.getLeafRows().map(_ref2 => {
-        let {
-          id
-        } = _ref2;
-        return id;
-      }) : [];
-      const parentRowIds = includeParentRows ? row.getParentRows().map(_ref3 => {
-        let {
-          id
-        } = _ref3;
-        return id;
-      }) : [];
-      const rowIds = new Set([...parentRowIds, row.id, ...leafRowIds]);
-      table.setRowPinning(old => {
-        var _old$top3, _old$bottom3;
-        if (position === 'bottom') {
-          var _old$top, _old$bottom;
-          return {
-            top: ((_old$top = old == null ? void 0 : old.top) != null ? _old$top : []).filter(d => !(rowIds != null && rowIds.has(d))),
-            bottom: [...((_old$bottom = old == null ? void 0 : old.bottom) != null ? _old$bottom : []).filter(d => !(rowIds != null && rowIds.has(d))), ...Array.from(rowIds)]
-          };
-        }
-        if (position === 'top') {
-          var _old$top2, _old$bottom2;
-          return {
-            top: [...((_old$top2 = old == null ? void 0 : old.top) != null ? _old$top2 : []).filter(d => !(rowIds != null && rowIds.has(d))), ...Array.from(rowIds)],
-            bottom: ((_old$bottom2 = old == null ? void 0 : old.bottom) != null ? _old$bottom2 : []).filter(d => !(rowIds != null && rowIds.has(d)))
-          };
-        }
-        return {
-          top: ((_old$top3 = old == null ? void 0 : old.top) != null ? _old$top3 : []).filter(d => !(rowIds != null && rowIds.has(d))),
-          bottom: ((_old$bottom3 = old == null ? void 0 : old.bottom) != null ? _old$bottom3 : []).filter(d => !(rowIds != null && rowIds.has(d)))
-        };
-      });
-    };
-    row.getCanPin = () => {
-      var _ref4;
-      const {
-        enableRowPinning,
-        enablePinning
-      } = table.options;
-      if (typeof enableRowPinning === 'function') {
-        return enableRowPinning(row);
-      }
-      return (_ref4 = enableRowPinning != null ? enableRowPinning : enablePinning) != null ? _ref4 : true;
-    };
-    row.getIsPinned = () => {
-      const rowIds = [row.id];
-      const {
-        top,
-        bottom
-      } = table.getState().rowPinning;
-      const isTop = rowIds.some(d => top == null ? void 0 : top.includes(d));
-      const isBottom = rowIds.some(d => bottom == null ? void 0 : bottom.includes(d));
-      return isTop ? 'top' : isBottom ? 'bottom' : false;
-    };
-    row.getPinnedIndex = () => {
-      var _table$_getPinnedRows, _visiblePinnedRowIds$;
-      const position = row.getIsPinned();
-      if (!position) return -1;
-      const visiblePinnedRowIds = (_table$_getPinnedRows = table._getPinnedRows(position)) == null ? void 0 : _table$_getPinnedRows.map(_ref5 => {
-        let {
-          id
-        } = _ref5;
-        return id;
-      });
-      return (_visiblePinnedRowIds$ = visiblePinnedRowIds == null ? void 0 : visiblePinnedRowIds.indexOf(row.id)) != null ? _visiblePinnedRowIds$ : -1;
-    };
-    row.getCenterVisibleCells = memo(() => [row._getAllVisibleCells(), table.getState().columnPinning.left, table.getState().columnPinning.right], (allCells, left, right) => {
-      const leftAndRight = [...(left != null ? left : []), ...(right != null ? right : [])];
-      return allCells.filter(d => !leftAndRight.includes(d.column.id));
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA;
-        return (_table$options$debugA = table.options.debugAll) != null ? _table$options$debugA : table.options.debugRows;
-      }
-    });
-    row.getLeftVisibleCells = memo(() => [row._getAllVisibleCells(), table.getState().columnPinning.left,,], (allCells, left) => {
-      const cells = (left != null ? left : []).map(columnId => allCells.find(cell => cell.column.id === columnId)).filter(Boolean).map(d => ({
-        ...d,
-        position: 'left'
-      }));
-      return cells;
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA2;
-        return (_table$options$debugA2 = table.options.debugAll) != null ? _table$options$debugA2 : table.options.debugRows;
-      }
-    });
-    row.getRightVisibleCells = memo(() => [row._getAllVisibleCells(), table.getState().columnPinning.right], (allCells, right) => {
-      const cells = (right != null ? right : []).map(columnId => allCells.find(cell => cell.column.id === columnId)).filter(Boolean).map(d => ({
-        ...d,
-        position: 'right'
-      }));
-      return cells;
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA3;
-        return (_table$options$debugA3 = table.options.debugAll) != null ? _table$options$debugA3 : table.options.debugRows;
-      }
-    });
-  },
-  createTable: table => {
-    table.setColumnPinning = updater => table.options.onColumnPinningChange == null ? void 0 : table.options.onColumnPinningChange(updater);
-    table.resetColumnPinning = defaultState => {
-      var _table$initialState$c, _table$initialState;
-      return table.setColumnPinning(defaultState ? getDefaultColumnPinningState() : (_table$initialState$c = (_table$initialState = table.initialState) == null ? void 0 : _table$initialState.columnPinning) != null ? _table$initialState$c : getDefaultColumnPinningState());
-    };
-    table.getIsSomeColumnsPinned = position => {
-      var _pinningState$positio;
-      const pinningState = table.getState().columnPinning;
-      if (!position) {
-        var _pinningState$left, _pinningState$right;
-        return Boolean(((_pinningState$left = pinningState.left) == null ? void 0 : _pinningState$left.length) || ((_pinningState$right = pinningState.right) == null ? void 0 : _pinningState$right.length));
-      }
-      return Boolean((_pinningState$positio = pinningState[position]) == null ? void 0 : _pinningState$positio.length);
-    };
-    table.getLeftLeafColumns = memo(() => [table.getAllLeafColumns(), table.getState().columnPinning.left], (allColumns, left) => {
-      return (left != null ? left : []).map(columnId => allColumns.find(column => column.id === columnId)).filter(Boolean);
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA4;
-        return (_table$options$debugA4 = table.options.debugAll) != null ? _table$options$debugA4 : table.options.debugColumns;
-      }
-    });
-    table.getRightLeafColumns = memo(() => [table.getAllLeafColumns(), table.getState().columnPinning.right], (allColumns, right) => {
-      return (right != null ? right : []).map(columnId => allColumns.find(column => column.id === columnId)).filter(Boolean);
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA5;
-        return (_table$options$debugA5 = table.options.debugAll) != null ? _table$options$debugA5 : table.options.debugColumns;
-      }
-    });
-    table.getCenterLeafColumns = memo(() => [table.getAllLeafColumns(), table.getState().columnPinning.left, table.getState().columnPinning.right], (allColumns, left, right) => {
-      const leftAndRight = [...(left != null ? left : []), ...(right != null ? right : [])];
-      return allColumns.filter(d => !leftAndRight.includes(d.id));
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA6;
-        return (_table$options$debugA6 = table.options.debugAll) != null ? _table$options$debugA6 : table.options.debugColumns;
-      }
-    });
-    table.setRowPinning = updater => table.options.onRowPinningChange == null ? void 0 : table.options.onRowPinningChange(updater);
-    table.resetRowPinning = defaultState => {
-      var _table$initialState$r, _table$initialState2;
-      return table.setRowPinning(defaultState ? getDefaultRowPinningState() : (_table$initialState$r = (_table$initialState2 = table.initialState) == null ? void 0 : _table$initialState2.rowPinning) != null ? _table$initialState$r : getDefaultRowPinningState());
-    };
-    table.getIsSomeRowsPinned = position => {
-      var _pinningState$positio2;
-      const pinningState = table.getState().rowPinning;
-      if (!position) {
-        var _pinningState$top, _pinningState$bottom;
-        return Boolean(((_pinningState$top = pinningState.top) == null ? void 0 : _pinningState$top.length) || ((_pinningState$bottom = pinningState.bottom) == null ? void 0 : _pinningState$bottom.length));
-      }
-      return Boolean((_pinningState$positio2 = pinningState[position]) == null ? void 0 : _pinningState$positio2.length);
-    };
-    table._getPinnedRows = position => memo(() => [table.getRowModel().rows, table.getState().rowPinning[position]], (visibleRows, pinnedRowIds) => {
-      var _table$options$keepPi;
-      const rows = ((_table$options$keepPi = table.options.keepPinnedRows) != null ? _table$options$keepPi : true) ?
-      //get all rows that are pinned even if they would not be otherwise visible
-      //account for expanded parent rows, but not pagination or filtering
-      (pinnedRowIds != null ? pinnedRowIds : []).map(rowId => {
-        const row = table.getRow(rowId, true);
-        return row.getIsAllParentsExpanded() ? row : null;
-      }) :
-      //else get only visible rows that are pinned
-      (pinnedRowIds != null ? pinnedRowIds : []).map(rowId => visibleRows.find(row => row.id === rowId));
-      return rows.filter(Boolean).map(d => ({
-        ...d,
-        position
-      }));
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA7;
-        return (_table$options$debugA7 = table.options.debugAll) != null ? _table$options$debugA7 : table.options.debugRows;
-      }
-    })();
-    table.getTopRows = () => table._getPinnedRows('top');
-    table.getBottomRows = () => table._getPinnedRows('bottom');
-    table.getCenterRows = memo(() => [table.getRowModel().rows, table.getState().rowPinning.top, table.getState().rowPinning.bottom], (allRows, top, bottom) => {
-      const topAndBottom = new Set([...(top != null ? top : []), ...(bottom != null ? bottom : [])]);
-      return allRows.filter(d => !topAndBottom.has(d.id));
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA8;
-        return (_table$options$debugA8 = table.options.debugAll) != null ? _table$options$debugA8 : table.options.debugRows;
-      }
-    });
-  }
-};
-
-//
-
-const RowSelection = {
-  getInitialState: state => {
-    return {
-      rowSelection: {},
-      ...state
-    };
-  },
-  getDefaultOptions: table => {
-    return {
-      onRowSelectionChange: makeStateUpdater('rowSelection', table),
-      enableRowSelection: true,
-      enableMultiRowSelection: true,
-      enableSubRowSelection: true
-      // enableGroupingRowSelection: false,
-      // isAdditiveSelectEvent: (e: unknown) => !!e.metaKey,
-      // isInclusiveSelectEvent: (e: unknown) => !!e.shiftKey,
-    };
-  },
-
-  createTable: table => {
-    table.setRowSelection = updater => table.options.onRowSelectionChange == null ? void 0 : table.options.onRowSelectionChange(updater);
-    table.resetRowSelection = defaultState => {
-      var _table$initialState$r;
-      return table.setRowSelection(defaultState ? {} : (_table$initialState$r = table.initialState.rowSelection) != null ? _table$initialState$r : {});
-    };
-    table.toggleAllRowsSelected = value => {
-      table.setRowSelection(old => {
-        value = typeof value !== 'undefined' ? value : !table.getIsAllRowsSelected();
-        const rowSelection = {
-          ...old
-        };
-        const preGroupedFlatRows = table.getPreGroupedRowModel().flatRows;
-
-        // We don't use `mutateRowIsSelected` here for performance reasons.
-        // All of the rows are flat already, so it wouldn't be worth it
-        if (value) {
-          preGroupedFlatRows.forEach(row => {
-            if (!row.getCanSelect()) {
-              return;
-            }
-            rowSelection[row.id] = true;
-          });
-        } else {
-          preGroupedFlatRows.forEach(row => {
-            delete rowSelection[row.id];
-          });
-        }
-        return rowSelection;
-      });
-    };
-    table.toggleAllPageRowsSelected = value => table.setRowSelection(old => {
-      const resolvedValue = typeof value !== 'undefined' ? value : !table.getIsAllPageRowsSelected();
-      const rowSelection = {
-        ...old
-      };
-      table.getRowModel().rows.forEach(row => {
-        mutateRowIsSelected(rowSelection, row.id, resolvedValue, true, table);
-      });
-      return rowSelection;
-    });
-
-    // addRowSelectionRange: rowId => {
-    //   const {
-    //     rows,
-    //     rowsById,
-    //     options: { selectGroupingRows, selectSubRows },
-    //   } = table
-
-    //   const findSelectedRow = (rows: Row[]) => {
-    //     let found
-    //     rows.find(d => {
-    //       if (d.getIsSelected()) {
-    //         found = d
-    //         return true
-    //       }
-    //       const subFound = findSelectedRow(d.subRows || [])
-    //       if (subFound) {
-    //         found = subFound
-    //         return true
-    //       }
-    //       return false
-    //     })
-    //     return found
-    //   }
-
-    //   const firstRow = findSelectedRow(rows) || rows[0]
-    //   const lastRow = rowsById[rowId]
-
-    //   let include = false
-    //   const selectedRowIds = {}
-
-    //   const addRow = (row: Row) => {
-    //     mutateRowIsSelected(selectedRowIds, row.id, true, {
-    //       rowsById,
-    //       selectGroupingRows: selectGroupingRows!,
-    //       selectSubRows: selectSubRows!,
-    //     })
-    //   }
-
-    //   table.rows.forEach(row => {
-    //     const isFirstRow = row.id === firstRow.id
-    //     const isLastRow = row.id === lastRow.id
-
-    //     if (isFirstRow || isLastRow) {
-    //       if (!include) {
-    //         include = true
-    //       } else if (include) {
-    //         addRow(row)
-    //         include = false
-    //       }
-    //     }
-
-    //     if (include) {
-    //       addRow(row)
-    //     }
-    //   })
-
-    //   table.setRowSelection(selectedRowIds)
-    // },
-    table.getPreSelectedRowModel = () => table.getCoreRowModel();
-    table.getSelectedRowModel = memo(() => [table.getState().rowSelection, table.getCoreRowModel()], (rowSelection, rowModel) => {
-      if (!Object.keys(rowSelection).length) {
-        return {
-          rows: [],
-          flatRows: [],
-          rowsById: {}
-        };
-      }
-      return selectRowsFn(table, rowModel);
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA;
-        return (_table$options$debugA = table.options.debugAll) != null ? _table$options$debugA : table.options.debugTable;
-      }
-    });
-    table.getFilteredSelectedRowModel = memo(() => [table.getState().rowSelection, table.getFilteredRowModel()], (rowSelection, rowModel) => {
-      if (!Object.keys(rowSelection).length) {
-        return {
-          rows: [],
-          flatRows: [],
-          rowsById: {}
-        };
-      }
-      return selectRowsFn(table, rowModel);
-    }, {
-      key:  true && 'getFilteredSelectedRowModel',
-      debug: () => {
-        var _table$options$debugA2;
-        return (_table$options$debugA2 = table.options.debugAll) != null ? _table$options$debugA2 : table.options.debugTable;
-      }
-    });
-    table.getGroupedSelectedRowModel = memo(() => [table.getState().rowSelection, table.getSortedRowModel()], (rowSelection, rowModel) => {
-      if (!Object.keys(rowSelection).length) {
-        return {
-          rows: [],
-          flatRows: [],
-          rowsById: {}
-        };
-      }
-      return selectRowsFn(table, rowModel);
-    }, {
-      key:  true && 'getGroupedSelectedRowModel',
-      debug: () => {
-        var _table$options$debugA3;
-        return (_table$options$debugA3 = table.options.debugAll) != null ? _table$options$debugA3 : table.options.debugTable;
-      }
-    });
-
-    ///
-
-    // getGroupingRowCanSelect: rowId => {
-    //   const row = table.getRow(rowId)
-
-    //   if (!row) {
-    //     throw new Error()
-    //   }
-
-    //   if (typeof table.options.enableGroupingRowSelection === 'function') {
-    //     return table.options.enableGroupingRowSelection(row)
-    //   }
-
-    //   return table.options.enableGroupingRowSelection ?? false
-    // },
-
-    table.getIsAllRowsSelected = () => {
-      const preGroupedFlatRows = table.getFilteredRowModel().flatRows;
-      const {
-        rowSelection
-      } = table.getState();
-      let isAllRowsSelected = Boolean(preGroupedFlatRows.length && Object.keys(rowSelection).length);
-      if (isAllRowsSelected) {
-        if (preGroupedFlatRows.some(row => row.getCanSelect() && !rowSelection[row.id])) {
-          isAllRowsSelected = false;
-        }
-      }
-      return isAllRowsSelected;
-    };
-    table.getIsAllPageRowsSelected = () => {
-      const paginationFlatRows = table.getPaginationRowModel().flatRows.filter(row => row.getCanSelect());
-      const {
-        rowSelection
-      } = table.getState();
-      let isAllPageRowsSelected = !!paginationFlatRows.length;
-      if (isAllPageRowsSelected && paginationFlatRows.some(row => !rowSelection[row.id])) {
-        isAllPageRowsSelected = false;
-      }
-      return isAllPageRowsSelected;
-    };
-    table.getIsSomeRowsSelected = () => {
-      var _table$getState$rowSe;
-      const totalSelected = Object.keys((_table$getState$rowSe = table.getState().rowSelection) != null ? _table$getState$rowSe : {}).length;
-      return totalSelected > 0 && totalSelected < table.getFilteredRowModel().flatRows.length;
-    };
-    table.getIsSomePageRowsSelected = () => {
-      const paginationFlatRows = table.getPaginationRowModel().flatRows;
-      return table.getIsAllPageRowsSelected() ? false : paginationFlatRows.filter(row => row.getCanSelect()).some(d => d.getIsSelected() || d.getIsSomeSelected());
-    };
-    table.getToggleAllRowsSelectedHandler = () => {
-      return e => {
-        table.toggleAllRowsSelected(e.target.checked);
-      };
-    };
-    table.getToggleAllPageRowsSelectedHandler = () => {
-      return e => {
-        table.toggleAllPageRowsSelected(e.target.checked);
-      };
-    };
-  },
-  createRow: (row, table) => {
-    row.toggleSelected = (value, opts) => {
-      const isSelected = row.getIsSelected();
-      table.setRowSelection(old => {
-        var _opts$selectChildren;
-        value = typeof value !== 'undefined' ? value : !isSelected;
-        if (row.getCanSelect() && isSelected === value) {
-          return old;
-        }
-        const selectedRowIds = {
-          ...old
-        };
-        mutateRowIsSelected(selectedRowIds, row.id, value, (_opts$selectChildren = opts == null ? void 0 : opts.selectChildren) != null ? _opts$selectChildren : true, table);
-        return selectedRowIds;
-      });
-    };
-    row.getIsSelected = () => {
-      const {
-        rowSelection
-      } = table.getState();
-      return isRowSelected(row, rowSelection);
-    };
-    row.getIsSomeSelected = () => {
-      const {
-        rowSelection
-      } = table.getState();
-      return isSubRowSelected(row, rowSelection) === 'some';
-    };
-    row.getIsAllSubRowsSelected = () => {
-      const {
-        rowSelection
-      } = table.getState();
-      return isSubRowSelected(row, rowSelection) === 'all';
-    };
-    row.getCanSelect = () => {
-      var _table$options$enable;
-      if (typeof table.options.enableRowSelection === 'function') {
-        return table.options.enableRowSelection(row);
-      }
-      return (_table$options$enable = table.options.enableRowSelection) != null ? _table$options$enable : true;
-    };
-    row.getCanSelectSubRows = () => {
-      var _table$options$enable2;
-      if (typeof table.options.enableSubRowSelection === 'function') {
-        return table.options.enableSubRowSelection(row);
-      }
-      return (_table$options$enable2 = table.options.enableSubRowSelection) != null ? _table$options$enable2 : true;
-    };
-    row.getCanMultiSelect = () => {
-      var _table$options$enable3;
-      if (typeof table.options.enableMultiRowSelection === 'function') {
-        return table.options.enableMultiRowSelection(row);
-      }
-      return (_table$options$enable3 = table.options.enableMultiRowSelection) != null ? _table$options$enable3 : true;
-    };
-    row.getToggleSelectedHandler = () => {
-      const canSelect = row.getCanSelect();
-      return e => {
-        var _target;
-        if (!canSelect) return;
-        row.toggleSelected((_target = e.target) == null ? void 0 : _target.checked);
-      };
-    };
-  }
-};
-const mutateRowIsSelected = (selectedRowIds, id, value, includeChildren, table) => {
-  var _row$subRows;
-  const row = table.getRow(id);
-
-  // const isGrouped = row.getIsGrouped()
-
-  // if ( // TODO: enforce grouping row selection rules
-  //   !isGrouped ||
-  //   (isGrouped && table.options.enableGroupingRowSelection)
-  // ) {
-  if (value) {
-    if (!row.getCanMultiSelect()) {
-      Object.keys(selectedRowIds).forEach(key => delete selectedRowIds[key]);
-    }
-    if (row.getCanSelect()) {
-      selectedRowIds[id] = true;
-    }
-  } else {
-    delete selectedRowIds[id];
-  }
-  // }
-
-  if (includeChildren && (_row$subRows = row.subRows) != null && _row$subRows.length && row.getCanSelectSubRows()) {
-    row.subRows.forEach(row => mutateRowIsSelected(selectedRowIds, row.id, value, includeChildren, table));
-  }
-};
-function selectRowsFn(table, rowModel) {
-  const rowSelection = table.getState().rowSelection;
-  const newSelectedFlatRows = [];
-  const newSelectedRowsById = {};
-
-  // Filters top level and nested rows
-  const recurseRows = function (rows, depth) {
-    return rows.map(row => {
-      var _row$subRows2;
-      const isSelected = isRowSelected(row, rowSelection);
-      if (isSelected) {
-        newSelectedFlatRows.push(row);
-        newSelectedRowsById[row.id] = row;
-      }
-      if ((_row$subRows2 = row.subRows) != null && _row$subRows2.length) {
-        row = {
-          ...row,
-          subRows: recurseRows(row.subRows)
-        };
-      }
-      if (isSelected) {
-        return row;
-      }
-    }).filter(Boolean);
-  };
-  return {
-    rows: recurseRows(rowModel.rows),
-    flatRows: newSelectedFlatRows,
-    rowsById: newSelectedRowsById
-  };
-}
-function isRowSelected(row, selection) {
-  var _selection$row$id;
-  return (_selection$row$id = selection[row.id]) != null ? _selection$row$id : false;
-}
-function isSubRowSelected(row, selection, table) {
-  var _row$subRows3;
-  if (!((_row$subRows3 = row.subRows) != null && _row$subRows3.length)) return false;
-  let allChildrenSelected = true;
-  let someSelected = false;
-  row.subRows.forEach(subRow => {
-    // Bail out early if we know both of these
-    if (someSelected && !allChildrenSelected) {
-      return;
-    }
-    if (subRow.getCanSelect()) {
-      if (isRowSelected(subRow, selection)) {
-        someSelected = true;
-      } else {
-        allChildrenSelected = false;
-      }
-    }
-
-    // Check row selection of nested subrows
-    if (subRow.subRows && subRow.subRows.length) {
-      const subRowChildrenSelected = isSubRowSelected(subRow, selection);
-      if (subRowChildrenSelected === 'all') {
-        someSelected = true;
-      } else if (subRowChildrenSelected === 'some') {
-        someSelected = true;
-        allChildrenSelected = false;
-      } else {
-        allChildrenSelected = false;
-      }
-    }
-  });
-  return allChildrenSelected ? 'all' : someSelected ? 'some' : false;
-}
-
-const reSplitAlphaNumeric = /([0-9]+)/gm;
-const alphanumeric = (rowA, rowB, columnId) => {
-  return compareAlphanumeric(lib_toString(rowA.getValue(columnId)).toLowerCase(), lib_toString(rowB.getValue(columnId)).toLowerCase());
-};
-const alphanumericCaseSensitive = (rowA, rowB, columnId) => {
-  return compareAlphanumeric(lib_toString(rowA.getValue(columnId)), lib_toString(rowB.getValue(columnId)));
-};
-
-// The text filter is more basic (less numeric support)
-// but is much faster
-const lib_text = (rowA, rowB, columnId) => {
-  return compareBasic(lib_toString(rowA.getValue(columnId)).toLowerCase(), lib_toString(rowB.getValue(columnId)).toLowerCase());
-};
-
-// The text filter is more basic (less numeric support)
-// but is much faster
-const textCaseSensitive = (rowA, rowB, columnId) => {
-  return compareBasic(lib_toString(rowA.getValue(columnId)), lib_toString(rowB.getValue(columnId)));
-};
-const datetime = (rowA, rowB, columnId) => {
-  const a = rowA.getValue(columnId);
-  const b = rowB.getValue(columnId);
-
-  // Can handle nullish values
-  // Use > and < because == (and ===) doesn't work with
-  // Date objects (would require calling getTime()).
-  return a > b ? 1 : a < b ? -1 : 0;
-};
-const basic = (rowA, rowB, columnId) => {
-  return compareBasic(rowA.getValue(columnId), rowB.getValue(columnId));
-};
-
-// Utils
-
-function compareBasic(a, b) {
-  return a === b ? 0 : a > b ? 1 : -1;
-}
-function lib_toString(a) {
-  if (typeof a === 'number') {
-    if (isNaN(a) || a === Infinity || a === -Infinity) {
-      return '';
-    }
-    return String(a);
-  }
-  if (typeof a === 'string') {
-    return a;
-  }
-  return '';
-}
-
-// Mixed sorting is slow, but very inclusive of many edge cases.
-// It handles numbers, mixed alphanumeric combinations, and even
-// null, undefined, and Infinity
-function compareAlphanumeric(aStr, bStr) {
-  // Split on number groups, but keep the delimiter
-  // Then remove falsey split values
-  const a = aStr.split(reSplitAlphaNumeric).filter(Boolean);
-  const b = bStr.split(reSplitAlphaNumeric).filter(Boolean);
-
-  // While
-  while (a.length && b.length) {
-    const aa = a.shift();
-    const bb = b.shift();
-    const an = parseInt(aa, 10);
-    const bn = parseInt(bb, 10);
-    const combo = [an, bn].sort();
-
-    // Both are string
-    if (isNaN(combo[0])) {
-      if (aa > bb) {
-        return 1;
-      }
-      if (bb > aa) {
-        return -1;
-      }
-      continue;
-    }
-
-    // One is a string, one is a number
-    if (isNaN(combo[1])) {
-      return isNaN(an) ? -1 : 1;
-    }
-
-    // Both are numbers
-    if (an > bn) {
-      return 1;
-    }
-    if (bn > an) {
-      return -1;
-    }
-  }
-  return a.length - b.length;
-}
-
-// Exports
-
-const sortingFns = {
-  alphanumeric,
-  alphanumericCaseSensitive,
-  text: lib_text,
-  textCaseSensitive,
-  datetime,
-  basic
-};
-
-//
-
-const Sorting = {
-  getInitialState: state => {
-    return {
-      sorting: [],
-      ...state
-    };
-  },
-  getDefaultColumnDef: () => {
-    return {
-      sortingFn: 'auto',
-      sortUndefined: 1
-    };
-  },
-  getDefaultOptions: table => {
-    return {
-      onSortingChange: makeStateUpdater('sorting', table),
-      isMultiSortEvent: e => {
-        return e.shiftKey;
-      }
-    };
-  },
-  createColumn: (column, table) => {
-    column.getAutoSortingFn = () => {
-      const firstRows = table.getFilteredRowModel().flatRows.slice(10);
-      let isString = false;
-      for (const row of firstRows) {
-        const value = row == null ? void 0 : row.getValue(column.id);
-        if (Object.prototype.toString.call(value) === '[object Date]') {
-          return sortingFns.datetime;
-        }
-        if (typeof value === 'string') {
-          isString = true;
-          if (value.split(reSplitAlphaNumeric).length > 1) {
-            return sortingFns.alphanumeric;
-          }
-        }
-      }
-      if (isString) {
-        return sortingFns.text;
-      }
-      return sortingFns.basic;
-    };
-    column.getAutoSortDir = () => {
-      const firstRow = table.getFilteredRowModel().flatRows[0];
-      const value = firstRow == null ? void 0 : firstRow.getValue(column.id);
-      if (typeof value === 'string') {
-        return 'asc';
-      }
-      return 'desc';
-    };
-    column.getSortingFn = () => {
-      var _table$options$sortin, _table$options$sortin2;
-      if (!column) {
-        throw new Error();
-      }
-      return isFunction(column.columnDef.sortingFn) ? column.columnDef.sortingFn : column.columnDef.sortingFn === 'auto' ? column.getAutoSortingFn() : (_table$options$sortin = (_table$options$sortin2 = table.options.sortingFns) == null ? void 0 : _table$options$sortin2[column.columnDef.sortingFn]) != null ? _table$options$sortin : sortingFns[column.columnDef.sortingFn];
-    };
-    column.toggleSorting = (desc, multi) => {
-      // if (column.columns.length) {
-      //   column.columns.forEach((c, i) => {
-      //     if (c.id) {
-      //       table.toggleColumnSorting(c.id, undefined, multi || !!i)
-      //     }
-      //   })
-      //   return
-      // }
-
-      // this needs to be outside of table.setSorting to be in sync with rerender
-      const nextSortingOrder = column.getNextSortingOrder();
-      const hasManualValue = typeof desc !== 'undefined' && desc !== null;
-      table.setSorting(old => {
-        // Find any existing sorting for this column
-        const existingSorting = old == null ? void 0 : old.find(d => d.id === column.id);
-        const existingIndex = old == null ? void 0 : old.findIndex(d => d.id === column.id);
-        let newSorting = [];
-
-        // What should we do with this sort action?
-        let sortAction;
-        let nextDesc = hasManualValue ? desc : nextSortingOrder === 'desc';
-
-        // Multi-mode
-        if (old != null && old.length && column.getCanMultiSort() && multi) {
-          if (existingSorting) {
-            sortAction = 'toggle';
-          } else {
-            sortAction = 'add';
-          }
-        } else {
-          // Normal mode
-          if (old != null && old.length && existingIndex !== old.length - 1) {
-            sortAction = 'replace';
-          } else if (existingSorting) {
-            sortAction = 'toggle';
-          } else {
-            sortAction = 'replace';
-          }
-        }
-
-        // Handle toggle states that will remove the sorting
-        if (sortAction === 'toggle') {
-          // If we are "actually" toggling (not a manual set value), should we remove the sorting?
-          if (!hasManualValue) {
-            // Is our intention to remove?
-            if (!nextSortingOrder) {
-              sortAction = 'remove';
-            }
-          }
-        }
-        if (sortAction === 'add') {
-          var _table$options$maxMul;
-          newSorting = [...old, {
-            id: column.id,
-            desc: nextDesc
-          }];
-          // Take latest n columns
-          newSorting.splice(0, newSorting.length - ((_table$options$maxMul = table.options.maxMultiSortColCount) != null ? _table$options$maxMul : Number.MAX_SAFE_INTEGER));
-        } else if (sortAction === 'toggle') {
-          // This flips (or sets) the
-          newSorting = old.map(d => {
-            if (d.id === column.id) {
-              return {
-                ...d,
-                desc: nextDesc
-              };
-            }
-            return d;
-          });
-        } else if (sortAction === 'remove') {
-          newSorting = old.filter(d => d.id !== column.id);
-        } else {
-          newSorting = [{
-            id: column.id,
-            desc: nextDesc
-          }];
-        }
-        return newSorting;
-      });
-    };
-    column.getFirstSortDir = () => {
-      var _ref, _column$columnDef$sor;
-      const sortDescFirst = (_ref = (_column$columnDef$sor = column.columnDef.sortDescFirst) != null ? _column$columnDef$sor : table.options.sortDescFirst) != null ? _ref : column.getAutoSortDir() === 'desc';
-      return sortDescFirst ? 'desc' : 'asc';
-    };
-    column.getNextSortingOrder = multi => {
-      var _table$options$enable, _table$options$enable2;
-      const firstSortDirection = column.getFirstSortDir();
-      const isSorted = column.getIsSorted();
-      if (!isSorted) {
-        return firstSortDirection;
-      }
-      if (isSorted !== firstSortDirection && ((_table$options$enable = table.options.enableSortingRemoval) != null ? _table$options$enable : true) && (
-      // If enableSortRemove, enable in general
-      multi ? (_table$options$enable2 = table.options.enableMultiRemove) != null ? _table$options$enable2 : true : true) // If multi, don't allow if enableMultiRemove))
-      ) {
-        return false;
-      }
-      return isSorted === 'desc' ? 'asc' : 'desc';
-    };
-    column.getCanSort = () => {
-      var _column$columnDef$ena, _table$options$enable3;
-      return ((_column$columnDef$ena = column.columnDef.enableSorting) != null ? _column$columnDef$ena : true) && ((_table$options$enable3 = table.options.enableSorting) != null ? _table$options$enable3 : true) && !!column.accessorFn;
-    };
-    column.getCanMultiSort = () => {
-      var _ref2, _column$columnDef$ena2;
-      return (_ref2 = (_column$columnDef$ena2 = column.columnDef.enableMultiSort) != null ? _column$columnDef$ena2 : table.options.enableMultiSort) != null ? _ref2 : !!column.accessorFn;
-    };
-    column.getIsSorted = () => {
-      var _table$getState$sorti;
-      const columnSort = (_table$getState$sorti = table.getState().sorting) == null ? void 0 : _table$getState$sorti.find(d => d.id === column.id);
-      return !columnSort ? false : columnSort.desc ? 'desc' : 'asc';
-    };
-    column.getSortIndex = () => {
-      var _table$getState$sorti2, _table$getState$sorti3;
-      return (_table$getState$sorti2 = (_table$getState$sorti3 = table.getState().sorting) == null ? void 0 : _table$getState$sorti3.findIndex(d => d.id === column.id)) != null ? _table$getState$sorti2 : -1;
-    };
-    column.clearSorting = () => {
-      //clear sorting for just 1 column
-      table.setSorting(old => old != null && old.length ? old.filter(d => d.id !== column.id) : []);
-    };
-    column.getToggleSortingHandler = () => {
-      const canSort = column.getCanSort();
-      return e => {
-        if (!canSort) return;
-        e.persist == null || e.persist();
-        column.toggleSorting == null || column.toggleSorting(undefined, column.getCanMultiSort() ? table.options.isMultiSortEvent == null ? void 0 : table.options.isMultiSortEvent(e) : false);
-      };
-    };
-  },
-  createTable: table => {
-    table.setSorting = updater => table.options.onSortingChange == null ? void 0 : table.options.onSortingChange(updater);
-    table.resetSorting = defaultState => {
-      var _table$initialState$s, _table$initialState;
-      table.setSorting(defaultState ? [] : (_table$initialState$s = (_table$initialState = table.initialState) == null ? void 0 : _table$initialState.sorting) != null ? _table$initialState$s : []);
-    };
-    table.getPreSortedRowModel = () => table.getGroupedRowModel();
-    table.getSortedRowModel = () => {
-      if (!table._getSortedRowModel && table.options.getSortedRowModel) {
-        table._getSortedRowModel = table.options.getSortedRowModel(table);
-      }
-      if (table.options.manualSorting || !table._getSortedRowModel) {
-        return table.getPreSortedRowModel();
-      }
-      return table._getSortedRowModel();
-    };
-  }
-};
-
-//
-
-const Visibility = {
-  getInitialState: state => {
-    return {
-      columnVisibility: {},
-      ...state
-    };
-  },
-  getDefaultOptions: table => {
-    return {
-      onColumnVisibilityChange: makeStateUpdater('columnVisibility', table)
-    };
-  },
-  createColumn: (column, table) => {
-    column.toggleVisibility = value => {
-      if (column.getCanHide()) {
-        table.setColumnVisibility(old => ({
-          ...old,
-          [column.id]: value != null ? value : !column.getIsVisible()
-        }));
-      }
-    };
-    column.getIsVisible = () => {
-      var _table$getState$colum, _table$getState$colum2;
-      return (_table$getState$colum = (_table$getState$colum2 = table.getState().columnVisibility) == null ? void 0 : _table$getState$colum2[column.id]) != null ? _table$getState$colum : true;
-    };
-    column.getCanHide = () => {
-      var _column$columnDef$ena, _table$options$enable;
-      return ((_column$columnDef$ena = column.columnDef.enableHiding) != null ? _column$columnDef$ena : true) && ((_table$options$enable = table.options.enableHiding) != null ? _table$options$enable : true);
-    };
-    column.getToggleVisibilityHandler = () => {
-      return e => {
-        column.toggleVisibility == null || column.toggleVisibility(e.target.checked);
-      };
-    };
-  },
-  createRow: (row, table) => {
-    row._getAllVisibleCells = memo(() => [row.getAllCells(), table.getState().columnVisibility], cells => {
-      return cells.filter(cell => cell.column.getIsVisible());
-    }, {
-      key:  true && 'row._getAllVisibleCells',
-      debug: () => {
-        var _table$options$debugA;
-        return (_table$options$debugA = table.options.debugAll) != null ? _table$options$debugA : table.options.debugRows;
-      }
-    });
-    row.getVisibleCells = memo(() => [row.getLeftVisibleCells(), row.getCenterVisibleCells(), row.getRightVisibleCells()], (left, center, right) => [...left, ...center, ...right], {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA2;
-        return (_table$options$debugA2 = table.options.debugAll) != null ? _table$options$debugA2 : table.options.debugRows;
-      }
-    });
-  },
-  createTable: table => {
-    const makeVisibleColumnsMethod = (key, getColumns) => {
-      return memo(() => [getColumns(), getColumns().filter(d => d.getIsVisible()).map(d => d.id).join('_')], columns => {
-        return columns.filter(d => d.getIsVisible == null ? void 0 : d.getIsVisible());
-      }, {
-        key,
-        debug: () => {
-          var _table$options$debugA3;
-          return (_table$options$debugA3 = table.options.debugAll) != null ? _table$options$debugA3 : table.options.debugColumns;
-        }
-      });
-    };
-    table.getVisibleFlatColumns = makeVisibleColumnsMethod('getVisibleFlatColumns', () => table.getAllFlatColumns());
-    table.getVisibleLeafColumns = makeVisibleColumnsMethod('getVisibleLeafColumns', () => table.getAllLeafColumns());
-    table.getLeftVisibleLeafColumns = makeVisibleColumnsMethod('getLeftVisibleLeafColumns', () => table.getLeftLeafColumns());
-    table.getRightVisibleLeafColumns = makeVisibleColumnsMethod('getRightVisibleLeafColumns', () => table.getRightLeafColumns());
-    table.getCenterVisibleLeafColumns = makeVisibleColumnsMethod('getCenterVisibleLeafColumns', () => table.getCenterLeafColumns());
-    table.setColumnVisibility = updater => table.options.onColumnVisibilityChange == null ? void 0 : table.options.onColumnVisibilityChange(updater);
-    table.resetColumnVisibility = defaultState => {
-      var _table$initialState$c;
-      table.setColumnVisibility(defaultState ? {} : (_table$initialState$c = table.initialState.columnVisibility) != null ? _table$initialState$c : {});
-    };
-    table.toggleAllColumnsVisible = value => {
-      var _value;
-      value = (_value = value) != null ? _value : !table.getIsAllColumnsVisible();
-      table.setColumnVisibility(table.getAllLeafColumns().reduce((obj, column) => ({
-        ...obj,
-        [column.id]: !value ? !(column.getCanHide != null && column.getCanHide()) : value
-      }), {}));
-    };
-    table.getIsAllColumnsVisible = () => !table.getAllLeafColumns().some(column => !(column.getIsVisible != null && column.getIsVisible()));
-    table.getIsSomeColumnsVisible = () => table.getAllLeafColumns().some(column => column.getIsVisible == null ? void 0 : column.getIsVisible());
-    table.getToggleAllColumnsVisibilityHandler = () => {
-      return e => {
-        var _target;
-        table.toggleAllColumnsVisible((_target = e.target) == null ? void 0 : _target.checked);
-      };
-    };
-  }
-};
-
-const features = [Headers, Visibility, Ordering, Pinning, Filters, Sorting, Grouping, Expanding, lib_Pagination, RowSelection, ColumnSizing];
-
-//
-
-function lib_createTable(options) {
-  var _options$initialState;
-  if (options.debugAll || options.debugTable) {
-    console.info('Creating Table Instance...');
-  }
-  let table = {
-    _features: features
-  };
-  const defaultOptions = table._features.reduce((obj, feature) => {
-    return Object.assign(obj, feature.getDefaultOptions == null ? void 0 : feature.getDefaultOptions(table));
-  }, {});
-  const mergeOptions = options => {
-    if (table.options.mergeOptions) {
-      return table.options.mergeOptions(defaultOptions, options);
-    }
-    return {
-      ...defaultOptions,
-      ...options
-    };
-  };
-  const coreInitialState = {};
-  let initialState = {
-    ...coreInitialState,
-    ...((_options$initialState = options.initialState) != null ? _options$initialState : {})
-  };
-  table._features.forEach(feature => {
-    var _feature$getInitialSt;
-    initialState = (_feature$getInitialSt = feature.getInitialState == null ? void 0 : feature.getInitialState(initialState)) != null ? _feature$getInitialSt : initialState;
-  });
-  const queued = [];
-  let queuedTimeout = false;
-  const coreInstance = {
-    _features: features,
-    options: {
-      ...defaultOptions,
-      ...options
-    },
-    initialState,
-    _queue: cb => {
-      queued.push(cb);
-      if (!queuedTimeout) {
-        queuedTimeout = true;
-
-        // Schedule a microtask to run the queued callbacks after
-        // the current call stack (render, etc) has finished.
-        Promise.resolve().then(() => {
-          while (queued.length) {
-            queued.shift()();
-          }
-          queuedTimeout = false;
-        }).catch(error => setTimeout(() => {
-          throw error;
-        }));
-      }
-    },
-    reset: () => {
-      table.setState(table.initialState);
-    },
-    setOptions: updater => {
-      const newOptions = functionalUpdate(updater, table.options);
-      table.options = mergeOptions(newOptions);
-    },
-    getState: () => {
-      return table.options.state;
-    },
-    setState: updater => {
-      table.options.onStateChange == null || table.options.onStateChange(updater);
-    },
-    _getRowId: (row, index, parent) => {
-      var _table$options$getRow;
-      return (_table$options$getRow = table.options.getRowId == null ? void 0 : table.options.getRowId(row, index, parent)) != null ? _table$options$getRow : `${parent ? [parent.id, index].join('.') : index}`;
-    },
-    getCoreRowModel: () => {
-      if (!table._getCoreRowModel) {
-        table._getCoreRowModel = table.options.getCoreRowModel(table);
-      }
-      return table._getCoreRowModel();
-    },
-    // The final calls start at the bottom of the model,
-    // expanded rows, which then work their way up
-
-    getRowModel: () => {
-      return table.getPaginationRowModel();
-    },
-    getRow: (id, searchAll) => {
-      const row = (searchAll ? table.getCoreRowModel() : table.getRowModel()).rowsById[id];
-      if (!row) {
-        if (false) {}
-        throw new Error();
-      }
-      return row;
-    },
-    _getDefaultColumnDef: memo(() => [table.options.defaultColumn], defaultColumn => {
-      var _defaultColumn;
-      defaultColumn = (_defaultColumn = defaultColumn) != null ? _defaultColumn : {};
-      return {
-        header: props => {
-          const resolvedColumnDef = props.header.column.columnDef;
-          if (resolvedColumnDef.accessorKey) {
-            return resolvedColumnDef.accessorKey;
-          }
-          if (resolvedColumnDef.accessorFn) {
-            return resolvedColumnDef.id;
-          }
-          return null;
-        },
-        // footer: props => props.header.column.id,
-        cell: props => {
-          var _props$renderValue$to, _props$renderValue;
-          return (_props$renderValue$to = (_props$renderValue = props.renderValue()) == null || _props$renderValue.toString == null ? void 0 : _props$renderValue.toString()) != null ? _props$renderValue$to : null;
-        },
-        ...table._features.reduce((obj, feature) => {
-          return Object.assign(obj, feature.getDefaultColumnDef == null ? void 0 : feature.getDefaultColumnDef());
-        }, {}),
-        ...defaultColumn
-      };
-    }, {
-      debug: () => {
-        var _table$options$debugA;
-        return (_table$options$debugA = table.options.debugAll) != null ? _table$options$debugA : table.options.debugColumns;
-      },
-      key:  false && 0
-    }),
-    _getColumnDefs: () => table.options.columns,
-    getAllColumns: memo(() => [table._getColumnDefs()], columnDefs => {
-      const recurseColumns = function (columnDefs, parent, depth) {
-        if (depth === void 0) {
-          depth = 0;
-        }
-        return columnDefs.map(columnDef => {
-          const column = createColumn(table, columnDef, depth, parent);
-          const groupingColumnDef = columnDef;
-          column.columns = groupingColumnDef.columns ? recurseColumns(groupingColumnDef.columns, column, depth + 1) : [];
-          return column;
-        });
-      };
-      return recurseColumns(columnDefs);
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA2;
-        return (_table$options$debugA2 = table.options.debugAll) != null ? _table$options$debugA2 : table.options.debugColumns;
-      }
-    }),
-    getAllFlatColumns: memo(() => [table.getAllColumns()], allColumns => {
-      return allColumns.flatMap(column => {
-        return column.getFlatColumns();
-      });
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA3;
-        return (_table$options$debugA3 = table.options.debugAll) != null ? _table$options$debugA3 : table.options.debugColumns;
-      }
-    }),
-    _getAllFlatColumnsById: memo(() => [table.getAllFlatColumns()], flatColumns => {
-      return flatColumns.reduce((acc, column) => {
-        acc[column.id] = column;
-        return acc;
-      }, {});
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA4;
-        return (_table$options$debugA4 = table.options.debugAll) != null ? _table$options$debugA4 : table.options.debugColumns;
-      }
-    }),
-    getAllLeafColumns: memo(() => [table.getAllColumns(), table._getOrderColumnsFn()], (allColumns, orderColumns) => {
-      let leafColumns = allColumns.flatMap(column => column.getLeafColumns());
-      return orderColumns(leafColumns);
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA5;
-        return (_table$options$debugA5 = table.options.debugAll) != null ? _table$options$debugA5 : table.options.debugColumns;
-      }
-    }),
-    getColumn: columnId => {
-      const column = table._getAllFlatColumnsById()[columnId];
-      if (false) {}
-      return column;
-    }
-  };
-  Object.assign(table, coreInstance);
-  for (let index = 0; index < table._features.length; index++) {
-    const feature = table._features[index];
-    feature == null || feature.createTable == null || feature.createTable(table);
-  }
-  return table;
-}
-
-function createCell(table, row, column, columnId) {
-  const getRenderValue = () => {
-    var _cell$getValue;
-    return (_cell$getValue = cell.getValue()) != null ? _cell$getValue : table.options.renderFallbackValue;
-  };
-  const cell = {
-    id: `${row.id}_${column.id}`,
-    row,
-    column,
-    getValue: () => row.getValue(columnId),
-    renderValue: getRenderValue,
-    getContext: memo(() => [table, column, row, cell], (table, column, row, cell) => ({
-      table,
-      column,
-      row,
-      cell: cell,
-      getValue: cell.getValue,
-      renderValue: cell.renderValue
-    }), {
-      key:  false && 0,
-      debug: () => table.options.debugAll
-    })
-  };
-  table._features.forEach(feature => {
-    feature.createCell == null || feature.createCell(cell, column, row, table);
-  }, {});
-  return cell;
-}
-
-const createRow = (table, id, original, rowIndex, depth, subRows, parentId) => {
-  let row = {
-    id,
-    index: rowIndex,
-    original,
-    depth,
-    parentId,
-    _valuesCache: {},
-    _uniqueValuesCache: {},
-    getValue: columnId => {
-      if (row._valuesCache.hasOwnProperty(columnId)) {
-        return row._valuesCache[columnId];
-      }
-      const column = table.getColumn(columnId);
-      if (!(column != null && column.accessorFn)) {
-        return undefined;
-      }
-      row._valuesCache[columnId] = column.accessorFn(row.original, rowIndex);
-      return row._valuesCache[columnId];
-    },
-    getUniqueValues: columnId => {
-      if (row._uniqueValuesCache.hasOwnProperty(columnId)) {
-        return row._uniqueValuesCache[columnId];
-      }
-      const column = table.getColumn(columnId);
-      if (!(column != null && column.accessorFn)) {
-        return undefined;
-      }
-      if (!column.columnDef.getUniqueValues) {
-        row._uniqueValuesCache[columnId] = [row.getValue(columnId)];
-        return row._uniqueValuesCache[columnId];
-      }
-      row._uniqueValuesCache[columnId] = column.columnDef.getUniqueValues(row.original, rowIndex);
-      return row._uniqueValuesCache[columnId];
-    },
-    renderValue: columnId => {
-      var _row$getValue;
-      return (_row$getValue = row.getValue(columnId)) != null ? _row$getValue : table.options.renderFallbackValue;
-    },
-    subRows: subRows != null ? subRows : [],
-    getLeafRows: () => flattenBy(row.subRows, d => d.subRows),
-    getParentRow: () => row.parentId ? table.getRow(row.parentId) : undefined,
-    getParentRows: () => {
-      let parentRows = [];
-      let currentRow = row;
-      while (true) {
-        const parentRow = currentRow.getParentRow();
-        if (!parentRow) break;
-        parentRows.push(parentRow);
-        currentRow = parentRow;
-      }
-      return parentRows.reverse();
-    },
-    getAllCells: memo(() => [table.getAllLeafColumns()], leafColumns => {
-      return leafColumns.map(column => {
-        return createCell(table, row, column, column.id);
-      });
-    }, {
-      key:  false && 0,
-      debug: () => {
-        var _table$options$debugA;
-        return (_table$options$debugA = table.options.debugAll) != null ? _table$options$debugA : table.options.debugRows;
-      }
-    }),
-    _getAllCellsByColumnId: memo(() => [row.getAllCells()], allCells => {
-      return allCells.reduce((acc, cell) => {
-        acc[cell.column.id] = cell;
-        return acc;
-      }, {});
-    }, {
-      key:  true && 'row.getAllCellsByColumnId',
-      debug: () => {
-        var _table$options$debugA2;
-        return (_table$options$debugA2 = table.options.debugAll) != null ? _table$options$debugA2 : table.options.debugRows;
-      }
-    })
-  };
-  for (let i = 0; i < table._features.length; i++) {
-    const feature = table._features[i];
-    feature == null || feature.createRow == null || feature.createRow(row, table);
-  }
-  return row;
-};
-
-// type Person = {
-//   firstName: string
-//   lastName: string
-//   age: number
-//   visits: number
-//   status: string
-//   progress: number
-//   createdAt: Date
-//   nested: {
-//     foo: [
-//       {
-//         bar: 'bar'
-//       }
-//     ]
-//     bar: { subBar: boolean }[]
-//     baz: {
-//       foo: 'foo'
-//       bar: {
-//         baz: 'baz'
-//       }
-//     }
-//   }
-// }
-
-// const test: DeepKeys<Person> = 'nested.foo.0.bar'
-// const test2: DeepKeys<Person> = 'nested.bar'
-
-// const helper = createColumnHelper<Person>()
-
-// helper.accessor('nested.foo', {
-//   cell: info => info.getValue(),
-// })
-
-// helper.accessor('nested.foo.0.bar', {
-//   cell: info => info.getValue(),
-// })
-
-// helper.accessor('nested.bar', {
-//   cell: info => info.getValue(),
-// })
-function createColumnHelper() {
-  return {
-    accessor: (accessor, column) => {
-      return typeof accessor === 'function' ? {
-        ...column,
-        accessorFn: accessor
-      } : {
-        ...column,
-        accessorKey: accessor
-      };
-    },
-    display: column => column,
-    group: column => column
-  };
-}
-
-function getCoreRowModel() {
-  return table => memo(() => [table.options.data], data => {
-    const rowModel = {
-      rows: [],
-      flatRows: [],
-      rowsById: {}
-    };
-    const accessRows = function (originalRows, depth, parentRow) {
-      if (depth === void 0) {
-        depth = 0;
-      }
-      const rows = [];
-      for (let i = 0; i < originalRows.length; i++) {
-        // This could be an expensive check at scale, so we should move it somewhere else, but where?
-        // if (!id) {
-        //   if (process.env.NODE_ENV !== 'production') {
-        //     throw new Error(`getRowId expected an ID, but got ${id}`)
-        //   }
-        // }
-
-        // Make the row
-        const row = createRow(table, table._getRowId(originalRows[i], i, parentRow), originalRows[i], i, depth, undefined, parentRow == null ? void 0 : parentRow.id);
-
-        // Keep track of every row in a flat array
-        rowModel.flatRows.push(row);
-        // Also keep track of every row by its ID
-        rowModel.rowsById[row.id] = row;
-        // Push table row into parent
-        rows.push(row);
-
-        // Get the original subrows
-        if (table.options.getSubRows) {
-          var _row$originalSubRows;
-          row.originalSubRows = table.options.getSubRows(originalRows[i], i);
-
-          // Then recursively access them
-          if ((_row$originalSubRows = row.originalSubRows) != null && _row$originalSubRows.length) {
-            row.subRows = accessRows(row.originalSubRows, depth + 1, row);
-          }
-        }
-      }
-      return rows;
-    };
-    rowModel.rows = accessRows(data);
-    return rowModel;
-  }, {
-    key:  false && 0,
-    debug: () => {
-      var _table$options$debugA;
-      return (_table$options$debugA = table.options.debugAll) != null ? _table$options$debugA : table.options.debugTable;
-    },
-    onChange: () => {
-      table._autoResetPageIndex();
-    }
-  });
-}
-
-function filterRows(rows, filterRowImpl, table) {
-  if (table.options.filterFromLeafRows) {
-    return filterRowModelFromLeafs(rows, filterRowImpl, table);
-  }
-  return filterRowModelFromRoot(rows, filterRowImpl, table);
-}
-function filterRowModelFromLeafs(rowsToFilter, filterRow, table) {
-  var _table$options$maxLea;
-  const newFilteredFlatRows = [];
-  const newFilteredRowsById = {};
-  const maxDepth = (_table$options$maxLea = table.options.maxLeafRowFilterDepth) != null ? _table$options$maxLea : 100;
-  const recurseFilterRows = function (rowsToFilter, depth) {
-    if (depth === void 0) {
-      depth = 0;
-    }
-    const rows = [];
-
-    // Filter from children up first
-    for (let i = 0; i < rowsToFilter.length; i++) {
-      var _row$subRows;
-      let row = rowsToFilter[i];
-      const newRow = createRow(table, row.id, row.original, row.index, row.depth, undefined, row.parentId);
-      newRow.columnFilters = row.columnFilters;
-      if ((_row$subRows = row.subRows) != null && _row$subRows.length && depth < maxDepth) {
-        newRow.subRows = recurseFilterRows(row.subRows, depth + 1);
-        row = newRow;
-        if (filterRow(row) && !newRow.subRows.length) {
-          rows.push(row);
-          newFilteredRowsById[row.id] = row;
-          newFilteredFlatRows.push(row);
-          continue;
-        }
-        if (filterRow(row) || newRow.subRows.length) {
-          rows.push(row);
-          newFilteredRowsById[row.id] = row;
-          newFilteredFlatRows.push(row);
-          continue;
-        }
-      } else {
-        row = newRow;
-        if (filterRow(row)) {
-          rows.push(row);
-          newFilteredRowsById[row.id] = row;
-          newFilteredFlatRows.push(row);
-        }
-      }
-    }
-    return rows;
-  };
-  return {
-    rows: recurseFilterRows(rowsToFilter),
-    flatRows: newFilteredFlatRows,
-    rowsById: newFilteredRowsById
-  };
-}
-function filterRowModelFromRoot(rowsToFilter, filterRow, table) {
-  var _table$options$maxLea2;
-  const newFilteredFlatRows = [];
-  const newFilteredRowsById = {};
-  const maxDepth = (_table$options$maxLea2 = table.options.maxLeafRowFilterDepth) != null ? _table$options$maxLea2 : 100;
-
-  // Filters top level and nested rows
-  const recurseFilterRows = function (rowsToFilter, depth) {
-    if (depth === void 0) {
-      depth = 0;
-    }
-    // Filter from parents downward first
-
-    const rows = [];
-
-    // Apply the filter to any subRows
-    for (let i = 0; i < rowsToFilter.length; i++) {
-      let row = rowsToFilter[i];
-      const pass = filterRow(row);
-      if (pass) {
-        var _row$subRows2;
-        if ((_row$subRows2 = row.subRows) != null && _row$subRows2.length && depth < maxDepth) {
-          const newRow = createRow(table, row.id, row.original, row.index, row.depth, undefined, row.parentId);
-          newRow.subRows = recurseFilterRows(row.subRows, depth + 1);
-          row = newRow;
-        }
-        rows.push(row);
-        newFilteredFlatRows.push(row);
-        newFilteredRowsById[row.id] = row;
-      }
-    }
-    return rows;
-  };
-  return {
-    rows: recurseFilterRows(rowsToFilter),
-    flatRows: newFilteredFlatRows,
-    rowsById: newFilteredRowsById
-  };
-}
-
-function getFilteredRowModel() {
-  return table => memo(() => [table.getPreFilteredRowModel(), table.getState().columnFilters, table.getState().globalFilter], (rowModel, columnFilters, globalFilter) => {
-    if (!rowModel.rows.length || !(columnFilters != null && columnFilters.length) && !globalFilter) {
-      for (let i = 0; i < rowModel.flatRows.length; i++) {
-        rowModel.flatRows[i].columnFilters = {};
-        rowModel.flatRows[i].columnFiltersMeta = {};
-      }
-      return rowModel;
-    }
-    const resolvedColumnFilters = [];
-    const resolvedGlobalFilters = [];
-    (columnFilters != null ? columnFilters : []).forEach(d => {
-      var _filterFn$resolveFilt;
-      const column = table.getColumn(d.id);
-      if (!column) {
-        return;
-      }
-      const filterFn = column.getFilterFn();
-      if (!filterFn) {
-        if (false) {}
-        return;
-      }
-      resolvedColumnFilters.push({
-        id: d.id,
-        filterFn,
-        resolvedValue: (_filterFn$resolveFilt = filterFn.resolveFilterValue == null ? void 0 : filterFn.resolveFilterValue(d.value)) != null ? _filterFn$resolveFilt : d.value
-      });
-    });
-    const filterableIds = columnFilters.map(d => d.id);
-    const globalFilterFn = table.getGlobalFilterFn();
-    const globallyFilterableColumns = table.getAllLeafColumns().filter(column => column.getCanGlobalFilter());
-    if (globalFilter && globalFilterFn && globallyFilterableColumns.length) {
-      filterableIds.push('__global__');
-      globallyFilterableColumns.forEach(column => {
-        var _globalFilterFn$resol;
-        resolvedGlobalFilters.push({
-          id: column.id,
-          filterFn: globalFilterFn,
-          resolvedValue: (_globalFilterFn$resol = globalFilterFn.resolveFilterValue == null ? void 0 : globalFilterFn.resolveFilterValue(globalFilter)) != null ? _globalFilterFn$resol : globalFilter
-        });
-      });
-    }
-    let currentColumnFilter;
-    let currentGlobalFilter;
-
-    // Flag the prefiltered row model with each filter state
-    for (let j = 0; j < rowModel.flatRows.length; j++) {
-      const row = rowModel.flatRows[j];
-      row.columnFilters = {};
-      if (resolvedColumnFilters.length) {
-        for (let i = 0; i < resolvedColumnFilters.length; i++) {
-          currentColumnFilter = resolvedColumnFilters[i];
-          const id = currentColumnFilter.id;
-
-          // Tag the row with the column filter state
-          row.columnFilters[id] = currentColumnFilter.filterFn(row, id, currentColumnFilter.resolvedValue, filterMeta => {
-            row.columnFiltersMeta[id] = filterMeta;
-          });
-        }
-      }
-      if (resolvedGlobalFilters.length) {
-        for (let i = 0; i < resolvedGlobalFilters.length; i++) {
-          currentGlobalFilter = resolvedGlobalFilters[i];
-          const id = currentGlobalFilter.id;
-          // Tag the row with the first truthy global filter state
-          if (currentGlobalFilter.filterFn(row, id, currentGlobalFilter.resolvedValue, filterMeta => {
-            row.columnFiltersMeta[id] = filterMeta;
-          })) {
-            row.columnFilters.__global__ = true;
-            break;
-          }
-        }
-        if (row.columnFilters.__global__ !== true) {
-          row.columnFilters.__global__ = false;
-        }
-      }
-    }
-    const filterRowsImpl = row => {
-      // Horizontally filter rows through each column
-      for (let i = 0; i < filterableIds.length; i++) {
-        if (row.columnFilters[filterableIds[i]] === false) {
-          return false;
-        }
-      }
-      return true;
-    };
-
-    // Filter final rows using all of the active filters
-    return filterRows(rowModel.rows, filterRowsImpl, table);
-  }, {
-    key:  false && 0,
-    debug: () => {
-      var _table$options$debugA;
-      return (_table$options$debugA = table.options.debugAll) != null ? _table$options$debugA : table.options.debugTable;
-    },
-    onChange: () => {
-      table._autoResetPageIndex();
-    }
-  });
-}
-
-function getFacetedRowModel() {
-  return (table, columnId) => memo(() => [table.getPreFilteredRowModel(), table.getState().columnFilters, table.getState().globalFilter, table.getFilteredRowModel()], (preRowModel, columnFilters, globalFilter) => {
-    if (!preRowModel.rows.length || !(columnFilters != null && columnFilters.length) && !globalFilter) {
-      return preRowModel;
-    }
-    const filterableIds = [...columnFilters.map(d => d.id).filter(d => d !== columnId), globalFilter ? '__global__' : undefined].filter(Boolean);
-    const filterRowsImpl = row => {
-      // Horizontally filter rows through each column
-      for (let i = 0; i < filterableIds.length; i++) {
-        if (row.columnFilters[filterableIds[i]] === false) {
-          return false;
-        }
-      }
-      return true;
-    };
-    return filterRows(preRowModel.rows, filterRowsImpl, table);
-  }, {
-    key:  false && 0,
-    debug: () => {
-      var _table$options$debugA;
-      return (_table$options$debugA = table.options.debugAll) != null ? _table$options$debugA : table.options.debugTable;
-    },
-    onChange: () => {}
-  });
-}
-
-function getFacetedUniqueValues() {
-  return (table, columnId) => memo(() => {
-    var _table$getColumn;
-    return [(_table$getColumn = table.getColumn(columnId)) == null ? void 0 : _table$getColumn.getFacetedRowModel()];
-  }, facetedRowModel => {
-    if (!facetedRowModel) return new Map();
-    let facetedUniqueValues = new Map();
-    for (let i = 0; i < facetedRowModel.flatRows.length; i++) {
-      const values = facetedRowModel.flatRows[i].getUniqueValues(columnId);
-      for (let j = 0; j < values.length; j++) {
-        const value = values[j];
-        if (facetedUniqueValues.has(value)) {
-          var _facetedUniqueValues$;
-          facetedUniqueValues.set(value, ((_facetedUniqueValues$ = facetedUniqueValues.get(value)) != null ? _facetedUniqueValues$ : 0) + 1);
-        } else {
-          facetedUniqueValues.set(value, 1);
-        }
-      }
-    }
-    return facetedUniqueValues;
-  }, {
-    key:  false && 0,
-    debug: () => {
-      var _table$options$debugA;
-      return (_table$options$debugA = table.options.debugAll) != null ? _table$options$debugA : table.options.debugTable;
-    },
-    onChange: () => {}
-  });
-}
-
-function getFacetedMinMaxValues() {
-  return (table, columnId) => memo(() => {
-    var _table$getColumn;
-    return [(_table$getColumn = table.getColumn(columnId)) == null ? void 0 : _table$getColumn.getFacetedRowModel()];
-  }, facetedRowModel => {
-    var _facetedRowModel$flat;
-    if (!facetedRowModel) return undefined;
-    const firstValue = (_facetedRowModel$flat = facetedRowModel.flatRows[0]) == null ? void 0 : _facetedRowModel$flat.getUniqueValues(columnId);
-    if (typeof firstValue === 'undefined') {
-      return undefined;
-    }
-    let facetedMinMaxValues = [firstValue, firstValue];
-    for (let i = 0; i < facetedRowModel.flatRows.length; i++) {
-      const values = facetedRowModel.flatRows[i].getUniqueValues(columnId);
-      for (let j = 0; j < values.length; j++) {
-        const value = values[j];
-        if (value < facetedMinMaxValues[0]) {
-          facetedMinMaxValues[0] = value;
-        } else if (value > facetedMinMaxValues[1]) {
-          facetedMinMaxValues[1] = value;
-        }
-      }
-    }
-    return facetedMinMaxValues;
-  }, {
-    key:  false && 0,
-    debug: () => {
-      var _table$options$debugA;
-      return (_table$options$debugA = table.options.debugAll) != null ? _table$options$debugA : table.options.debugTable;
-    },
-    onChange: () => {}
-  });
-}
-
-function getSortedRowModel() {
-  return table => memo(() => [table.getState().sorting, table.getPreSortedRowModel()], (sorting, rowModel) => {
-    if (!rowModel.rows.length || !(sorting != null && sorting.length)) {
-      return rowModel;
-    }
-    const sortingState = table.getState().sorting;
-    const sortedFlatRows = [];
-
-    // Filter out sortings that correspond to non existing columns
-    const availableSorting = sortingState.filter(sort => {
-      var _table$getColumn;
-      return (_table$getColumn = table.getColumn(sort.id)) == null ? void 0 : _table$getColumn.getCanSort();
-    });
-    const columnInfoById = {};
-    availableSorting.forEach(sortEntry => {
-      const column = table.getColumn(sortEntry.id);
-      if (!column) return;
-      columnInfoById[sortEntry.id] = {
-        sortUndefined: column.columnDef.sortUndefined,
-        invertSorting: column.columnDef.invertSorting,
-        sortingFn: column.getSortingFn()
-      };
-    });
-    const sortData = rows => {
-      // This will also perform a stable sorting using the row index
-      // if needed.
-      const sortedData = [...rows];
-      sortedData.sort((rowA, rowB) => {
-        for (let i = 0; i < availableSorting.length; i += 1) {
-          var _sortEntry$desc;
-          const sortEntry = availableSorting[i];
-          const columnInfo = columnInfoById[sortEntry.id];
-          const isDesc = (_sortEntry$desc = sortEntry == null ? void 0 : sortEntry.desc) != null ? _sortEntry$desc : false;
-          let sortInt = 0;
-
-          // All sorting ints should always return in ascending order
-          if (columnInfo.sortUndefined) {
-            const aValue = rowA.getValue(sortEntry.id);
-            const bValue = rowB.getValue(sortEntry.id);
-            const aUndefined = aValue === undefined;
-            const bUndefined = bValue === undefined;
-            if (aUndefined || bUndefined) {
-              sortInt = aUndefined && bUndefined ? 0 : aUndefined ? columnInfo.sortUndefined : -columnInfo.sortUndefined;
-            }
-          }
-          if (sortInt === 0) {
-            sortInt = columnInfo.sortingFn(rowA, rowB, sortEntry.id);
-          }
-
-          // If sorting is non-zero, take care of desc and inversion
-          if (sortInt !== 0) {
-            if (isDesc) {
-              sortInt *= -1;
-            }
-            if (columnInfo.invertSorting) {
-              sortInt *= -1;
-            }
-            return sortInt;
-          }
-        }
-        return rowA.index - rowB.index;
-      });
-
-      // If there are sub-rows, sort them
-      sortedData.forEach(row => {
-        var _row$subRows;
-        sortedFlatRows.push(row);
-        if ((_row$subRows = row.subRows) != null && _row$subRows.length) {
-          row.subRows = sortData(row.subRows);
-        }
-      });
-      return sortedData;
-    };
-    return {
-      rows: sortData(rowModel.rows),
-      flatRows: sortedFlatRows,
-      rowsById: rowModel.rowsById
-    };
-  }, {
-    key:  false && 0,
-    debug: () => {
-      var _table$options$debugA;
-      return (_table$options$debugA = table.options.debugAll) != null ? _table$options$debugA : table.options.debugTable;
-    },
-    onChange: () => {
-      table._autoResetPageIndex();
-    }
-  });
-}
-
-function getGroupedRowModel() {
-  return table => memo(() => [table.getState().grouping, table.getPreGroupedRowModel()], (grouping, rowModel) => {
-    if (!rowModel.rows.length || !grouping.length) {
-      return rowModel;
-    }
-
-    // Filter the grouping list down to columns that exist
-    const existingGrouping = grouping.filter(columnId => table.getColumn(columnId));
-    const groupedFlatRows = [];
-    const groupedRowsById = {};
-    // const onlyGroupedFlatRows: Row[] = [];
-    // const onlyGroupedRowsById: Record<RowId, Row> = {};
-    // const nonGroupedFlatRows: Row[] = [];
-    // const nonGroupedRowsById: Record<RowId, Row> = {};
-
-    // Recursively group the data
-    const groupUpRecursively = function (rows, depth, parentId) {
-      if (depth === void 0) {
-        depth = 0;
-      }
-      // Grouping depth has been been met
-      // Stop grouping and simply rewrite thd depth and row relationships
-      if (depth >= existingGrouping.length) {
-        return rows.map(row => {
-          row.depth = depth;
-          groupedFlatRows.push(row);
-          groupedRowsById[row.id] = row;
-          if (row.subRows) {
-            row.subRows = groupUpRecursively(row.subRows, depth + 1, row.id);
-          }
-          return row;
-        });
-      }
-      const columnId = existingGrouping[depth];
-
-      // Group the rows together for this level
-      const rowGroupsMap = groupBy(rows, columnId);
-
-      // Peform aggregations for each group
-      const aggregatedGroupedRows = Array.from(rowGroupsMap.entries()).map((_ref, index) => {
-        let [groupingValue, groupedRows] = _ref;
-        let id = `${columnId}:${groupingValue}`;
-        id = parentId ? `${parentId}>${id}` : id;
-
-        // First, Recurse to group sub rows before aggregation
-        const subRows = groupUpRecursively(groupedRows, depth + 1, id);
-
-        // Flatten the leaf rows of the rows in this group
-        const leafRows = depth ? flattenBy(groupedRows, row => row.subRows) : groupedRows;
-        const row = createRow(table, id, leafRows[0].original, index, depth, undefined, parentId);
-        Object.assign(row, {
-          groupingColumnId: columnId,
-          groupingValue,
-          subRows,
-          leafRows,
-          getValue: columnId => {
-            // Don't aggregate columns that are in the grouping
-            if (existingGrouping.includes(columnId)) {
-              if (row._valuesCache.hasOwnProperty(columnId)) {
-                return row._valuesCache[columnId];
-              }
-              if (groupedRows[0]) {
-                var _groupedRows$0$getVal;
-                row._valuesCache[columnId] = (_groupedRows$0$getVal = groupedRows[0].getValue(columnId)) != null ? _groupedRows$0$getVal : undefined;
-              }
-              return row._valuesCache[columnId];
-            }
-            if (row._groupingValuesCache.hasOwnProperty(columnId)) {
-              return row._groupingValuesCache[columnId];
-            }
-
-            // Aggregate the values
-            const column = table.getColumn(columnId);
-            const aggregateFn = column == null ? void 0 : column.getAggregationFn();
-            if (aggregateFn) {
-              row._groupingValuesCache[columnId] = aggregateFn(columnId, leafRows, groupedRows);
-              return row._groupingValuesCache[columnId];
-            }
-          }
-        });
-        subRows.forEach(subRow => {
-          groupedFlatRows.push(subRow);
-          groupedRowsById[subRow.id] = subRow;
-          // if (subRow.getIsGrouped?.()) {
-          //   onlyGroupedFlatRows.push(subRow);
-          //   onlyGroupedRowsById[subRow.id] = subRow;
-          // } else {
-          //   nonGroupedFlatRows.push(subRow);
-          //   nonGroupedRowsById[subRow.id] = subRow;
-          // }
-        });
-
-        return row;
-      });
-      return aggregatedGroupedRows;
-    };
-    const groupedRows = groupUpRecursively(rowModel.rows, 0);
-    groupedRows.forEach(subRow => {
-      groupedFlatRows.push(subRow);
-      groupedRowsById[subRow.id] = subRow;
-      // if (subRow.getIsGrouped?.()) {
-      //   onlyGroupedFlatRows.push(subRow);
-      //   onlyGroupedRowsById[subRow.id] = subRow;
-      // } else {
-      //   nonGroupedFlatRows.push(subRow);
-      //   nonGroupedRowsById[subRow.id] = subRow;
-      // }
-    });
-
-    return {
-      rows: groupedRows,
-      flatRows: groupedFlatRows,
-      rowsById: groupedRowsById
-    };
-  }, {
-    key:  false && 0,
-    debug: () => {
-      var _table$options$debugA;
-      return (_table$options$debugA = table.options.debugAll) != null ? _table$options$debugA : table.options.debugTable;
-    },
-    onChange: () => {
-      table._queue(() => {
-        table._autoResetExpanded();
-        table._autoResetPageIndex();
-      });
-    }
-  });
-}
-function groupBy(rows, columnId) {
-  const groupMap = new Map();
-  return rows.reduce((map, row) => {
-    const resKey = `${row.getGroupingValue(columnId)}`;
-    const previous = map.get(resKey);
-    if (!previous) {
-      map.set(resKey, [row]);
-    } else {
-      previous.push(row);
-    }
-    return map;
-  }, groupMap);
-}
-
-function getExpandedRowModel() {
-  return table => memo(() => [table.getState().expanded, table.getPreExpandedRowModel(), table.options.paginateExpandedRows], (expanded, rowModel, paginateExpandedRows) => {
-    if (!rowModel.rows.length || expanded !== true && !Object.keys(expanded != null ? expanded : {}).length) {
-      return rowModel;
-    }
-    if (!paginateExpandedRows) {
-      // Only expand rows at this point if they are being paginated
-      return rowModel;
-    }
-    return expandRows(rowModel);
-  }, {
-    key:  false && 0,
-    debug: () => {
-      var _table$options$debugA;
-      return (_table$options$debugA = table.options.debugAll) != null ? _table$options$debugA : table.options.debugTable;
-    }
-  });
-}
-function expandRows(rowModel) {
-  const expandedRows = [];
-  const handleRow = row => {
-    var _row$subRows;
-    expandedRows.push(row);
-    if ((_row$subRows = row.subRows) != null && _row$subRows.length && row.getIsExpanded()) {
-      row.subRows.forEach(handleRow);
-    }
-  };
-  rowModel.rows.forEach(handleRow);
-  return {
-    rows: expandedRows,
-    flatRows: rowModel.flatRows,
-    rowsById: rowModel.rowsById
-  };
-}
-
-function getPaginationRowModel(opts) {
-  return table => memo(() => [table.getState().pagination, table.getPrePaginationRowModel(), table.options.paginateExpandedRows ? undefined : table.getState().expanded], (pagination, rowModel) => {
-    if (!rowModel.rows.length) {
-      return rowModel;
-    }
-    const {
-      pageSize,
-      pageIndex
-    } = pagination;
-    let {
-      rows,
-      flatRows,
-      rowsById
-    } = rowModel;
-    const pageStart = pageSize * pageIndex;
-    const pageEnd = pageStart + pageSize;
-    rows = rows.slice(pageStart, pageEnd);
-    let paginatedRowModel;
-    if (!table.options.paginateExpandedRows) {
-      paginatedRowModel = expandRows({
-        rows,
-        flatRows,
-        rowsById
-      });
-    } else {
-      paginatedRowModel = {
-        rows,
-        flatRows,
-        rowsById
-      };
-    }
-    paginatedRowModel.flatRows = [];
-    const handleRow = row => {
-      paginatedRowModel.flatRows.push(row);
-      if (row.subRows.length) {
-        row.subRows.forEach(handleRow);
-      }
-    };
-    paginatedRowModel.rows.forEach(handleRow);
-    return paginatedRowModel;
-  }, {
-    key:  false && 0,
-    debug: () => {
-      var _table$options$debugA;
-      return (_table$options$debugA = table.options.debugAll) != null ? _table$options$debugA : table.options.debugTable;
-    }
-  });
-}
-
-
-//# sourceMappingURL=index.mjs.map
-
-;// CONCATENATED MODULE: ./node_modules/@tanstack/react-table/build/lib/index.mjs
-/**
- * react-table
- *
- * Copyright (c) TanStack
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.md file in the root directory of this source tree.
- *
- * @license MIT
- */
-
-
-
-
-//
-/**
- * If rendering headers, cells, or footers with custom markup, use flexRender instead of `cell.getValue()` or `cell.renderValue()`.
- */
-function flexRender(Comp, props) {
-  return !Comp ? null : isReactComponent(Comp) ? /*#__PURE__*/external_React_.createElement(Comp, props) : Comp;
-}
-function isReactComponent(component) {
-  return isClassComponent(component) || typeof component === 'function' || isExoticComponent(component);
-}
-function isClassComponent(component) {
-  return typeof component === 'function' && (() => {
-    const proto = Object.getPrototypeOf(component);
-    return proto.prototype && proto.prototype.isReactComponent;
-  })();
-}
-function isExoticComponent(component) {
-  return typeof component === 'object' && typeof component.$$typeof === 'symbol' && ['react.memo', 'react.forward_ref'].includes(component.$$typeof.description);
-}
-function useReactTable(options) {
-  // Compose in the generic options to the user options
-  const resolvedOptions = {
-    state: {},
-    // Dummy state
-    onStateChange: () => {},
-    // noop
-    renderFallbackValue: null,
-    ...options
-  };
-
-  // Create a new table and store it in state
-  const [tableRef] = external_React_.useState(() => ({
-    current: lib_createTable(resolvedOptions)
-  }));
-
-  // By default, manage table state here using the table's initial state
-  const [state, setState] = external_React_.useState(() => tableRef.current.initialState);
-
-  // Compose the default state above with any user state. This will allow the user
-  // to only control a subset of the state if desired.
-  tableRef.current.setOptions(prev => ({
-    ...prev,
-    ...options,
-    state: {
-      ...state,
-      ...options.state
-    },
-    // Similarly, we'll maintain both our internal state and any user-provided
-    // state.
-    onStateChange: updater => {
-      setState(updater);
-      options.onStateChange == null || options.onStateChange(updater);
-    }
-  }));
-  return tableRef.current;
-}
-
-
-//# sourceMappingURL=index.mjs.map
-
-;// CONCATENATED MODULE: ./packages/icons/build-module/library/arrow-up.js
-
-/**
- * WordPress dependencies
- */
-
-const arrowUp = (0,external_React_.createElement)(external_wp_primitives_namespaceObject.SVG, {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "M12 3.9 6.5 9.5l1 1 3.8-3.7V20h1.5V6.8l3.7 3.7 1-1z"
-}));
-/* harmony default export */ var arrow_up = (arrowUp);
-
-;// CONCATENATED MODULE: ./packages/icons/build-module/library/arrow-down.js
-
-/**
- * WordPress dependencies
- */
-
-const arrowDown = (0,external_React_.createElement)(external_wp_primitives_namespaceObject.SVG, {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "m16.5 13.5-3.7 3.7V4h-1.5v13.2l-3.8-3.7-1 1 5.5 5.6 5.5-5.6z"
-}));
-/* harmony default export */ var arrow_down = (arrowDown);
-
-;// CONCATENATED MODULE: ./packages/icons/build-module/library/unseen.js
-
-/**
- * WordPress dependencies
- */
-
-const unseen = (0,external_React_.createElement)(external_wp_primitives_namespaceObject.SVG, {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "M4.67 10.664s-2.09 1.11-2.917 1.582l.494.87 1.608-.914.002.002c.343.502.86 1.17 1.563 1.84.348.33.742.663 1.185.976L5.57 16.744l.858.515 1.02-1.701a9.1 9.1 0 0 0 4.051 1.18V19h1v-2.263a9.1 9.1 0 0 0 4.05-1.18l1.021 1.7.858-.514-1.034-1.723c.442-.313.837-.646 1.184-.977.703-.669 1.22-1.337 1.563-1.839l.002-.003 1.61.914.493-.87c-1.75-.994-2.918-1.58-2.918-1.58l-.003.005a8.29 8.29 0 0 1-.422.689 10.097 10.097 0 0 1-1.36 1.598c-1.218 1.16-3.042 2.293-5.544 2.293-2.503 0-4.327-1.132-5.546-2.293a10.099 10.099 0 0 1-1.359-1.599 8.267 8.267 0 0 1-.422-.689l-.003-.005Z"
-}));
-/* harmony default export */ var library_unseen = (unseen);
-
-;// CONCATENATED MODULE: ./packages/icons/build-module/library/funnel.js
-
-/**
- * WordPress dependencies
- */
-
-const funnel = (0,external_React_.createElement)(external_wp_primitives_namespaceObject.SVG, {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "M10 17.5H14V16H10V17.5ZM6 6V7.5H18V6H6ZM8 12.5H16V11H8V12.5Z"
-}));
-/* harmony default export */ var library_funnel = (funnel);
-
-;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/dataviews/item-actions.js
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-
-/**
- * Internal dependencies
- */
-
-const {
-  DropdownMenuV2Ariakit: DropdownMenu,
-  DropdownMenuGroupV2Ariakit: DropdownMenuGroup,
-  DropdownMenuItemV2Ariakit: DropdownMenuItem,
-  DropdownMenuItemLabelV2Ariakit: DropdownMenuItemLabel
-} = unlock(external_wp_components_namespaceObject.privateApis);
-function ButtonTrigger({
-  action,
-  onClick
-}) {
-  return (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
-    label: action.label,
-    icon: action.icon,
-    isDestructive: action.isDestructive,
-    size: "compact",
-    onClick: onClick
-  });
-}
-function DropdownMenuItemTrigger({
-  action,
-  onClick
-}) {
-  return (0,external_React_.createElement)(DropdownMenuItem, {
-    onClick: onClick
-  }, (0,external_React_.createElement)(DropdownMenuItemLabel, null, action.label));
-}
-function ActionWithModal({
-  action,
-  item,
-  ActionTrigger
-}) {
-  const [isModalOpen, setIsModalOpen] = (0,external_wp_element_namespaceObject.useState)(false);
-  const actionTriggerProps = {
-    action,
-    onClick: () => setIsModalOpen(true)
-  };
-  const {
-    RenderModal,
-    hideModalHeader
-  } = action;
-  return (0,external_React_.createElement)(external_React_.Fragment, null, (0,external_React_.createElement)(ActionTrigger, {
-    ...actionTriggerProps
-  }), isModalOpen && (0,external_React_.createElement)(external_wp_components_namespaceObject.Modal, {
-    title: !hideModalHeader && action.label,
-    __experimentalHideHeader: !!hideModalHeader,
-    onRequestClose: () => {
-      setIsModalOpen(false);
-    },
-    overlayClassName: "dataviews-action-modal"
-  }, (0,external_React_.createElement)(RenderModal, {
-    item: item,
-    closeModal: () => setIsModalOpen(false)
-  })));
-}
-function ActionsDropdownMenuGroup({
-  actions,
-  item
-}) {
-  return (0,external_React_.createElement)(DropdownMenuGroup, null, actions.map(action => {
-    if (!!action.RenderModal) {
-      return (0,external_React_.createElement)(ActionWithModal, {
-        key: action.id,
-        action: action,
-        item: item,
-        ActionTrigger: DropdownMenuItemTrigger
-      });
-    }
-    return (0,external_React_.createElement)(DropdownMenuItemTrigger, {
-      key: action.id,
-      action: action,
-      onClick: () => action.callback(item)
-    });
-  }));
-}
-function ItemActions({
-  item,
-  actions,
-  isCompact
-}) {
-  const {
-    primaryActions,
-    secondaryActions
-  } = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    return actions.reduce((accumulator, action) => {
-      // If an action is eligible for all items, doesn't need
-      // to provide the `isEligible` function.
-      if (action.isEligible && !action.isEligible(item)) {
-        return accumulator;
-      }
-      if (action.isPrimary && !!action.icon) {
-        accumulator.primaryActions.push(action);
-      } else {
-        accumulator.secondaryActions.push(action);
-      }
-      return accumulator;
-    }, {
-      primaryActions: [],
-      secondaryActions: []
-    });
-  }, [actions, item]);
-  if (!primaryActions.length && !secondaryActions.length) {
-    return null;
-  }
-  if (isCompact) {
-    return (0,external_React_.createElement)(CompactItemActions, {
-      item: item,
-      primaryActions: primaryActions,
-      secondaryActions: secondaryActions
-    });
-  }
-  return (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
-    spacing: 1,
-    justify: "flex-end",
-    style: {
-      flexShrink: '0',
-      width: 'auto'
-    }
-  }, !!primaryActions.length && primaryActions.map(action => {
-    if (!!action.RenderModal) {
-      return (0,external_React_.createElement)(ActionWithModal, {
-        key: action.id,
-        action: action,
-        item: item,
-        ActionTrigger: ButtonTrigger
-      });
-    }
-    return (0,external_React_.createElement)(ButtonTrigger, {
-      key: action.id,
-      action: action,
-      onClick: () => action.callback(item)
-    });
-  }), !!secondaryActions.length && (0,external_React_.createElement)(DropdownMenu, {
-    trigger: (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
-      size: "compact",
-      icon: more_vertical,
-      label: (0,external_wp_i18n_namespaceObject.__)('Actions')
-    }),
-    placement: "bottom-end"
-  }, (0,external_React_.createElement)(ActionsDropdownMenuGroup, {
-    actions: secondaryActions,
-    item: item
-  })));
-}
-function CompactItemActions({
-  item,
-  primaryActions,
-  secondaryActions
-}) {
-  return (0,external_React_.createElement)(DropdownMenu, {
-    trigger: (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
-      size: "compact",
-      icon: more_vertical,
-      label: (0,external_wp_i18n_namespaceObject.__)('Actions')
-    }),
-    placement: "bottom-end"
-  }, !!primaryActions.length && (0,external_React_.createElement)(ActionsDropdownMenuGroup, {
-    actions: primaryActions,
-    item: item
-  }), !!secondaryActions.length && (0,external_React_.createElement)(ActionsDropdownMenuGroup, {
-    actions: secondaryActions,
-    item: item
-  }));
-}
-
-;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/dataviews/view-list.js
-
-/**
- * External dependencies
- */
-
-
-/**
- * WordPress dependencies
- */
-
-
-
-
-
-
-/**
- * Internal dependencies
- */
-
-
-
-const {
-  DropdownMenuV2: view_list_DropdownMenu,
-  DropdownMenuGroupV2: view_list_DropdownMenuGroup,
-  DropdownMenuItemV2: view_list_DropdownMenuItem,
-  DropdownMenuSeparatorV2: DropdownMenuSeparator,
-  DropdownSubMenuV2: DropdownSubMenu,
-  DropdownSubMenuTriggerV2: DropdownSubMenuTrigger
-} = unlock(external_wp_components_namespaceObject.privateApis);
-const view_list_EMPTY_OBJECT = {};
-const sortingItemsInfo = {
-  asc: {
-    icon: arrow_up,
-    label: (0,external_wp_i18n_namespaceObject.__)('Sort ascending')
-  },
-  desc: {
-    icon: arrow_down,
-    label: (0,external_wp_i18n_namespaceObject.__)('Sort descending')
-  }
-};
-const sortIcons = {
-  asc: chevron_up,
-  desc: chevron_down
-};
-function HeaderMenu({
-  dataView,
-  header
-}) {
-  if (header.isPlaceholder) {
-    return null;
-  }
-  const text = flexRender(header.column.columnDef.header, header.getContext());
-  const isSortable = !!header.column.getCanSort();
-  const isHidable = !!header.column.getCanHide();
-  if (!isSortable && !isHidable) {
-    return text;
-  }
-  const sortedDirection = header.column.getIsSorted();
-  let filter;
-  if (header.column.columnDef.type === ENUMERATION_TYPE) {
-    filter = {
-      field: header.column.columnDef.id,
-      elements: header.column.columnDef.elements || []
-    };
-  }
-  const isFilterable = !!filter;
-  return (0,external_React_.createElement)(view_list_DropdownMenu, {
-    align: "start",
-    trigger: (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
-      icon: sortIcons[header.column.getIsSorted()],
-      iconPosition: "right",
-      text: text,
-      style: {
-        padding: 0
-      }
-    })
-  }, (0,external_React_.createElement)(WithSeparators, null, isSortable && (0,external_React_.createElement)(view_list_DropdownMenuGroup, null, Object.entries(sortingItemsInfo).map(([direction, info]) => (0,external_React_.createElement)(view_list_DropdownMenuItem, {
-    key: direction,
-    prefix: (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
-      icon: info.icon
-    }),
-    suffix: sortedDirection === direction && (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
-      icon: library_check
-    }),
-    onSelect: event => {
-      event.preventDefault();
-      if (sortedDirection === direction) {
-        dataView.resetSorting();
-      } else {
-        dataView.setSorting([{
-          id: header.column.id,
-          desc: direction === 'desc'
-        }]);
-      }
-    }
-  }, info.label))), isHidable && (0,external_React_.createElement)(view_list_DropdownMenuItem, {
-    prefix: (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
-      icon: library_unseen
-    }),
-    onSelect: event => {
-      event.preventDefault();
-      header.column.getToggleVisibilityHandler()(event);
-    }
-  }, (0,external_wp_i18n_namespaceObject.__)('Hide')), isFilterable && (0,external_React_.createElement)(view_list_DropdownMenuGroup, null, (0,external_React_.createElement)(DropdownSubMenu, {
-    key: filter.field,
-    trigger: (0,external_React_.createElement)(DropdownSubMenuTrigger, {
-      prefix: (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
-        icon: library_funnel
-      }),
-      suffix: (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
-        icon: chevron_right_small
-      })
-    }, (0,external_wp_i18n_namespaceObject.__)('Filter by'))
-  }, filter.elements.map(element => {
-    let isActive = false;
-    const columnFilters = dataView.getState().columnFilters;
-    const columnFilter = columnFilters.find(f => Object.keys(f)[0].split(':')[0] === filter.field);
-    if (columnFilter) {
-      const value = Object.values(columnFilter)[0];
-      // Intentionally use loose comparison, so it does type conversion.
-      // This covers the case where a top-level filter for the same field converts a number into a string.
-      isActive = element.value == value; // eslint-disable-line eqeqeq
-    }
-
-    return (0,external_React_.createElement)(view_list_DropdownMenuItem, {
-      key: element.value,
-      suffix: isActive && (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
-        icon: library_check
-      }),
-      onSelect: () => {
-        const otherFilters = columnFilters?.filter(f => {
-          const [field, operator] = Object.keys(f)[0].split(':');
-          return field !== filter.field || operator !== OPERATOR_IN;
-        });
-        dataView.setColumnFilters([...otherFilters, {
-          [filter.field + ':in']: isActive ? undefined : element.value
-        }]);
-      }
-    }, element.label);
-  })))));
-}
-function WithSeparators({
-  children
-}) {
-  return external_wp_element_namespaceObject.Children.toArray(children).filter(Boolean).map((child, i) => (0,external_React_.createElement)(external_wp_element_namespaceObject.Fragment, {
-    key: i
-  }, i > 0 && (0,external_React_.createElement)(DropdownMenuSeparator, null), child));
-}
-function ViewList({
-  view,
-  onChangeView,
-  fields,
-  actions,
-  data,
-  getItemId,
-  isLoading = false,
-  paginationInfo
-}) {
-  const columns = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    const _columns = fields.map(field => {
-      const {
-        render,
-        getValue,
-        ...column
-      } = field;
-      column.cell = props => render({
-        item: props.row.original,
-        view
-      });
-      if (getValue) {
-        column.accessorFn = item => getValue({
-          item
-        });
-      }
-      return column;
-    });
-    if (actions?.length) {
-      _columns.push({
-        header: (0,external_wp_i18n_namespaceObject.__)('Actions'),
-        id: 'actions',
-        cell: props => {
-          return (0,external_React_.createElement)(ItemActions, {
-            item: props.row.original,
-            actions: actions
-          });
-        },
-        enableHiding: false
-      });
-    }
-    return _columns;
-  }, [fields, actions, view]);
-  const columnVisibility = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    if (!view.hiddenFields?.length) {
-      return;
-    }
-    return view.hiddenFields.reduce((accumulator, fieldId) => ({
-      ...accumulator,
-      [fieldId]: false
-    }), {});
-  }, [view.hiddenFields]);
-
-  /**
-   * Transform the filters from the view format into the tanstack columns filter format.
-   *
-   * Input:
-   *
-   * view.filters = [
-   *   { field: 'date', operator: 'before', value: '2020-01-01' },
-   *   { field: 'date', operator: 'after', value: '2020-01-01' },
-   * ]
-   *
-   * Output:
-   *
-   * columnFilters = [
-   *   { "date:before": '2020-01-01' },
-   *   { "date:after": '2020-01-01' }
-   * ]
-   *
-   * @param {Array} filters The view filters to transform.
-   * @return {Array} The transformed TanStack column filters.
-   */
-  const toTanStackColumnFilters = filters => filters?.map(filter => ({
-    [filter.field + ':' + filter.operator]: filter.value
-  }));
-
-  /**
-   * Transform the filters from the view format into the tanstack columns filter format.
-   *
-   * Input:
-   *
-   * columnFilters = [
-   *   { "date:before": '2020-01-01'},
-   *   { "date:after": '2020-01-01' }
-   * ]
-   *
-   * Output:
-   *
-   * view.filters = [
-   *   { field: 'date', operator: 'before', value: '2020-01-01' },
-   *   { field: 'date', operator: 'after', value: '2020-01-01' },
-   * ]
-   *
-   * @param {Array} filters The TanStack column filters to transform.
-   * @return {Array} The transformed view filters.
-   */
-  const fromTanStackColumnFilters = filters => filters.map(filter => {
-    const [key, value] = Object.entries(filter)[0];
-    const [field, operator] = key.split(':');
-    return {
-      field,
-      operator,
-      value
-    };
-  });
-  const shownData = (0,external_wp_compose_namespaceObject.useAsyncList)(data);
-  const dataView = useReactTable({
-    data: shownData,
-    columns,
-    manualSorting: true,
-    manualFiltering: true,
-    manualPagination: true,
-    enableRowSelection: true,
-    state: {
-      sorting: view.sort ? [{
-        id: view.sort.field,
-        desc: view.sort.direction === 'desc'
-      }] : [],
-      globalFilter: view.search,
-      columnFilters: toTanStackColumnFilters(view.filters),
-      pagination: {
-        pageIndex: view.page,
-        pageSize: view.perPage
-      },
-      columnVisibility: columnVisibility !== null && columnVisibility !== void 0 ? columnVisibility : view_list_EMPTY_OBJECT
-    },
-    getRowId: getItemId,
-    onSortingChange: sortingUpdater => {
-      onChangeView(currentView => {
-        const sort = typeof sortingUpdater === 'function' ? sortingUpdater(currentView.sort ? [{
-          id: currentView.sort.field,
-          desc: currentView.sort.direction === 'desc'
-        }] : []) : sortingUpdater;
-        if (!sort.length) {
-          return {
-            ...currentView,
-            sort: {}
-          };
-        }
-        const [{
-          id,
-          desc
-        }] = sort;
-        return {
-          ...currentView,
-          sort: {
-            field: id,
-            direction: desc ? 'desc' : 'asc'
-          }
-        };
-      });
-    },
-    onColumnVisibilityChange: columnVisibilityUpdater => {
-      onChangeView(currentView => {
-        const hiddenFields = Object.entries(columnVisibilityUpdater()).reduce((accumulator, [fieldId, value]) => {
-          if (value) {
-            return accumulator.filter(id => id !== fieldId);
-          }
-          return [...accumulator, fieldId];
-        }, [...(currentView.hiddenFields || [])]);
-        return {
-          ...currentView,
-          hiddenFields
-        };
-      });
-    },
-    onGlobalFilterChange: value => {
-      onChangeView({
-        ...view,
-        search: value,
-        page: 1
-      });
-    },
-    onColumnFiltersChange: columnFiltersUpdater => {
-      onChangeView({
-        ...view,
-        filters: fromTanStackColumnFilters(columnFiltersUpdater()),
-        page: 1
-      });
-    },
-    onPaginationChange: paginationUpdater => {
-      onChangeView(currentView => {
-        const {
-          pageIndex,
-          pageSize
-        } = paginationUpdater({
-          pageIndex: currentView.page,
-          pageSize: currentView.perPage
-        });
-        return {
-          ...view,
-          page: pageIndex,
-          perPage: pageSize
-        };
-      });
-    },
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    pageCount: paginationInfo.totalPages
-  });
-  const {
-    rows
-  } = dataView.getRowModel();
-  const hasRows = !!rows?.length;
-  if (isLoading) {
-    // TODO:Add spinner or progress bar..
-    return (0,external_React_.createElement)("h3", null, (0,external_wp_i18n_namespaceObject.__)('Loading'));
-  }
-  return (0,external_React_.createElement)("div", {
-    className: "dataviews-list-view-wrapper"
-  }, hasRows && (0,external_React_.createElement)("table", {
-    className: "dataviews-list-view"
-  }, (0,external_React_.createElement)("thead", null, dataView.getHeaderGroups().map(headerGroup => (0,external_React_.createElement)("tr", {
-    key: headerGroup.id
-  }, headerGroup.headers.map(header => (0,external_React_.createElement)("th", {
-    key: header.id,
-    colSpan: header.colSpan,
-    style: {
-      width: header.column.columnDef.width || undefined,
-      minWidth: header.column.columnDef.minWidth || undefined,
-      maxWidth: header.column.columnDef.maxWidth || undefined
-    },
-    "data-field-id": header.id
-  }, (0,external_React_.createElement)(HeaderMenu, {
-    dataView: dataView,
-    header: header
-  })))))), (0,external_React_.createElement)("tbody", null, rows.map(row => (0,external_React_.createElement)("tr", {
-    key: row.id
-  }, row.getVisibleCells().map(cell => (0,external_React_.createElement)("td", {
-    key: cell.column.id,
-    style: {
-      width: cell.column.columnDef.width || undefined,
-      minWidth: cell.column.columnDef.minWidth || undefined,
-      maxWidth: cell.column.columnDef.maxWidth || undefined
-    }
-  }, flexRender(cell.column.columnDef.cell, cell.getContext()))))))), !hasRows && (0,external_React_.createElement)("p", null, (0,external_wp_i18n_namespaceObject.__)('no results')));
-}
-/* harmony default export */ var view_list = (ViewList);
-
-;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/dataviews/pagination.js
+;// CONCATENATED MODULE: ./packages/dataviews/build-module/pagination.js
 
 /**
  * WordPress dependencies
@@ -41701,7 +37682,7 @@ function pagination_Pagination({
   // translators: %s: Total number of entries.
   (0,external_wp_i18n_namespaceObject.sprintf)(
   // translators: %s: Total number of entries.
-  (0,external_wp_i18n_namespaceObject._n)('%s item', '%s items', totalItems), totalItems)), !!totalItems && (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
+  (0,external_wp_i18n_namespaceObject._n)('%s item', '%s items', totalItems), totalItems)), !!totalItems && totalPages !== 1 && (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
     expanded: false,
     spacing: 3
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
@@ -41786,37 +37767,7 @@ function pagination_Pagination({
 }
 /* harmony default export */ var pagination = (pagination_Pagination);
 
-;// CONCATENATED MODULE: ./packages/icons/build-module/library/block-table.js
-
-/**
- * WordPress dependencies
- */
-
-const blockTable = (0,external_React_.createElement)(external_wp_primitives_namespaceObject.SVG, {
-  viewBox: "0 0 24 24",
-  xmlns: "http://www.w3.org/2000/svg"
-}, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM5 4.5h14c.3 0 .5.2.5.5v3.5h-15V5c0-.3.2-.5.5-.5zm8 5.5h6.5v3.5H13V10zm-1.5 3.5h-7V10h7v3.5zm-7 5.5v-4h7v4.5H5c-.3 0-.5-.2-.5-.5zm14.5.5h-6V15h6.5v4c0 .3-.2.5-.5.5z"
-}));
-/* harmony default export */ var block_table = (blockTable);
-
-;// CONCATENATED MODULE: ./packages/icons/build-module/library/grid.js
-
-/**
- * WordPress dependencies
- */
-
-const grid = (0,external_React_.createElement)(external_wp_primitives_namespaceObject.SVG, {
-  xmlns: "http://www.w3.org/2000/svg",
-  viewBox: "0 0 24 24"
-}, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "m3 5c0-1.10457.89543-2 2-2h13.5c1.1046 0 2 .89543 2 2v13.5c0 1.1046-.8954 2-2 2h-13.5c-1.10457 0-2-.8954-2-2zm2-.5h6v6.5h-6.5v-6c0-.27614.22386-.5.5-.5zm-.5 8v6c0 .2761.22386.5.5.5h6v-6.5zm8 0v6.5h6c.2761 0 .5-.2239.5-.5v-6zm0-8v6.5h6.5v-6c0-.27614-.2239-.5-.5-.5z",
-  fillRule: "evenodd",
-  clipRule: "evenodd"
-}));
-/* harmony default export */ var library_grid = (grid);
-
-;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/dataviews/view-actions.js
+;// CONCATENATED MODULE: ./packages/dataviews/build-module/view-actions.js
 
 /**
  * WordPress dependencies
@@ -41829,36 +37780,27 @@ const grid = (0,external_React_.createElement)(external_wp_primitives_namespaceO
  * Internal dependencies
  */
 
+
 const {
   DropdownMenuV2: view_actions_DropdownMenu,
   DropdownMenuGroupV2: view_actions_DropdownMenuGroup,
   DropdownMenuItemV2: view_actions_DropdownMenuItem,
   DropdownSubMenuV2: view_actions_DropdownSubMenu,
   DropdownSubMenuTriggerV2: view_actions_DropdownSubMenuTrigger
-} = unlock(external_wp_components_namespaceObject.privateApis);
-const availableViews = [{
-  id: 'list',
-  label: (0,external_wp_i18n_namespaceObject.__)('List')
-}, {
-  id: 'grid',
-  label: (0,external_wp_i18n_namespaceObject.__)('Grid')
-}, {
-  id: 'side-by-side',
-  label: (0,external_wp_i18n_namespaceObject.__)('Side by side')
-}];
+} = lock_unlock_unlock(external_wp_components_namespaceObject.privateApis);
 function ViewTypeMenu({
   view,
   onChangeView,
   supportedLayouts
 }) {
-  let _availableViews = availableViews;
+  let _availableViews = VIEW_LAYOUTS;
   if (supportedLayouts) {
-    _availableViews = _availableViews.filter(_view => supportedLayouts.includes(_view.id));
+    _availableViews = _availableViews.filter(_view => supportedLayouts.includes(_view.type));
   }
   if (_availableViews.length === 1) {
     return null;
   }
-  const activeView = _availableViews.find(v => view.type === v.id);
+  const activeView = _availableViews.find(v => view.type === v.type);
   return (0,external_React_.createElement)(view_actions_DropdownSubMenu, {
     trigger: (0,external_React_.createElement)(view_actions_DropdownSubMenuTrigger, {
       suffix: (0,external_React_.createElement)(external_React_.Fragment, null, activeView.label, (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
@@ -41867,8 +37809,10 @@ function ViewTypeMenu({
     }, (0,external_wp_i18n_namespaceObject.__)('Layout'))
   }, _availableViews.map(availableView => {
     return (0,external_React_.createElement)(view_actions_DropdownMenuItem, {
-      key: availableView.id,
-      prefix: availableView.id === view.type && (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
+      key: availableView.type,
+      role: "menuitemradio",
+      "aria-checked": availableView.id === view.type,
+      prefix: availableView.type === view.type && (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
         icon: library_check
       }),
       onSelect: event => {
@@ -41876,12 +37820,9 @@ function ViewTypeMenu({
         event.preventDefault();
         onChangeView({
           ...view,
-          type: availableView.id
+          type: availableView.type
         });
       }
-      // TODO: check about role and a11y.
-      ,
-      role: "menuitemcheckbox"
     }, availableView.label);
   }));
 }
@@ -41899,6 +37840,8 @@ function PageSizeMenu({
   }, PAGE_SIZE_VALUES.map(size => {
     return (0,external_React_.createElement)(view_actions_DropdownMenuItem, {
       key: size,
+      role: "menuitemradio",
+      "aria-checked": view.perPage === size,
       prefix: view.perPage === size && (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
         icon: library_check
       }),
@@ -41911,9 +37854,6 @@ function PageSizeMenu({
           page: 1
         });
       }
-      // TODO: check about role and a11y.
-      ,
-      role: "menuitemcheckbox"
     }, size);
   }));
 }
@@ -41922,7 +37862,7 @@ function FieldsVisibilityMenu({
   onChangeView,
   fields
 }) {
-  const hidableFields = fields.filter(field => field.enableHiding !== false);
+  const hidableFields = fields.filter(field => field.enableHiding !== false && field.id !== view.layout.mediaField);
   if (!hidableFields?.length) {
     return null;
   }
@@ -41935,6 +37875,7 @@ function FieldsVisibilityMenu({
   }, hidableFields?.map(field => {
     return (0,external_React_.createElement)(view_actions_DropdownMenuItem, {
       key: field.id,
+      role: "menuitemcheckbox",
       prefix: !view.hiddenFields?.includes(field.id) && (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
         icon: library_check
       }),
@@ -41942,10 +37883,9 @@ function FieldsVisibilityMenu({
         event.preventDefault();
         onChangeView({
           ...view,
-          hiddenFields: view.hiddenFields?.includes(field.id) ? view.hiddenFields.filter(id => id !== field.id) : [...view.hiddenFields, field.id]
+          hiddenFields: view.hiddenFields?.includes(field.id) ? view.hiddenFields.filter(id => id !== field.id) : [...(view.hiddenFields || []), field.id]
         });
-      },
-      role: "menuitemcheckbox"
+      }
     }, field.header);
   }));
 }
@@ -41991,6 +37931,8 @@ function SortMenu({
       const isActive = currentSortedField && sortedDirection === direction && field.id === currentSortedField.id;
       return (0,external_React_.createElement)(view_actions_DropdownMenuItem, {
         key: direction,
+        role: "menuitemradio",
+        "aria-checked": isActive,
         prefix: (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
           icon: info.icon
         }),
@@ -41999,30 +37941,18 @@ function SortMenu({
         }),
         onSelect: event => {
           event.preventDefault();
-          if (sortedDirection === direction) {
-            onChangeView({
-              ...view,
-              sort: undefined
-            });
-          } else {
-            onChangeView({
-              ...view,
-              sort: {
-                field: field.id,
-                direction
-              }
-            });
-          }
+          onChangeView({
+            ...view,
+            sort: {
+              field: field.id,
+              direction
+            }
+          });
         }
       }, info.label);
     }));
   }));
 }
-const VIEW_TYPE_ICONS = {
-  list: block_table,
-  grid: library_grid,
-  'side-by-side': library_columns
-};
 function ViewActions({
   fields,
   view,
@@ -42033,7 +37963,7 @@ function ViewActions({
     trigger: (0,external_React_.createElement)(external_wp_components_namespaceObject.Button, {
       variant: "tertiary",
       size: "compact",
-      icon: VIEW_TYPE_ICONS[view.type] || VIEW_TYPE_ICONS.list,
+      icon: VIEW_LAYOUTS.find(v => v.type === view.type)?.icon || VIEW_LAYOUTS.find(v => v.type === constants_LAYOUT_TABLE).icon,
       label: (0,external_wp_i18n_namespaceObject.__)('View options')
     })
   }, (0,external_React_.createElement)(view_actions_DropdownMenuGroup, null, (0,external_React_.createElement)(ViewTypeMenu, {
@@ -42054,11 +37984,12 @@ function ViewActions({
   })));
 }
 
-;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/dataviews/filter-summary.js
+;// CONCATENATED MODULE: ./packages/dataviews/build-module/filter-summary.js
 
 /**
  * WordPress dependencies
  */
+
 
 
 
@@ -42070,8 +38001,38 @@ function ViewActions({
 
 const {
   DropdownMenuV2: filter_summary_DropdownMenu,
-  DropdownMenuCheckboxItemV2: DropdownMenuCheckboxItem
-} = unlock(external_wp_components_namespaceObject.privateApis);
+  DropdownMenuGroupV2: filter_summary_DropdownMenuGroup,
+  DropdownMenuItemV2: filter_summary_DropdownMenuItem,
+  DropdownMenuSeparatorV2: filter_summary_DropdownMenuSeparator,
+  DropdownSubMenuV2: filter_summary_DropdownSubMenu,
+  DropdownSubMenuTriggerV2: filter_summary_DropdownSubMenuTrigger
+} = lock_unlock_unlock(external_wp_components_namespaceObject.privateApis);
+const FilterText = ({
+  activeElement,
+  filterInView,
+  filter
+}) => {
+  if (activeElement === undefined) {
+    return filter.name;
+  }
+  if (activeElement !== undefined && filterInView?.operator === constants_OPERATOR_IN) {
+    return (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: 1: Filter name. 2: Filter value. e.g.: "Author is Admin". */
+    (0,external_wp_i18n_namespaceObject.__)('%1$s is %2$s'), filter.name, activeElement.label);
+  }
+  if (activeElement !== undefined && filterInView?.operator === constants_OPERATOR_NOT_IN) {
+    return (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: 1: Filter name. 2: Filter value. e.g.: "Author is not Admin". */
+    (0,external_wp_i18n_namespaceObject.__)('%1$s is not %2$s'), filter.name, activeElement.label);
+  }
+  return (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: 1: Filter name e.g.: "Unknown status for Author". */
+  (0,external_wp_i18n_namespaceObject.__)('Unknown status for %1$s'), filter.name);
+};
+function filter_summary_WithSeparators({
+  children
+}) {
+  return external_wp_element_namespaceObject.Children.toArray(children).filter(Boolean).map((child, i) => (0,external_React_.createElement)(external_wp_element_namespaceObject.Fragment, {
+    key: i
+  }, i > 0 && (0,external_React_.createElement)(filter_summary_DropdownMenuSeparator, null), child));
+}
 function FilterSummary({
   filter,
   view,
@@ -42085,32 +38046,76 @@ function FilterSummary({
       variant: "tertiary",
       size: "compact",
       label: filter.name
-    }, activeElement !== undefined ? (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: 1: Filter name. 2: filter value. e.g.: "Author is Admin". */
-    (0,external_wp_i18n_namespaceObject.__)('%1$s is %2$s'), filter.name, activeElement.label) : filter.name, (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
+    }, (0,external_React_.createElement)(FilterText, {
+      activeElement: activeElement,
+      filterInView: filterInView,
+      filter: filter
+    }), (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
       icon: chevron_down,
       style: {
         flexShrink: 0
       }
     }))
-  }, filter.elements.map(element => {
-    return (0,external_React_.createElement)(DropdownMenuCheckboxItem, {
+  }, (0,external_React_.createElement)(filter_summary_WithSeparators, null, (0,external_React_.createElement)(filter_summary_DropdownMenuGroup, null, filter.elements.map(element => {
+    return (0,external_React_.createElement)(filter_summary_DropdownMenuItem, {
       key: element.value,
-      value: element.value,
-      checked: activeElement?.value === element.value,
+      role: "menuitemradio",
+      "aria-checked": activeElement?.value === element.value,
+      prefix: activeElement?.value === element.value && (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
+        icon: library_check
+      }),
       onSelect: () => onChangeView(currentView => ({
         ...currentView,
         page: 1,
         filters: [...view.filters.filter(f => f.field !== filter.field), {
           field: filter.field,
-          operator: OPERATOR_IN,
+          operator: filterInView?.operator || filter.operators[0],
           value: activeElement?.value === element.value ? undefined : element.value
         }]
       }))
     }, element.label);
-  }));
+  })), filter.operators.length > 1 && (0,external_React_.createElement)(filter_summary_DropdownSubMenu, {
+    trigger: (0,external_React_.createElement)(filter_summary_DropdownSubMenuTrigger, {
+      suffix: (0,external_React_.createElement)(external_wp_element_namespaceObject.Fragment, null, filterInView.operator === constants_OPERATOR_IN ? (0,external_wp_i18n_namespaceObject.__)('Is') : (0,external_wp_i18n_namespaceObject.__)('Is not'), (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
+        icon: chevron_right_small
+      }), ' ')
+    }, (0,external_wp_i18n_namespaceObject.__)('Conditions'))
+  }, (0,external_React_.createElement)(filter_summary_DropdownMenuItem, {
+    key: "in-filter",
+    role: "menuitemradio",
+    "aria-checked": filterInView?.operator === constants_OPERATOR_IN,
+    prefix: filterInView?.operator === constants_OPERATOR_IN && (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
+      icon: library_check
+    }),
+    onSelect: () => onChangeView(currentView => ({
+      ...currentView,
+      page: 1,
+      filters: [...view.filters.filter(f => f.field !== filter.field), {
+        field: filter.field,
+        operator: constants_OPERATOR_IN,
+        value: filterInView?.value
+      }]
+    }))
+  }, (0,external_wp_i18n_namespaceObject.__)('Is')), (0,external_React_.createElement)(filter_summary_DropdownMenuItem, {
+    key: "not-in-filter",
+    role: "menuitemradio",
+    "aria-checked": filterInView?.operator === constants_OPERATOR_NOT_IN,
+    prefix: filterInView?.operator === constants_OPERATOR_NOT_IN && (0,external_React_.createElement)(external_wp_components_namespaceObject.Icon, {
+      icon: library_check
+    }),
+    onSelect: () => onChangeView(currentView => ({
+      ...currentView,
+      page: 1,
+      filters: [...view.filters.filter(f => f.field !== filter.field), {
+        field: filter.field,
+        operator: constants_OPERATOR_NOT_IN,
+        value: filterInView?.value
+      }]
+    }))
+  }, (0,external_wp_i18n_namespaceObject.__)('Is not')))));
 }
 
-;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/dataviews/add-filter.js
+;// CONCATENATED MODULE: ./packages/dataviews/build-module/add-filter.js
 
 /**
  * WordPress dependencies
@@ -42129,7 +38134,7 @@ const {
   DropdownSubMenuV2: add_filter_DropdownSubMenu,
   DropdownSubMenuTriggerV2: add_filter_DropdownSubMenuTrigger,
   DropdownMenuItemV2: add_filter_DropdownMenuItem
-} = unlock(external_wp_components_namespaceObject.privateApis);
+} = lock_unlock_unlock(external_wp_components_namespaceObject.privateApis);
 function AddFilter({
   fields,
   view,
@@ -42141,12 +38146,12 @@ function AddFilter({
       return;
     }
     switch (field.type) {
-      case ENUMERATION_TYPE:
+      case constants_ENUMERATION_TYPE:
         filters.push({
           field: field.id,
           name: field.header,
           elements: field.elements || [],
-          isVisible: view.filters.some(f => f.field === field.id && f.operator === OPERATOR_IN)
+          isVisible: view.filters.some(f => f.field === field.id)
         });
     }
   });
@@ -42185,17 +38190,16 @@ function AddFilter({
           page: 1,
           filters: [...currentView.filters, {
             field: filter.field,
-            operator: OPERATOR_IN,
+            operator: constants_OPERATOR_IN,
             value: element.value
           }]
         }));
-      },
-      role: "menuitemcheckbox"
+      }
     }, element.label)));
   }));
 }
 
-;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/dataviews/reset-filters.js
+;// CONCATENATED MODULE: ./packages/dataviews/build-module/reset-filters.js
 
 /**
  * WordPress dependencies
@@ -42222,7 +38226,7 @@ function AddFilter({
   }, (0,external_wp_i18n_namespaceObject.__)('Reset filters'));
 });
 
-;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/dataviews/filters.js
+;// CONCATENATED MODULE: ./packages/dataviews/build-module/filters.js
 
 /**
  * Internal dependencies
@@ -42231,7 +38235,14 @@ function AddFilter({
 
 
 
-function filters_Filters({
+const operatorsFromField = field => {
+  let operators = field.filterBy?.operators;
+  if (!operators || !Array.isArray(operators)) {
+    operators = [constants_OPERATOR_IN, constants_OPERATOR_NOT_IN];
+  }
+  return operators.filter(operator => [constants_OPERATOR_IN, constants_OPERATOR_NOT_IN].includes(operator));
+};
+function Filters({
   fields,
   view,
   onChangeView
@@ -42241,13 +38252,18 @@ function filters_Filters({
     if (!field.type) {
       return;
     }
+    const operators = operatorsFromField(field);
+    if (operators.length === 0) {
+      return;
+    }
     switch (field.type) {
-      case ENUMERATION_TYPE:
+      case constants_ENUMERATION_TYPE:
         filters.push({
           field: field.id,
           name: field.header,
           elements: field.elements || [],
-          isVisible: view.filters.some(f => f.field === field.id && f.operator === OPERATOR_IN)
+          operators,
+          isVisible: view.filters.some(f => f.field === field.id && [constants_OPERATOR_IN, constants_OPERATOR_NOT_IN].includes(f.operator))
         });
     }
   });
@@ -42278,7 +38294,7 @@ function filters_Filters({
   return filterComponents;
 }
 
-;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/dataviews/search.js
+;// CONCATENATED MODULE: ./packages/dataviews/build-module/search.js
 
 /**
  * WordPress dependencies
@@ -42287,16 +38303,12 @@ function filters_Filters({
 
 
 
-/**
- * Internal dependencies
- */
-
 function Search({
   label,
   view,
   onChangeView
 }) {
-  const [search, setSearch, debouncedSearch] = useDebouncedInput(view.search);
+  const [search, setSearch, debouncedSearch] = (0,external_wp_compose_namespaceObject.useDebouncedInput)(view.search);
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     setSearch(view.search);
   }, [view]);
@@ -42322,95 +38334,7 @@ function Search({
   });
 }
 
-;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/dataviews/view-grid.js
-
-/**
- * WordPress dependencies
- */
-
-
-
-/**
- * Internal dependencies
- */
-
-function ViewGrid({
-  data,
-  fields,
-  view,
-  actions,
-  getItemId
-}) {
-  const mediaField = fields.find(field => field.id === view.layout.mediaField);
-  const primaryField = fields.find(field => field.id === view.layout.primaryField);
-  const visibleFields = fields.filter(field => !view.hiddenFields.includes(field.id) && ![view.layout.mediaField, view.layout.primaryField].includes(field.id));
-  const shownData = (0,external_wp_compose_namespaceObject.useAsyncList)(data, {
-    step: 3
-  });
-  return (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalGrid, {
-    gap: 8,
-    columns: 2,
-    alignment: "top",
-    className: "dataviews-grid-view"
-  }, shownData.map((item, index) => (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalVStack, {
-    spacing: 3,
-    key: getItemId?.(item) || index,
-    className: "dataviews-view-grid__card"
-  }, (0,external_React_.createElement)("div", {
-    className: "dataviews-view-grid__media"
-  }, mediaField?.render({
-    item,
-    view
-  })), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
-    className: "dataviews-view-grid__title",
-    justify: "space-between"
-  }, primaryField?.render({
-    item,
-    view
-  }), (0,external_React_.createElement)(ItemActions, {
-    item: item,
-    actions: actions,
-    isCompact: true
-  })), (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalVStack, {
-    className: "dataviews-view-grid__fields",
-    spacing: 3
-  }, visibleFields.map(field => {
-    const renderedValue = field.render({
-      item,
-      view
-    });
-    if (!renderedValue) {
-      return null;
-    }
-    return (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalVStack, {
-      className: "dataviews-view-grid__field",
-      key: field.id,
-      spacing: 1
-    }, (0,external_React_.createElement)("div", {
-      className: "dataviews-view-grid__field-header"
-    }, field.header), (0,external_React_.createElement)("div", {
-      className: "dataviews-view-grid__field-value"
-    }, field.render({
-      item,
-      view
-    })));
-  })))));
-}
-
-;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/dataviews/view-side-by-side.js
-
-/**
- * Internal dependencies
- */
-
-function ViewSideBySide(props) {
-  // To do: change to email-like preview list.
-  return (0,external_React_.createElement)(view_list, {
-    ...props
-  });
-}
-
-;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/dataviews/dataviews.js
+;// CONCATENATED MODULE: ./packages/dataviews/build-module/dataviews.js
 
 /**
  * WordPress dependencies
@@ -42426,22 +38350,6 @@ function ViewSideBySide(props) {
 
 
 
-
-
-
-// To do: convert to view type registry.
-const viewTypeSupportsMap = {
-  list: {},
-  grid: {},
-  'side-by-side': {
-    preview: true
-  }
-};
-const viewTypeMap = {
-  list: view_list,
-  grid: ViewGrid,
-  'side-by-side': ViewSideBySide
-};
 function DataViews({
   view,
   onChangeView,
@@ -42453,9 +38361,16 @@ function DataViews({
   getItemId,
   isLoading = false,
   paginationInfo,
-  supportedLayouts
+  supportedLayouts,
+  onSelectionChange,
+  deferredRendering
 }) {
-  const ViewComponent = viewTypeMap[view.type];
+  const [selection, setSelection] = (0,external_wp_element_namespaceObject.useState)([]);
+  const onSetSelection = items => {
+    setSelection(items.map(item => item.id));
+    onSelectionChange(items);
+  };
+  const ViewComponent = VIEW_LAYOUTS.find(v => v.type === view.type).component;
   const _fields = (0,external_wp_element_namespaceObject.useMemo)(() => {
     return fields.map(field => ({
       ...field,
@@ -42465,10 +38380,11 @@ function DataViews({
   return (0,external_React_.createElement)("div", {
     className: "dataviews-wrapper"
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalVStack, {
-    spacing: 4,
+    spacing: 0,
     justify: "flex-start"
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
-    alignment: "flex-start"
+    alignment: "flex-start",
+    className: "dataviews__filters-view-actions"
   }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHStack, {
     justify: "start",
     wrap: true
@@ -42476,7 +38392,7 @@ function DataViews({
     label: searchLabel,
     view: view,
     onChangeView: onChangeView
-  }), (0,external_React_.createElement)(filters_Filters, {
+  }), (0,external_React_.createElement)(Filters, {
     fields: fields,
     view: view,
     onChangeView: onChangeView
@@ -42493,16 +38409,16 @@ function DataViews({
     actions: actions,
     data: data,
     getItemId: getItemId,
-    isLoading: isLoading
+    isLoading: isLoading,
+    onSelectionChange: onSetSelection,
+    selection: selection,
+    deferredRendering: deferredRendering
   }), (0,external_React_.createElement)(pagination, {
     view: view,
     onChangeView: onChangeView,
     paginationInfo: paginationInfo
   })));
 }
-
-;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/dataviews/index.js
-
 
 ;// CONCATENATED MODULE: ./packages/edit-site/build-module/components/page-templates/template-actions.js
 
@@ -42680,11 +38596,10 @@ const renameTemplateAction = {
 
 
 
+
 /**
  * Internal dependencies
  */
-
-
 
 
 
@@ -42698,14 +38613,14 @@ const {
 } = unlock(external_wp_blockEditor_namespaceObject.privateApis);
 const dataviews_templates_EMPTY_ARRAY = [];
 const defaultConfigPerViewType = {
-  list: {},
-  grid: {
+  [LAYOUT_TABLE]: {},
+  [LAYOUT_GRID]: {
     mediaField: 'preview',
     primaryField: 'title'
   }
 };
 const DEFAULT_VIEW = {
-  type: 'list',
+  type: LAYOUT_TABLE,
   search: '',
   page: 1,
   perPage: 20,
@@ -42729,9 +38644,9 @@ function TemplateTitle({
   } = useAddedBy(item.type, item.id);
   return (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalVStack, {
     spacing: 1
-  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHeading, {
-    as: "h3",
-    level: 5
+  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalView, {
+    as: "span",
+    className: "edit-site-list-title__customized-info"
   }, (0,external_React_.createElement)(Link, {
     params: {
       postId: item.id,
@@ -42816,14 +38731,11 @@ function DataviewsTemplates() {
     header: (0,external_wp_i18n_namespaceObject.__)('Preview'),
     id: 'preview',
     render: ({
-      item,
-      view: {
-        type: viewType
-      }
+      item
     }) => {
       return (0,external_React_.createElement)(TemplatePreview, {
         content: item.content.raw,
-        viewType: viewType
+        viewType: view.type
       });
     },
     minWidth: 120,
@@ -42874,7 +38786,7 @@ function DataviewsTemplates() {
     enableHiding: false,
     type: ENUMERATION_TYPE,
     elements: authors
-  }], [authors]);
+  }], [authors, view]);
   const {
     shownTemplates,
     paginationInfo
@@ -42904,6 +38816,10 @@ function DataviewsTemplates() {
         if (filter.field === 'author' && filter.operator === OPERATOR_IN && !!filter.value) {
           filteredTemplates = filteredTemplates.filter(item => {
             return item.author_text === filter.value;
+          });
+        } else if (filter.field === 'author' && filter.operator === OPERATOR_NOT_IN && !!filter.value) {
+          filteredTemplates = filteredTemplates.filter(item => {
+            return item.author_text !== filter.value;
           });
         }
       });
@@ -42967,7 +38883,8 @@ function DataviewsTemplates() {
     isLoading: isLoadingData,
     view: view,
     onChangeView: onChangeView,
-    supportedLayouts: ['list', 'grid']
+    supportedLayouts: [LAYOUT_TABLE, LAYOUT_GRID],
+    deferredRendering: !view.hiddenFields?.includes('preview')
   }));
 }
 
@@ -43238,10 +39155,10 @@ function Media({
 
 
 
+
 /**
  * Internal dependencies
  */
-
 
 
 
@@ -43255,10 +39172,14 @@ const {
 } = unlock(external_wp_router_namespaceObject.privateApis);
 const page_pages_EMPTY_ARRAY = [];
 const page_pages_defaultConfigPerViewType = {
-  list: {},
-  grid: {
+  [LAYOUT_TABLE]: {},
+  [LAYOUT_GRID]: {
     mediaField: 'featured-image',
     primaryField: 'title'
+  },
+  [LAYOUT_LIST]: {
+    primaryField: 'title',
+    mediaField: 'featured-image'
   }
 };
 function useView(type) {
@@ -43333,7 +39254,8 @@ const DEFAULT_STATUSES = 'draft,future,pending,private,publish'; // All but 'tra
 function PagePages() {
   const postType = 'page';
   const [view, setView] = useView(postType);
-  const [selection, setSelection] = (0,external_wp_element_namespaceObject.useState)([]);
+  const [pageId, setPageId] = (0,external_wp_element_namespaceObject.useState)(null);
+  const onSelectionChange = items => setPageId(items?.length === 1 ? items[0].id : null);
   const queryArgs = (0,external_wp_element_namespaceObject.useMemo)(() => {
     const filters = {};
     view.filters.forEach(filter => {
@@ -43342,6 +39264,8 @@ function PagePages() {
       }
       if (filter.field === 'author' && filter.operator === OPERATOR_IN) {
         filters.author = filter.value;
+      } else if (filter.field === 'author' && filter.operator === OPERATOR_NOT_IN) {
+        filters.author_exclude = filter.value;
       }
     });
     // We want to provide a different default item for the status filter
@@ -43380,12 +39304,11 @@ function PagePages() {
       item
     }) => item.featured_media,
     render: ({
-      item,
-      view: currentView
+      item
     }) => !!item.featured_media ? (0,external_React_.createElement)(components_media, {
       className: "edit-site-page-pages__featured-image",
       id: item.featured_media,
-      size: currentView.type === 'list' ? ['thumbnail', 'medium', 'large', 'full'] : ['large', 'full', 'medium', 'thumbnail']
+      size: view.type === LAYOUT_GRID ? ['large', 'full', 'medium', 'thumbnail'] : ['thumbnail', 'medium', 'large', 'full']
     }) : null,
     enableSorting: false
   }, {
@@ -43395,29 +39318,21 @@ function PagePages() {
       item
     }) => item.title?.rendered || item.slug,
     render: ({
-      item,
-      view: {
-        type
-      }
+      item
     }) => {
       return (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalVStack, {
         spacing: 1
       }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__experimentalHeading, {
         as: "h3",
-        level: 5
-      }, (0,external_React_.createElement)(Link, {
+        level: 5,
+        weight: 500
+      }, [LAYOUT_TABLE, LAYOUT_GRID].includes(view.type) ? (0,external_React_.createElement)(Link, {
         params: {
           postId: item.id,
           postType: item.type,
           canvas: 'edit'
-        },
-        onClick: event => {
-          if (viewTypeSupportsMap[type].preview) {
-            event.preventDefault();
-            setSelection([item.id]);
-          }
         }
-      }, (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(item.title?.rendered || item.slug) || (0,external_wp_i18n_namespaceObject.__)('(no title)'))));
+      }, (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(item.title?.rendered || item.slug) || (0,external_wp_i18n_namespaceObject.__)('(no title)')) : (0,external_wp_htmlEntities_namespaceObject.decodeEntities)(item.title?.rendered || item.slug) || (0,external_wp_i18n_namespaceObject.__)('(no title)')));
     },
     maxWidth: 400,
     enableHiding: false
@@ -43448,7 +39363,10 @@ function PagePages() {
     },
     type: ENUMERATION_TYPE,
     elements: STATUSES,
-    enableSorting: false
+    enableSorting: false,
+    filterBy: {
+      operators: [OPERATOR_IN]
+    }
   }, {
     header: (0,external_wp_i18n_namespaceObject.__)('Date'),
     id: 'date',
@@ -43461,7 +39379,7 @@ function PagePages() {
       const formattedDate = (0,external_wp_date_namespaceObject.dateI18n)((0,external_wp_date_namespaceObject.getSettings)().formats.datetimeAbbreviated, (0,external_wp_date_namespaceObject.getDate)(item.date));
       return (0,external_React_.createElement)("time", null, formattedDate);
     }
-  }], [authors]);
+  }], [authors, view]);
   const permanentlyDeletePostAction = usePermanentlyDeletePostAction();
   const restorePostAction = useRestorePostAction();
   const editPostAction = useEditPostAction();
@@ -43490,13 +39408,15 @@ function PagePages() {
     getItemId: item => item.id,
     isLoading: isLoadingPages || isLoadingAuthors,
     view: view,
-    onChangeView: onChangeView
-  })), viewTypeSupportsMap[view.type].preview && (0,external_React_.createElement)(Page, null, (0,external_React_.createElement)("div", {
+    onChangeView: onChangeView,
+    onSelectionChange: onSelectionChange,
+    deferredRendering: false
+  })), view.type === LAYOUT_LIST && (0,external_React_.createElement)(Page, null, (0,external_React_.createElement)("div", {
     className: "edit-site-page-pages-preview"
-  }, selection.length === 1 && (0,external_React_.createElement)(SideEditor, {
-    postId: selection[0],
+  }, pageId !== null ? (0,external_React_.createElement)(SideEditor, {
+    postId: pageId,
     postType: postType
-  }), selection.length !== 1 && (0,external_React_.createElement)("div", {
+  }) : (0,external_React_.createElement)("div", {
     style: {
       display: 'flex',
       flexDirection: 'column',
@@ -43840,14 +39760,15 @@ function Layout() {
   }, (0,external_React_.createElement)(NavigableRegion, {
     ariaLabel: (0,external_wp_i18n_namespaceObject.__)('Navigation'),
     className: "edit-site-layout__sidebar-region"
-  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__unstableMotion.div, {
-    // The sidebar is needed for routing on mobile
-    // (https://github.com/WordPress/gutenberg/pull/51558/files#r1231763003),
-    // so we can't remove the element entirely. Using `inert` will make
-    // it inaccessible to screen readers and keyboard navigation.
-    inert: showSidebar ? undefined : 'true',
+  }, (0,external_React_.createElement)(external_wp_components_namespaceObject.__unstableAnimatePresence, null, showSidebar && (0,external_React_.createElement)(external_wp_components_namespaceObject.__unstableMotion.div, {
+    initial: {
+      opacity: 0
+    },
     animate: {
-      opacity: showSidebar ? 1 : 0
+      opacity: 1
+    },
+    exit: {
+      opacity: 0
     },
     transition: {
       type: 'tween',
@@ -43857,7 +39778,7 @@ function Layout() {
       ease: 'easeOut'
     },
     className: "edit-site-layout__sidebar"
-  }, (0,external_React_.createElement)(sidebar, null))), (0,external_React_.createElement)(SavePanel, null), showCanvas && (0,external_React_.createElement)(external_React_.Fragment, null, isListPage && (0,external_React_.createElement)(PageMain, null), isEditorPage && (0,external_React_.createElement)("div", {
+  }, (0,external_React_.createElement)(sidebar, null)))), (0,external_React_.createElement)(SavePanel, null), showCanvas && (0,external_React_.createElement)(external_React_.Fragment, null, isListPage && (0,external_React_.createElement)(PageMain, null), isEditorPage && (0,external_React_.createElement)("div", {
     className: classnames_default()('edit-site-layout__canvas-container', {
       'is-resizing': isResizing
     })

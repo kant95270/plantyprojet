@@ -26985,7 +26985,7 @@ const plus = (0,external_React_.createElement)(external_wp_primitives_namespaceO
   xmlns: "http://www.w3.org/2000/svg",
   viewBox: "0 0 24 24"
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "M18 11.2h-5.2V6h-1.6v5.2H6v1.6h5.2V18h1.6v-5.2H18z"
+  d: "M11 12.5V17.5H12.5V12.5H17.5V11H12.5V6H11V11H6V12.5H11Z"
 }));
 /* harmony default export */ var library_plus = (plus);
 
@@ -35722,7 +35722,7 @@ const styles_wrapperWidth = /*#__PURE__*/emotion_react_browser_esm_css(ValueInpu
 const wrapperHeight = size => {
   return /*#__PURE__*/emotion_react_browser_esm_css("height:", size === '__unstable-large' ? '40px' : '30px', ";" + ( true ? "" : 0),  true ? "" : 0);
 };
-const borderControlDropdown = size => /*#__PURE__*/emotion_react_browser_esm_css("background:#fff;&&>button{height:", size === '__unstable-large' ? '40px' : '30px', ";width:", size === '__unstable-large' ? '40px' : '30px', ";padding:0;display:flex;align-items:center;justify-content:center;", rtl({
+const borderControlDropdown = /*#__PURE__*/emotion_react_browser_esm_css("background:#fff;&&>button{aspect-ratio:1;padding:0;display:flex;align-items:center;justify-content:center;", rtl({
   borderRadius: `2px 0 0 2px`
 }, {
   borderRadius: `0 2px 2px 0`
@@ -37381,7 +37381,9 @@ const copy_copy = (0,external_React_.createElement)(external_wp_primitives_names
   xmlns: "http://www.w3.org/2000/svg",
   viewBox: "0 0 24 24"
 }, (0,external_React_.createElement)(external_wp_primitives_namespaceObject.Path, {
-  d: "M20.2 8v11c0 .7-.6 1.2-1.2 1.2H6v1.5h13c1.5 0 2.7-1.2 2.7-2.8V8zM18 16.4V4.6c0-.9-.7-1.6-1.6-1.6H4.6C3.7 3 3 3.7 3 4.6v11.8c0 .9.7 1.6 1.6 1.6h11.8c.9 0 1.6-.7 1.6-1.6zm-13.5 0V4.6c0-.1.1-.1.1-.1h11.8c.1 0 .1.1.1.1v11.8c0 .1-.1.1-.1.1H4.6l-.1-.1z"
+  fillRule: "evenodd",
+  clipRule: "evenodd",
+  d: "M5 4.5h11a.5.5 0 0 1 .5.5v11a.5.5 0 0 1-.5.5H5a.5.5 0 0 1-.5-.5V5a.5.5 0 0 1 .5-.5ZM3 5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5Zm17 3v10.75c0 .69-.56 1.25-1.25 1.25H6v1.5h12.75a2.75 2.75 0 0 0 2.75-2.75V8H20Z"
 }));
 /* harmony default export */ var library_copy = (copy_copy);
 
@@ -39485,8 +39487,8 @@ function useBorderControlDropdown(props) {
   // Generate class names.
   const cx = useCx();
   const classes = (0,external_wp_element_namespaceObject.useMemo)(() => {
-    return cx(borderControlDropdown(size), className);
-  }, [className, cx, size]);
+    return cx(borderControlDropdown, className);
+  }, [className, cx]);
   const indicatorClassName = (0,external_wp_element_namespaceObject.useMemo)(() => {
     return cx(borderColorIndicator);
   }, [cx]);
@@ -39517,6 +39519,7 @@ function useBorderControlDropdown(props) {
     popoverContentClassName,
     popoverControlsClassName,
     resetButtonClassName,
+    size,
     __experimentalIsRenderedInSidebar
   };
 }
@@ -39621,6 +39624,7 @@ const BorderControlDropdown = (props, forwardedRef) => {
     popoverControlsClassName,
     resetButtonClassName,
     showDropdownHeader,
+    size,
     __unstablePopoverProps,
     ...otherProps
   } = useBorderControlDropdown(props);
@@ -39640,7 +39644,8 @@ const BorderControlDropdown = (props, forwardedRef) => {
     "aria-label": toggleAriaLabel,
     tooltipPosition: dropdownPosition,
     label: (0,external_wp_i18n_namespaceObject.__)('Border color and style picker'),
-    showTooltip: true
+    showTooltip: true,
+    __next40pxDefaultSize: size === '__unstable-large' ? true : false
   }, (0,external_React_.createElement)("span", {
     className: indicatorWrapperClassName
   }, (0,external_React_.createElement)(color_indicator, {
@@ -39655,7 +39660,7 @@ const BorderControlDropdown = (props, forwardedRef) => {
     className: popoverControlsClassName,
     spacing: 6
   }, showDropdownHeader ? (0,external_React_.createElement)(h_stack_component, null, (0,external_React_.createElement)(StyledLabel, null, (0,external_wp_i18n_namespaceObject.__)('Border color')), (0,external_React_.createElement)(build_module_button, {
-    isSmall: true,
+    size: "small",
     label: (0,external_wp_i18n_namespaceObject.__)('Close border color'),
     icon: close_small,
     onClick: onClose
@@ -43158,7 +43163,7 @@ function CheckboxControl(props) {
     icon: library_check,
     className: "components-checkbox-control__checked",
     role: "presentation"
-  }) : null), (0,external_React_.createElement)("label", {
+  }) : null), label && (0,external_React_.createElement)("label", {
     className: "components-checkbox-control__label",
     htmlFor: id
   }, label));
@@ -45357,13 +45362,30 @@ function palette_edit_Option({
     popoverProps: popoverProps
   }));
 }
+
+/**
+ * Checks if a color or gradient is a temporary element by testing against default values.
+ */
 function isTemporaryElement(slugPrefix, {
   slug,
   color,
   gradient
 }) {
   const regex = new RegExp(`^${slugPrefix}color-([\\d]+)$`);
-  return regex.test(slug) && (!!color && color === DEFAULT_COLOR || !!gradient && gradient === DEFAULT_GRADIENT);
+
+  // If the slug matches the temporary name regex,
+  // check if the color or gradient matches the default value.
+  if (regex.test(slug)) {
+    // The order is important as gradient elements
+    // contain a color property.
+    if (!!gradient) {
+      return gradient === DEFAULT_GRADIENT;
+    }
+    if (!!color) {
+      return color === DEFAULT_COLOR;
+    }
+  }
+  return false;
 }
 function PaletteEditListView({
   elements,
@@ -59510,8 +59532,17 @@ const timezone_TimeZone = () => {
   }
   const offsetSymbol = Number(timezone.offset) >= 0 ? '+' : '';
   const zoneAbbr = '' !== timezone.abbr && isNaN(Number(timezone.abbr)) ? timezone.abbr : `UTC${offsetSymbol}${timezone.offset}`;
-  const timezoneDetail = 'UTC' === timezone.string ? (0,external_wp_i18n_namespaceObject.__)('Coordinated Universal Time') : `(${zoneAbbr}) ${timezone.string.replace('_', ' ')}`;
-  return (0,external_React_.createElement)(tooltip, {
+
+  // Replace underscore with space in strings like `America/Costa_Rica`.
+  const prettyTimezoneString = timezone.string.replace('_', ' ');
+  const timezoneDetail = 'UTC' === timezone.string ? (0,external_wp_i18n_namespaceObject.__)('Coordinated Universal Time') : `(${zoneAbbr}) ${prettyTimezoneString}`;
+
+  // When the prettyTimezoneString is empty, there is no additional timezone
+  // detail information to show in a Tooltip.
+  const hasNoAdditionalTimezoneDetail = prettyTimezoneString.trim().length === 0;
+  return hasNoAdditionalTimezoneDetail ? (0,external_React_.createElement)(TimeZone, {
+    className: "components-datetime__timezone"
+  }, zoneAbbr) : (0,external_React_.createElement)(tooltip, {
     placement: "top",
     text: timezoneDetail
   }, (0,external_React_.createElement)(TimeZone, {
@@ -60005,6 +60036,7 @@ const findSizeBySlug = (sizes, slug) => sizes.find(size => slug === size.slug);
  */
 function DimensionControl(props) {
   const {
+    __next40pxDefaultSize = false,
     label,
     value,
     sizes = dimension_control_sizes,
@@ -60037,6 +60069,7 @@ function DimensionControl(props) {
     icon: icon
   }), label);
   return (0,external_React_.createElement)(select_control, {
+    __next40pxDefaultSize: __next40pxDefaultSize,
     className: classnames_default()(className, 'block-editor-dimension-control'),
     label: selectLabel,
     hideLabelFromVision: false,
@@ -61200,8 +61233,8 @@ const MediaPlaceholder = emotion_styled_base_browser_esm("div",  true ? {
 const StyledUnitControl = /*#__PURE__*/emotion_styled_base_browser_esm(unit_control,  true ? {
   target: "eeew7dm5"
 } : 0)( true ? {
-  name: "1pzk433",
-  styles: "width:100px"
+  name: "1d3w5wq",
+  styles: "width:100%"
 } : 0);
 var focal_point_picker_style_ref2 =  true ? {
   name: "1mn7kwb",
@@ -61265,6 +61298,7 @@ const TEXTCONTROL_MAX = 100;
 const controls_noop = () => {};
 function FocalPointPickerControls({
   __nextHasNoMarginBottom,
+  __next40pxDefaultSize,
   hasHelpText,
   onChange = controls_noop,
   point = {
@@ -61287,14 +61321,17 @@ function FocalPointPickerControls({
   return (0,external_React_.createElement)(ControlWrapper, {
     className: "focal-point-picker__controls",
     __nextHasNoMarginBottom: __nextHasNoMarginBottom,
-    hasHelpText: hasHelpText
+    hasHelpText: hasHelpText,
+    gap: 4
   }, (0,external_React_.createElement)(FocalPointUnitControl, {
+    __next40pxDefaultSize: __next40pxDefaultSize,
     label: (0,external_wp_i18n_namespaceObject.__)('Left'),
     "aria-label": (0,external_wp_i18n_namespaceObject.__)('Focal point left position'),
     value: [valueX, '%'].join(''),
     onChange: next => handleChange(next, 'x'),
     dragDirection: "e"
   }), (0,external_React_.createElement)(FocalPointUnitControl, {
+    __next40pxDefaultSize: __next40pxDefaultSize,
     label: (0,external_wp_i18n_namespaceObject.__)('Top'),
     "aria-label": (0,external_wp_i18n_namespaceObject.__)('Focal point top position'),
     value: [valueY, '%'].join(''),
@@ -61515,6 +61552,7 @@ const GRID_OVERLAY_TIMEOUT = 600;
  */
 function FocalPointPicker({
   __nextHasNoMarginBottom,
+  __next40pxDefaultSize = false,
   autoPlay = true,
   className,
   help,
@@ -61696,6 +61734,7 @@ function FocalPointPicker({
     isDragging: isDragging
   }))), (0,external_React_.createElement)(FocalPointPickerControls, {
     __nextHasNoMarginBottom: __nextHasNoMarginBottom,
+    __next40pxDefaultSize: __next40pxDefaultSize,
     hasHelpText: !!help,
     point: {
       x,
@@ -61859,6 +61898,7 @@ const CUSTOM_OPTION = {
 const FontSizePickerSelect = props => {
   var _options$find;
   const {
+    __next40pxDefaultSize,
     fontSizes,
     value,
     disableCustomFontSizes,
@@ -61886,6 +61926,7 @@ const FontSizePickerSelect = props => {
   }), ...(disableCustomFontSizes ? [] : [CUSTOM_OPTION])];
   const selectedOption = value ? (_options$find = options.find(option => option.value === value)) !== null && _options$find !== void 0 ? _options$find : CUSTOM_OPTION : DEFAULT_OPTION;
   return (0,external_React_.createElement)(CustomSelectControl, {
+    __next40pxDefaultSize: __next40pxDefaultSize,
     __nextUnconstrainedWidth: true,
     className: "components-font-size-picker__select",
     label: (0,external_wp_i18n_namespaceObject.__)('Font size'),
@@ -62171,27 +62212,27 @@ const useToggleGroupControlContext = () => (0,external_wp_element_namespaceObjec
  * @param valueProp The received `value`
  */
 function useComputeControlledOrUncontrolledValue(valueProp) {
-  const hasEverBeenUsedInControlledMode = (0,external_wp_element_namespaceObject.useRef)(false);
-  const previousValueProp = (0,external_wp_compose_namespaceObject.usePrevious)(valueProp);
+  const prevValueProp = (0,external_wp_compose_namespaceObject.usePrevious)(valueProp);
+  const prevIsControlled = (0,external_wp_element_namespaceObject.useRef)(false);
+
+  // Assume the component is being used in controlled mode on the first re-render
+  // that has a different `valueProp` from the previous render.
+  const isControlled = prevIsControlled.current || prevValueProp !== undefined && valueProp !== undefined && prevValueProp !== valueProp;
   (0,external_wp_element_namespaceObject.useEffect)(() => {
-    if (!hasEverBeenUsedInControlledMode.current) {
-      // Assume the component is being used in controlled mode if:
-      // - the `value` prop is not `undefined`
-      // - the `value` prop was not previously `undefined` and was given a new value
-      hasEverBeenUsedInControlledMode.current = valueProp !== undefined && previousValueProp !== undefined && valueProp !== previousValueProp;
-    }
-  }, [valueProp, previousValueProp]);
-  let value, defaultValue;
-  if (hasEverBeenUsedInControlledMode.current) {
+    prevIsControlled.current = isControlled;
+  }, [isControlled]);
+  if (isControlled) {
     // When in controlled mode, use `''` instead of `undefined`
-    value = valueProp !== null && valueProp !== void 0 ? valueProp : '';
-  } else {
-    // When in uncontrolled mode, the `value` should be intended as the initial value
-    defaultValue = valueProp;
+    return {
+      value: valueProp !== null && valueProp !== void 0 ? valueProp : '',
+      defaultValue: undefined
+    };
   }
+
+  // When in uncontrolled mode, the `value` should be intended as the initial value
   return {
-    value,
-    defaultValue
+    value: undefined,
+    defaultValue: valueProp
   };
 }
 
@@ -62850,11 +62891,13 @@ const FontSizePickerToggleGroup = props => {
     fontSizes,
     value,
     __nextHasNoMarginBottom,
+    __next40pxDefaultSize,
     size,
     onChange
   } = props;
   return (0,external_React_.createElement)(toggle_group_control_component, {
     __nextHasNoMarginBottom: __nextHasNoMarginBottom,
+    __next40pxDefaultSize: __next40pxDefaultSize,
     label: (0,external_wp_i18n_namespaceObject.__)('Font size'),
     hideLabelFromVision: true,
     value: value,
@@ -62903,6 +62946,7 @@ const UnforwardedFontSizePicker = (props, ref) => {
   const {
     /** Start opting into the new margin-free styles that will become the default in a future version. */
     __nextHasNoMarginBottom = false,
+    __next40pxDefaultSize = false,
     fallbackFontSize,
     fontSizes = [],
     disableCustomFontSizes = false,
@@ -62976,6 +63020,7 @@ const UnforwardedFontSizePicker = (props, ref) => {
     className: "components-font-size-picker__controls",
     __nextHasNoMarginBottom: __nextHasNoMarginBottom
   }, !!fontSizes.length && shouldUseSelectControl && !showCustomValueControl && (0,external_React_.createElement)(font_size_picker_select, {
+    __next40pxDefaultSize: __next40pxDefaultSize,
     fontSizes: fontSizes,
     value: value,
     disableCustomFontSizes: disableCustomFontSizes,
@@ -62992,6 +63037,7 @@ const UnforwardedFontSizePicker = (props, ref) => {
     fontSizes: fontSizes,
     value: value,
     __nextHasNoMarginBottom: __nextHasNoMarginBottom,
+    __next40pxDefaultSize: __next40pxDefaultSize,
     size: size,
     onChange: newValue => {
       if (newValue === undefined) {
@@ -63005,6 +63051,7 @@ const UnforwardedFontSizePicker = (props, ref) => {
   }, (0,external_React_.createElement)(flex_item_component, {
     isBlock: true
   }, (0,external_React_.createElement)(unit_control, {
+    __next40pxDefaultSize: __next40pxDefaultSize,
     label: (0,external_wp_i18n_namespaceObject.__)('Custom'),
     labelPosition: "top",
     hideLabelFromVision: true,
@@ -63026,6 +63073,7 @@ const UnforwardedFontSizePicker = (props, ref) => {
     marginBottom: 0
   }, (0,external_React_.createElement)(range_control, {
     __nextHasNoMarginBottom: __nextHasNoMarginBottom,
+    __next40pxDefaultSize: __next40pxDefaultSize,
     className: "components-font-size-picker__custom-input",
     label: (0,external_wp_i18n_namespaceObject.__)('Custom Size'),
     hideLabelFromVision: true,
@@ -63051,7 +63099,7 @@ const UnforwardedFontSizePicker = (props, ref) => {
     },
     variant: "secondary",
     __next40pxDefaultSize: true,
-    size: size !== '__unstable-large' ? 'small' : 'default'
+    size: size === '__unstable-large' || props.__next40pxDefaultSize ? 'default' : 'small'
   }, (0,external_wp_i18n_namespaceObject.__)('Reset'))))));
 };
 const FontSizePicker = (0,external_wp_element_namespaceObject.forwardRef)(UnforwardedFontSizePicker);
@@ -67653,6 +67701,7 @@ function TreeSelect(props) {
 
 
 function AuthorSelect({
+  __next40pxDefaultSize,
   label,
   noOptionLabel,
   authorList,
@@ -67667,7 +67716,8 @@ function AuthorSelect({
     onChange: onChangeProp,
     tree: termsTree,
     selectedId: selectedAuthorId !== undefined ? String(selectedAuthorId) : undefined,
-    __nextHasNoMarginBottom: true
+    __nextHasNoMarginBottom: true,
+    __next40pxDefaultSize: __next40pxDefaultSize
   });
 }
 
@@ -67684,6 +67734,7 @@ function AuthorSelect({
  */
 
 function CategorySelect({
+  __next40pxDefaultSize,
   label,
   noOptionLabel,
   categoriesList,
@@ -67701,7 +67752,8 @@ function CategorySelect({
     tree: termsTree,
     selectedId: selectedCategoryId !== undefined ? String(selectedCategoryId) : undefined,
     ...props,
-    __nextHasNoMarginBottom: true
+    __nextHasNoMarginBottom: true,
+    __next40pxDefaultSize: __next40pxDefaultSize
   });
 }
 
@@ -67757,6 +67809,7 @@ function isMultipleCategorySelection(props) {
  * ```
  */
 function QueryControls({
+  __next40pxDefaultSize = false,
   authorList,
   selectedAuthorId,
   numberOfItems,
@@ -67777,6 +67830,7 @@ function QueryControls({
     className: "components-query-controls"
   }, [onOrderChange && onOrderByChange && (0,external_React_.createElement)(select_control, {
     __nextHasNoMarginBottom: true,
+    __next40pxDefaultSize: __next40pxDefaultSize,
     key: "query-controls-order-select",
     label: (0,external_wp_i18n_namespaceObject.__)('Order by'),
     value: `${orderBy}/${order}`,
@@ -67808,6 +67862,7 @@ function QueryControls({
       }
     }
   }), isSingleCategorySelection(props) && props.categoriesList && props.onCategoryChange && (0,external_React_.createElement)(CategorySelect, {
+    __next40pxDefaultSize: __next40pxDefaultSize,
     key: "query-controls-category-select",
     categoriesList: props.categoriesList,
     label: (0,external_wp_i18n_namespaceObject.__)('Category'),
@@ -67815,6 +67870,7 @@ function QueryControls({
     selectedCategoryId: props.selectedCategoryId,
     onChange: props.onCategoryChange
   }), isMultipleCategorySelection(props) && props.categorySuggestions && props.onCategoryChange && (0,external_React_.createElement)(form_token_field, {
+    __next40pxDefaultSize: __next40pxDefaultSize,
     __nextHasNoMarginBottom: true,
     key: "query-controls-categories-select",
     label: (0,external_wp_i18n_namespaceObject.__)('Categories'),
@@ -67830,6 +67886,7 @@ function QueryControls({
     onChange: props.onCategoryChange,
     maxSuggestions: MAX_CATEGORIES_SUGGESTIONS
   }), onAuthorChange && (0,external_React_.createElement)(AuthorSelect, {
+    __next40pxDefaultSize: __next40pxDefaultSize,
     key: "query-controls-author-select",
     authorList: authorList,
     label: (0,external_wp_i18n_namespaceObject.__)('Author'),
@@ -67838,7 +67895,7 @@ function QueryControls({
     onChange: onAuthorChange
   }), onNumberOfItemsChange && (0,external_React_.createElement)(range_control, {
     __nextHasNoMarginBottom: true,
-    __next40pxDefaultSize: true,
+    __next40pxDefaultSize: __next40pxDefaultSize,
     key: "query-controls-range-control",
     label: (0,external_wp_i18n_namespaceObject.__)('Number of items'),
     value: numberOfItems,
@@ -72421,8 +72478,15 @@ function useToolsPanelItem(props) {
     __experimentalFirstVisibleItemClass,
     __experimentalLastVisibleItemClass
   } = useToolsPanelContext();
-  const hasValueCallback = (0,external_wp_element_namespaceObject.useCallback)(hasValue, [panelId, hasValue]);
-  const resetAllFilterCallback = (0,external_wp_element_namespaceObject.useCallback)(resetAllFilter, [panelId, resetAllFilter]);
+
+  // hasValue is a new function on every render, so do not add it as a
+  // dependency to the useCallback hook! If needed, we should use a ref.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const hasValueCallback = (0,external_wp_element_namespaceObject.useCallback)(hasValue, [panelId]);
+  // resetAllFilter is a new function on every render, so do not add it as a
+  // dependency to the useCallback hook! If needed, we should use a ref.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const resetAllFilterCallback = (0,external_wp_element_namespaceObject.useCallback)(resetAllFilter, [panelId]);
   const previousPanelId = (0,external_wp_compose_namespaceObject.usePrevious)(currentPanelId);
   const hasMatchingPanel = currentPanelId === panelId || currentPanelId === null;
 
@@ -72469,19 +72533,12 @@ function useToolsPanelItem(props) {
   const newValueSet = isValueSet && !wasValueSet;
 
   // Notify the panel when an item's value has been set.
-  //
-  // 1. For default controls, this is so "reset" appears beside its menu item.
-  // 2. For optional controls, when the panel ID is `null`, it allows the
-  // panel to ensure the item is toggled on for display in the menu, given the
-  // value has been set external to the control.
   (0,external_wp_element_namespaceObject.useEffect)(() => {
     if (!newValueSet) {
       return;
     }
-    if (isShownByDefault || currentPanelId === null) {
-      flagItemCustomization(label, menuGroup);
-    }
-  }, [currentPanelId, newValueSet, isShownByDefault, menuGroup, label, flagItemCustomization]);
+    flagItemCustomization(label, menuGroup);
+  }, [newValueSet, menuGroup, label, flagItemCustomization]);
 
   // Determine if the panel item's corresponding menu is being toggled and
   // trigger appropriate callback if it is.
@@ -81621,7 +81678,7 @@ const styles_DropdownMenuRadioItem = /*#__PURE__*/emotion_styled_base_browser_es
 } : 0)(styles_baseItem, ";" + ( true ? "" : 0));
 const styles_ItemPrefixWrapper = emotion_styled_base_browser_esm("span",  true ? {
   target: "e12mdn2z8"
-} : 0)("grid-column:1;&:not( :empty ){margin-inline-end:", space(2), ";}display:flex;align-items:center;justify-content:center;color:", COLORS.gray['700'], ";[data-active-item]:not( [data-focus-visible] )>&,[aria-disabled='true']>&{color:inherit;}" + ( true ? "" : 0));
+} : 0)("grid-column:1;", styles_DropdownMenuCheckboxItem, ">&,", styles_DropdownMenuRadioItem, ">&{min-width:", space(6), ";}", styles_DropdownMenuCheckboxItem, ">&,", styles_DropdownMenuRadioItem, ">&,&:not( :empty ){margin-inline-end:", space(2), ";}display:flex;align-items:center;justify-content:center;color:", COLORS.gray['700'], ";[data-active-item]:not( [data-focus-visible] )>&,[aria-disabled='true']>&{color:inherit;}" + ( true ? "" : 0));
 const DropdownMenuItemContentWrapper = emotion_styled_base_browser_esm("div",  true ? {
   target: "e12mdn2z7"
 } : 0)("grid-column:2;display:flex;align-items:center;justify-content:space-between;gap:", space(3), ";pointer-events:none;" + ( true ? "" : 0));
@@ -82127,7 +82184,7 @@ const styles_TabPanel = /*#__PURE__*/emotion_styled_base_browser_esm(TabPanel,  
 
 const tab_Tab = (0,external_wp_element_namespaceObject.forwardRef)(function Tab({
   children,
-  id,
+  tabId,
   disabled,
   render,
   ...otherProps
@@ -82141,7 +82198,7 @@ const tab_Tab = (0,external_wp_element_namespaceObject.forwardRef)(function Tab(
     store,
     instanceId
   } = context;
-  const instancedTabId = `${instanceId}-${id}`;
+  const instancedTabId = `${instanceId}-${tabId}`;
   return (0,external_React_.createElement)(styles_Tab, {
     ref: ref,
     store: store,
@@ -82213,7 +82270,7 @@ const TabList = (0,external_wp_element_namespaceObject.forwardRef)(function TabL
 
 const tabpanel_TabPanel = (0,external_wp_element_namespaceObject.forwardRef)(function TabPanel({
   children,
-  id,
+  tabId,
   focusable = true,
   ...otherProps
 }, ref) {
@@ -82226,10 +82283,11 @@ const tabpanel_TabPanel = (0,external_wp_element_namespaceObject.forwardRef)(fun
     store,
     instanceId
   } = context;
+  const instancedTabId = `${instanceId}-${tabId}`;
   return (0,external_React_.createElement)(styles_TabPanel, {
     ref: ref,
     store: store,
-    id: `${instanceId}-${id}-view`,
+    id: instancedTabId,
     focusable: focusable,
     ...otherProps
   }, children);
@@ -82282,7 +82340,8 @@ function Tabs({
     selectedId
   } = store.useState();
   const {
-    setSelectedId
+    setSelectedId,
+    move
   } = store;
 
   // Keep track of whether tabs have been populated. This is used to prevent
@@ -82366,6 +82425,22 @@ function Tabs({
       setSelectedId(null);
     }
   }, [isControlled, selectedId, selectedTab, selectedTabId, setSelectedId]);
+
+  // In controlled mode, make sure browser focus follows the selected tab if
+  // the selection is changed while a tab is already being focused.
+  (0,external_wp_element_namespaceObject.useLayoutEffect)(() => {
+    if (!isControlled || !selectOnMove) {
+      return;
+    }
+    const currentItem = items.find(item => item.id === selectedId);
+    const activeElement = currentItem?.element?.ownerDocument.activeElement;
+    const tabsHasFocus = items.some(item => {
+      return activeElement && activeElement === item.element;
+    });
+    if (activeElement && tabsHasFocus && selectedId !== activeElement.id) {
+      move(selectedId);
+    }
+  }, [isControlled, items, move, selectOnMove, selectedId]);
   const contextValue = (0,external_wp_element_namespaceObject.useMemo)(() => ({
     store,
     instanceId

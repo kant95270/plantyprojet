@@ -19504,11 +19504,6 @@ const receiveRevisions = (kind, name, recordKey, records, query, invalidateCache
 
 const DEFAULT_ENTITY_KEY = 'id';
 const POST_RAW_ATTRIBUTES = ['title', 'excerpt', 'content'];
-
-// A hardcoded list of post types that support revisions.
-// Reflects post types in Core's src/wp-includes/post.php.
-// @TODO: Ideally this should be fetched from the  `/types` REST API's view context.
-const POST_TYPE_ENTITIES_WITH_REVISIONS_SUPPORT = ['post', 'page', 'wp_block', 'wp_navigation', 'wp_template', 'wp_template_part'];
 const rootEntitiesConfig = [{
   label: (0,external_wp_i18n_namespaceObject.__)('Base'),
   kind: 'root',
@@ -19708,9 +19703,6 @@ const rootEntitiesConfig = [{
   // Should be different from name.
   getTitle: record => record?.title?.rendered || record?.title,
   getRevisionsUrl: (parentId, revisionId) => `/wp/v2/global-styles/${parentId}/revisions${revisionId ? '/' + revisionId : ''}`,
-  supports: {
-    revisions: true
-  },
   supportsPagination: true
 }, {
   label: (0,external_wp_i18n_namespaceObject.__)('Themes'),
@@ -19799,9 +19791,6 @@ async function loadPostTypeEntities() {
       },
       mergedEdits: {
         meta: true
-      },
-      supports: {
-        revisions: POST_TYPE_ENTITIES_WITH_REVISIONS_SUPPORT.includes(postType?.slug)
       },
       rawAttributes: POST_RAW_ATTRIBUTES,
       getTitle: record => {
@@ -20645,33 +20634,30 @@ function entity(entityConfig) {
       }
       return state;
     },
-    // Add revisions to the state tree if the post type supports it.
-    ...(entityConfig?.supports?.revisions ? {
-      revisions: (state = {}, action) => {
-        // Use the same queriedDataReducer shape for revisions.
-        if (action.type === 'RECEIVE_ITEM_REVISIONS') {
-          const recordKey = action.recordKey;
-          delete action.recordKey;
-          const newState = reducer(state[recordKey], {
-            ...action,
-            type: 'RECEIVE_ITEMS'
-          });
-          return {
-            ...state,
-            [recordKey]: newState
-          };
-        }
-        if (action.type === 'REMOVE_ITEMS') {
-          return Object.fromEntries(Object.entries(state).filter(([id]) => !action.itemIds.some(itemId => {
-            if (Number.isInteger(itemId)) {
-              return itemId === +id;
-            }
-            return itemId === id;
-          })));
-        }
-        return state;
+    revisions: (state = {}, action) => {
+      // Use the same queriedDataReducer shape for revisions.
+      if (action.type === 'RECEIVE_ITEM_REVISIONS') {
+        const recordKey = action.recordKey;
+        delete action.recordKey;
+        const newState = reducer(state[recordKey], {
+          ...action,
+          type: 'RECEIVE_ITEMS'
+        });
+        return {
+          ...state,
+          [recordKey]: newState
+        };
       }
-    } : {})
+      if (action.type === 'REMOVE_ITEMS') {
+        return Object.fromEntries(Object.entries(state).filter(([id]) => !action.itemIds.some(itemId => {
+          if (Number.isInteger(itemId)) {
+            return itemId === +id;
+          }
+          return itemId === id;
+        })));
+      }
+      return state;
+    }
   }));
 }
 
@@ -23030,7 +23016,7 @@ const resolvers_getRevisions = (kind, name, recordKey, query = {}) => async ({
 }) => {
   const configs = await dispatch(getOrLoadEntitiesConfig(kind));
   const entityConfig = configs.find(config => config.name === name && config.kind === kind);
-  if (!entityConfig || entityConfig?.__experimentalNoFetch || !entityConfig?.supports?.revisions) {
+  if (!entityConfig || entityConfig?.__experimentalNoFetch) {
     return;
   }
   if (query._fields) {
@@ -23043,52 +23029,57 @@ const resolvers_getRevisions = (kind, name, recordKey, query = {}) => async ({
     };
   }
   const path = (0,external_wp_url_namespaceObject.addQueryArgs)(entityConfig.getRevisionsUrl(recordKey), query);
-  let records, meta;
-  if (entityConfig.supportsPagination && query.per_page !== -1) {
-    const response = await external_wp_apiFetch_default()({
+  let records, response;
+  const meta = {};
+  const isPaginated = entityConfig.supportsPagination && query.per_page !== -1;
+  try {
+    response = await external_wp_apiFetch_default()({
       path,
-      parse: false
+      parse: !isPaginated
     });
-    records = Object.values(await response.json());
-    meta = {
-      totalItems: parseInt(response.headers.get('X-WP-Total'))
-    };
-  } else {
-    records = Object.values(await external_wp_apiFetch_default()({
-      path
-    }));
+  } catch (error) {
+    // Do nothing if our request comes back with an API error.
+    return;
   }
+  if (response) {
+    if (isPaginated) {
+      records = Object.values(await response.json());
+      meta.totalItems = parseInt(response.headers.get('X-WP-Total'));
+    } else {
+      records = Object.values(response);
+    }
 
-  // If we request fields but the result doesn't contain the fields,
-  // explicitly set these fields as "undefined"
-  // that way we consider the query "fulfilled".
-  if (query._fields) {
-    records = records.map(record => {
-      query._fields.split(',').forEach(field => {
-        if (!record.hasOwnProperty(field)) {
-          record[field] = undefined;
-        }
+    // If we request fields but the result doesn't contain the fields,
+    // explicitly set these fields as "undefined"
+    // that way we consider the query "fulfilled".
+    if (query._fields) {
+      records = records.map(record => {
+        query._fields.split(',').forEach(field => {
+          if (!record.hasOwnProperty(field)) {
+            record[field] = undefined;
+          }
+        });
+        return record;
       });
-      return record;
-    });
-  }
-  dispatch.receiveRevisions(kind, name, recordKey, records, query, false, meta);
+    }
+    dispatch.receiveRevisions(kind, name, recordKey, records, query, false, meta);
 
-  // When requesting all fields, the list of results can be used to
-  // resolve the `getRevision` selector in addition to `getRevisions`.
-  if (!query?._fields && !query.context) {
-    const key = entityConfig.key || DEFAULT_ENTITY_KEY;
-    const resolutionsArgs = records.filter(record => record[key]).map(record => [kind, name, recordKey, record[key]]);
-    dispatch({
-      type: 'START_RESOLUTIONS',
-      selectorName: 'getRevision',
-      args: resolutionsArgs
-    });
-    dispatch({
-      type: 'FINISH_RESOLUTIONS',
-      selectorName: 'getRevision',
-      args: resolutionsArgs
-    });
+    // When requesting all fields, the list of results can be used to
+    // resolve the `getRevision` selector in addition to `getRevisions`.
+    if (!query?._fields && !query.context) {
+      const key = entityConfig.key || DEFAULT_ENTITY_KEY;
+      const resolutionsArgs = records.filter(record => record[key]).map(record => [kind, name, recordKey, record[key]]);
+      dispatch({
+        type: 'START_RESOLUTIONS',
+        selectorName: 'getRevision',
+        args: resolutionsArgs
+      });
+      dispatch({
+        type: 'FINISH_RESOLUTIONS',
+        selectorName: 'getRevision',
+        args: resolutionsArgs
+      });
+    }
   }
 };
 
@@ -23111,7 +23102,7 @@ const resolvers_getRevision = (kind, name, recordKey, revisionKey, query) => asy
 }) => {
   const configs = await dispatch(getOrLoadEntitiesConfig(kind));
   const entityConfig = configs.find(config => config.name === name && config.kind === kind);
-  if (!entityConfig || entityConfig?.__experimentalNoFetch || !entityConfig?.supports?.revisions) {
+  if (!entityConfig || entityConfig?.__experimentalNoFetch) {
     return;
   }
   if (query !== undefined && query._fields) {
@@ -23124,10 +23115,18 @@ const resolvers_getRevision = (kind, name, recordKey, revisionKey, query) => asy
     };
   }
   const path = (0,external_wp_url_namespaceObject.addQueryArgs)(entityConfig.getRevisionsUrl(recordKey, revisionKey), query);
-  const record = await external_wp_apiFetch_default()({
-    path
-  });
-  dispatch.receiveRevisions(kind, name, recordKey, record, query);
+  let record;
+  try {
+    record = await external_wp_apiFetch_default()({
+      path
+    });
+  } catch (error) {
+    // Do nothing if our request comes back with an API error.
+    return;
+  }
+  if (record) {
+    dispatch.receiveRevisions(kind, name, recordKey, record, query);
+  }
 };
 
 ;// CONCATENATED MODULE: ./packages/core-data/build-module/locks/utils.js
@@ -23445,11 +23444,6 @@ function getRichTextValuesCached(block) {
 
 ;// CONCATENATED MODULE: ./packages/core-data/build-module/footnotes/get-footnotes-order.js
 /**
- * WordPress dependencies
- */
-
-
-/**
  * Internal dependencies
  */
 
@@ -23458,14 +23452,12 @@ function getBlockFootnotesOrder(block) {
   if (!get_footnotes_order_cache.has(block)) {
     const order = [];
     for (const value of getRichTextValuesCached(block)) {
-      if (!value || !value.includes('data-fn')) {
+      if (!value) {
         continue;
       }
 
       // replacements is a sparse array, use forEach to skip empty slots.
-      (0,external_wp_richText_namespaceObject.create)({
-        html: value
-      }).replacements.forEach(({
+      value.replacements.forEach(({
         type,
         attributes
       }) => {
@@ -23527,15 +23519,12 @@ function updateFootnotesFromMeta(blocks, meta) {
         attributes[key] = value.map(updateAttributes);
         continue;
       }
-      if (typeof value !== 'string') {
+
+      // To do, remove support for string values?
+      if (typeof value !== 'string' && !(value instanceof external_wp_richText_namespaceObject.RichTextData)) {
         continue;
       }
-      if (value.indexOf('data-fn') === -1) {
-        continue;
-      }
-      const richTextValue = (0,external_wp_richText_namespaceObject.create)({
-        html: value
-      });
+      const richTextValue = typeof value === 'string' ? external_wp_richText_namespaceObject.RichTextData.fromHTMLString(value) : value;
       richTextValue.replacements.forEach(replacement => {
         if (replacement.type === 'core/footnote') {
           const id = replacement.attributes['data-fn'];
@@ -23550,9 +23539,7 @@ function updateFootnotesFromMeta(blocks, meta) {
           });
         }
       });
-      attributes[key] = (0,external_wp_richText_namespaceObject.toHTMLString)({
-        value: richTextValue
-      });
+      attributes[key] = typeof value === 'string' ? richTextValue.toHTMLString() : richTextValue;
     }
     return attributes;
   }

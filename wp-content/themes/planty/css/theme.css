@@ -25,7 +25,7 @@ div.ast-main-header-bar-alignment {
 
 .menu-link {
   margin-left: 20px;
-  margin-right: 20px;
+  margin-right: 52px;
   
  
 }
@@ -83,27 +83,29 @@ p.has-text-align-center {
   box-shadow: 0px 4px 14px 0px rgba(0,0,0,0.04);
   margin-top: 0.5rem;
   margin-bottom: 1rem;
+  display: block;
 }
 
 .contact-message{
   height: 23.7rem;
   border-radius: 7px;
-  background-color: #ffffff;
+  background-color: #ffffff!important;
   box-shadow: 0px 4px 14px  rgba(0,0,0,0.04);
   margin-top: 0.5rem;
   margin-bottom: 1rem;
   z-index: 1;
+  display: block!important;
   
  
 }
 
 .contact-submit {
   background-color: #DC9F96!important;
-  width: 13.8rem;
-  height: 4rem;
+  width: 8.8rem;
+  height: 3rem;
   margin-left: 120px;
   color: white!important;
-  display: block;
+  display: block!important;
   margin-left: auto;
   margin-right: auto;
 }
@@ -121,14 +123,15 @@ p.has-text-align-center {
   z-index: 2;
 }
 
-/*image fleur nous rencontrer */
+/*image fleur haut de page nous rencontrer  */
 .wp-image-140  {
 
   bottom: 15rem;
   left: -5rem;
   position: relative;
   z-index: 1;
-  background-color: #ece2da;
+  background-color: #ece2da!important;
+  display: block;
 }
 
 
@@ -141,17 +144,25 @@ p.has-text-align-center {
  
 }
 
-/* branche droite de l'equipe*/
+/* feuille  de l'equipe*/
 .wp-image-329 { 
   bottom: 12rem;
   left:  28rem;
   position: relative;
 }
 
+/* image canette */
+
+.wp-block-uagb-container {
+  display: block;
+}
+
 /* mis en forme Page Commander */
 
 
-.wpcf7 form>div {
+
+
+.uacf7-form-415 {
   background-color: #3b8e46;
 }
 
@@ -173,7 +184,7 @@ p.has-text-align-center {
 .uacf7-row{ /* partie du formulaire avec les informations de livraison  */
   display: flex;
   margin-left: 20px;
-  margin-right: 20px;
+  margin-right: 50px;
   
   
   
@@ -219,5 +230,54 @@ p.has-text-align-center {
   
 }
 
+   
+
+/* Media Queries Smartphone */
+
+@media screen and (min-width:350px) and (max-width:600px) {
+
+ div.ast-mobile-header-content.content-align-flex-start, .site-footer  {
+      font-size: 13px;
+   }
+
+   .wp-image-329 {
+    bottom: 1rem;
+    left: -6px;
+    position: relative;
+    width: 15%;
+   }
+
+   .wp-image-294 {
+    bottom: -51px;
+    left: -9px;
+    position: relative;
+   }
+
+   .uacf7-row {
+    display: inline-table;
+    margin-left: 20px;
+    margin-right: 50px;
+   }
+
+   .order-submit {
+    margin: auto;
+    display: block;
+    color: #FFFFFF!important;
+    background-color: #DC9F96!important;
+   }
+
+   .block-info {
+    padding-left: 8rem;
+    padding-right: 2rem;
+    font-size: 25px;
+    color: #FFFFFF;
+    margin: auto;
+    display: contents;
+   }
+  
+  
+ 
 
 
+
+}

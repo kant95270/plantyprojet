@@ -6437,6 +6437,8 @@ var a11y_o=function(o){var t=o/255;return t<.04045?t/12.92:Math.pow((t+.055)/1.0
 var external_wp_element_namespaceObject = window["wp"]["element"];
 ;// CONCATENATED MODULE: external ["wp","dom"]
 var external_wp_dom_namespaceObject = window["wp"]["dom"];
+;// CONCATENATED MODULE: external ["wp","richText"]
+var external_wp_richText_namespaceObject = window["wp"]["richText"];
 ;// CONCATENATED MODULE: ./packages/blocks/build-module/api/constants.js
 const BLOCK_ICON_DEFAULT = 'block-default';
 
@@ -7963,6 +7965,7 @@ const getBlockFromExample = (name, example) => {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -7996,7 +7999,11 @@ function isUnmodifiedBlock(block) {
   }
   const newBlock = isUnmodifiedBlock[block.name];
   const blockType = getBlockType(block.name);
-  return Object.keys((_blockType$attributes = blockType?.attributes) !== null && _blockType$attributes !== void 0 ? _blockType$attributes : {}).every(key => newBlock.attributes[key] === block.attributes[key]);
+  function isEqual(a, b) {
+    var _a$valueOf, _b$valueOf;
+    return ((_a$valueOf = a?.valueOf()) !== null && _a$valueOf !== void 0 ? _a$valueOf : a) === ((_b$valueOf = b?.valueOf()) !== null && _b$valueOf !== void 0 ? _b$valueOf : b);
+  }
+  return Object.keys((_blockType$attributes = blockType?.attributes) !== null && _blockType$attributes !== void 0 ? _blockType$attributes : {}).every(key => isEqual(newBlock.attributes[key], block.attributes[key]));
 }
 
 /**
@@ -8141,6 +8148,14 @@ function getAccessibleBlockLabel(blockType, attributes, position, direction = 'v
   return (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: accessibility text. %s: The block title. */
   (0,external_wp_i18n_namespaceObject.__)('%s Block'), title);
 }
+function getDefault(attributeSchema) {
+  if (attributeSchema.default !== undefined) {
+    return attributeSchema.default;
+  }
+  if (attributeSchema.type === 'rich-text') {
+    return new external_wp_richText_namespaceObject.RichTextData();
+  }
+}
 
 /**
  * Ensure attributes contains only values defined by block type, and merge
@@ -8159,9 +8174,22 @@ function __experimentalSanitizeBlockAttributes(name, attributes) {
   return Object.entries(blockType.attributes).reduce((accumulator, [key, schema]) => {
     const value = attributes[key];
     if (undefined !== value) {
-      accumulator[key] = value;
-    } else if (schema.hasOwnProperty('default')) {
-      accumulator[key] = schema.default;
+      if (schema.type === 'rich-text') {
+        if (value instanceof external_wp_richText_namespaceObject.RichTextData) {
+          accumulator[key] = value;
+        } else if (typeof value === 'string') {
+          accumulator[key] = external_wp_richText_namespaceObject.RichTextData.fromHTMLString(value);
+        }
+      } else if (schema.type === 'string' && value instanceof external_wp_richText_namespaceObject.RichTextData) {
+        accumulator[key] = value.toHTMLString();
+      } else {
+        accumulator[key] = value;
+      }
+    } else {
+      const _default = getDefault(schema);
+      if (undefined !== _default) {
+        accumulator[key] = _default;
+      }
     }
     if (['node', 'children'].indexOf(schema.source) !== -1) {
       // Ensure value passed is always an array, which we're expecting in
@@ -12455,6 +12483,11 @@ function memize(fn, options) {
 
 
 /**
+ * WordPress dependencies
+ */
+
+
+/**
  * Internal dependencies
  */
 
@@ -12483,6 +12516,12 @@ function matchers_html(selector, multilineTag) {
     return match.innerHTML;
   };
 }
+const richText = (selector, preserveWhiteSpace) => el => {
+  const target = selector ? el.querySelector(selector) : el;
+  return target ? external_wp_richText_namespaceObject.RichTextData.fromHTMLElement(target, {
+    preserveWhiteSpace
+  }) : external_wp_richText_namespaceObject.RichTextData.empty();
+};
 
 ;// CONCATENATED MODULE: ./packages/blocks/build-module/api/node.js
 /**
@@ -12830,6 +12869,7 @@ function children_matcher(selector) {
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -12875,6 +12915,8 @@ value => value !== undefined]);
  */
 function isOfType(value, type) {
   switch (type) {
+    case 'rich-text':
+      return value instanceof external_wp_richText_namespaceObject.RichTextData;
     case 'string':
       return typeof value === 'string';
     case 'boolean':
@@ -12936,6 +12978,7 @@ function getBlockAttribute(attributeKey, attributeSchema, innerDOM, commentAttri
     case 'property':
     case 'html':
     case 'text':
+    case 'rich-text':
     case 'children':
     case 'node':
     case 'query':
@@ -12949,7 +12992,7 @@ function getBlockAttribute(attributeKey, attributeSchema, innerDOM, commentAttri
     value = undefined;
   }
   if (value === undefined) {
-    value = attributeSchema.default;
+    value = getDefault(attributeSchema);
   }
   return value;
 }
@@ -13003,6 +13046,8 @@ const matcherFromSource = memize(sourceConfig => {
       return matchers_html(sourceConfig.selector, sourceConfig.multiline);
     case 'text':
       return es_text(sourceConfig.selector);
+    case 'rich-text':
+      return richText(sourceConfig.selector, sourceConfig.__unstablePreserveWhiteSpace);
     case 'children':
       return children_matcher(sourceConfig.selector);
     case 'node':
@@ -13556,8 +13601,14 @@ function getRawTransforms() {
 
 ;// CONCATENATED MODULE: ./packages/blocks/build-module/api/raw-handling/html-to-blocks.js
 /**
+ * WordPress dependencies
+ */
+
+
+/**
  * Internal dependencies
  */
+
 
 
 
@@ -13581,6 +13632,11 @@ function htmlToBlocks(html, handler) {
       isMatch
     }) => isMatch(node));
     if (!rawTransform) {
+      // Until the HTML block is supported in the native version, we'll parse it
+      // instead of creating the block to generate it as an unsupported block.
+      if (external_wp_element_namespaceObject.Platform.isNative) {
+        return parser_parse(`<!-- wp:html -->${node.outerHTML}<!-- /wp:html -->`);
+      }
       return createBlock(
       // Should not be hardcoded.
       'core/html', getBlockAttributes('core/html', node.outerHTML));
