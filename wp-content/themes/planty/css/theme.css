@@ -235,6 +235,8 @@ p.has-text-align-center {
 /* Media Queries Smartphone */
 
 @media screen and (min-width:350px) and (max-width:600px) {
+
+  
   div.ast-mobile-header-content.content-align-flex-start, .site-footer  {
     font-size: 13px;
  }
@@ -261,13 +263,23 @@ p.has-text-align-center {
     
 
     /* feuille formulaire de contact*/
+
+
+    
+    .div-class .wp-block-uagb-container {
+      display: flex!important;
+      flex-direction: column;
+      color: #FFFFFF;
+      margin-top: 2rem;
+     }
+
    .wp-block-image-329 {
     left: 0rem;
     bottom: 0rem;
     width: 20%;
-   
    }
-  
+
+
    .wp-image-294 {
     bottom: -51px;
     left: -9px;
@@ -421,7 +433,8 @@ p.has-text-align-center {
 }
 }
    
-  
+
+
  
 
 
