@@ -12,7 +12,8 @@ div.ast-main-header-bar-alignment {
 
 .main-header-menu .menu-item:nth-child(2) {
   background-color: #DC9F96!important;
-  height: 62px;
+  height: 72px;
+  left: 4px;
 }
 
 .main-header-menu .menu-item:nth-child(2) .menu-link {
@@ -230,28 +231,49 @@ p.has-text-align-center {
   
 }
 
-   
 
 /* Media Queries Smartphone */
 
 @media screen and (min-width:350px) and (max-width:600px) {
+  div.ast-mobile-header-content.content-align-flex-start, .site-footer  {
+    font-size: 13px;
+ }
+ 
+ h1, .entry-content h1, h2.has-text-align-center.h2.has-text-color {
+    font-size: 21px;
+ }
 
- div.ast-mobile-header-content.content-align-flex-start, .site-footer  {
-      font-size: 13px;
+ p {
+    font-size: 16px;
+ }
+
+
+  .menu-link {
+    margin-left: 210px;
+    margin-right: 50px;
    }
 
-   .wp-image-329 {
-    bottom: 1rem;
-    left: -6px;
-    position: relative;
-    width: 15%;
+   .img.custom-logo {
+    position: absolute;
+    left: 10%;
+    bottom: 130px;
    }
+    
 
+    /* feuille formulaire de contact*/
+   .wp-block-image-329 {
+    left: 0rem;
+    bottom: 0rem;
+    width: 20%;
+   
+   }
+  
    .wp-image-294 {
     bottom: -51px;
     left: -9px;
     position: relative;
    }
+   /* formulaire de commmande */
 
    .uacf7-row {
     display: inline-table;
@@ -275,9 +297,132 @@ p.has-text-align-center {
     display: contents;
    }
   
+
+
+/* *** responsive page commander *** */
+/* breakpoint tablet: 1025px */
+@media screen and (max-width:1025px){
+  .block-taste{
+      flex-wrap: wrap;
+      row-gap: 4rem;
+      column-gap: 11rem;
+      justify-content: center !important;
+      margin-top: 1.5rem;
+  }
+  .block-order-info{
+      flex-wrap: wrap;
+      justify-content: center;
+      column-gap: 32rem;
+  }
+  .section-order-vertical-line{  /* ligne de séparation verticale block info  */
+      height: 0.1rem !important;
+      border-top: #FFFFFF solid 0.5px;
+      width: 44vw;
+      margin-top: 2rem;
+      margin-bottom: 2rem;
+  }
+}
+/* breakpoint mobile: 782px  */
+@media screen and (max-width:720px){
+  .section-order_title{
+      margin: auto;
+      font-size: 2rem !important;
+  }
+  .block-order-title{
+      font-size: 2.3rem;
+  }
+  .client-info, .client-delivery{
+      width: 100% !important;
+  }
+  .order-info_label, .block-info{
+      width: 100%;
+  }
+  .order-info_label> span{
+      width: 100%;
+  }
+}
+/*  fin responsive page commander */
+      /*  ***page commander *** */
+.order-form{ /* partie haute du formulaire: votre commande */
+  display: flex;
+  flex-direction: column;
+}
+.block-order-title{  /* titre page */
+  padding-bottom: 6.9rem;
+  padding-top: 6.9rem;
+}
+.section-order_title{ /* titre */
+  color: #FFFFFF;
+  font-size: 3rem;
+  font-weight: bold;
+  padding-bottom: 1rem;
+}
+.block-taste{  /* block des 4 saveurs */
+  display: flex;
+  justify-content: space-between;
+}
+.splitter-line{ /* ligne horizontale de séparation sous le block saveur */
+  border-bottom: solid 1px #FFFFFF;
+  padding-bottom: 5rem;
+}
+.block-taste-col-3{  /* card saveur */
+  max-width: 19.3rem;
+}
+.img-taste{ /* image saveur */
+  width: 100%;
+  object-fit: contain;
+}
+.block-taste-col-3 span{
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
+}
+.qt-article{  /* champ de quantité */
+  max-width: 3.9rem;
+  height: 5.6rem;
+  margin: auto;
+  border: none;
+  border-radius: 1px !important;
+  appearance: textfield;
+}
+.block-order-info{ /* partie informations de livraison */
+  display: flex;
+}
+.block-info{ /*  block informations client x2*/
+  margin-top: 5rem;
+  margin-bottom: 5rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+.order-info_label{  /*  label */
+  display: flex !important;
+  flex-direction: column;
+  color: #FFFFFF;
+  margin-top: 2rem;
+}
+.order-info_label> span{
+  margin-top: 1.3rem;
+}
+.client-info, .client-delivery{  /* input */
+  width: 38.3rem;
+  height: 7.1rem;
+}
+.section-order-vertical-line{  /* ligne de séparation verticale block info  */
+  background-color: #FFFFFF;
+  border-right: #FFFFFF solid 0.5px;
+  height: 44.7rem;
+  margin-top: 5rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+.order-submit{ /* bouton commander */
+  margin: auto;
+  display: block;
+}
+}
+   
   
  
 
 
 
-}
