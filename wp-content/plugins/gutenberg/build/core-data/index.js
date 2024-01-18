@@ -1433,6 +1433,8 @@ var external_wp_apiFetch_namespaceObject = window["wp"]["apiFetch"];
 var external_wp_apiFetch_default = /*#__PURE__*/__webpack_require__.n(external_wp_apiFetch_namespaceObject);
 ;// CONCATENATED MODULE: external ["wp","i18n"]
 var external_wp_i18n_namespaceObject = window["wp"]["i18n"];
+;// CONCATENATED MODULE: external ["wp","richText"]
+var external_wp_richText_namespaceObject = window["wp"]["richText"];
 ;// CONCATENATED MODULE: ./packages/core-data/node_modules/uuid/dist/esm-browser/rng.js
 // Unique ID creation requires a high quality random # generator. In the browser we therefore
 // require the crypto API and do not support built-in fallback to lower quality random number
@@ -19497,6 +19499,7 @@ const receiveRevisions = (kind, name, recordKey, records, query, invalidateCache
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -19763,6 +19766,32 @@ const prePersistPostType = (persistedRecord, edits) => {
   }
   return newEdits;
 };
+const serialisableBlocksCache = new WeakMap();
+function makeBlockAttributesSerializable(attributes) {
+  const newAttributes = {
+    ...attributes
+  };
+  for (const [key, value] of Object.entries(attributes)) {
+    if (value instanceof external_wp_richText_namespaceObject.RichTextData) {
+      newAttributes[key] = value.valueOf();
+    }
+  }
+  return newAttributes;
+}
+function makeBlocksSerializable(blocks) {
+  return blocks.map(block => {
+    const {
+      innerBlocks,
+      attributes,
+      ...rest
+    } = block;
+    return {
+      ...rest,
+      attributes: makeBlockAttributesSerializable(attributes),
+      innerBlocks: makeBlocksSerializable(innerBlocks)
+    };
+  });
+}
 
 /**
  * Returns the list of post type entities.
@@ -19808,8 +19837,16 @@ async function loadPostTypeEntities() {
         applyChangesToDoc: (doc, changes) => {
           const document = doc.getMap('document');
           Object.entries(changes).forEach(([key, value]) => {
-            if (document.get(key) !== value && typeof value !== 'function') {
-              document.set(key, value);
+            if (typeof value !== 'function') {
+              if (key === 'blocks') {
+                if (!serialisableBlocksCache.has(value)) {
+                  serialisableBlocksCache.set(value, makeBlocksSerializable(value));
+                }
+                value = serialisableBlocksCache.get(value);
+              }
+              if (document.get(key) !== value) {
+                document.set(key, value);
+              }
             }
           });
         },
@@ -23404,8 +23441,6 @@ var external_React_namespaceObject = window["React"];
 var external_wp_element_namespaceObject = window["wp"]["element"];
 ;// CONCATENATED MODULE: external ["wp","blocks"]
 var external_wp_blocks_namespaceObject = window["wp"]["blocks"];
-;// CONCATENATED MODULE: external ["wp","richText"]
-var external_wp_richText_namespaceObject = window["wp"]["richText"];
 ;// CONCATENATED MODULE: external ["wp","blockEditor"]
 var external_wp_blockEditor_namespaceObject = window["wp"]["blockEditor"];
 ;// CONCATENATED MODULE: ./packages/core-data/build-module/footnotes/get-rich-text-values-cached.js
@@ -23534,6 +23569,12 @@ function updateFootnotesFromMeta(blocks, meta) {
             html: replacement.innerHTML
           });
           countValue.text = String(index + 1);
+          countValue.formats = Array.from({
+            length: countValue.text.length
+          }, () => countValue.formats[0]);
+          countValue.replacements = Array.from({
+            length: countValue.text.length
+          }, () => countValue.replacements[0]);
           replacement.innerHTML = (0,external_wp_richText_namespaceObject.toHTMLString)({
             value: countValue
           });
@@ -23767,7 +23808,8 @@ function useEntityBlockEditor(kind, name, {
       return __unstableCreateUndoLevel(kind, name, id);
     }
     const {
-      selection
+      selection,
+      ...rest
     } = options;
 
     // We create a new function here on every persistent edit
@@ -23781,12 +23823,14 @@ function useEntityBlockEditor(kind, name, {
       ...updateFootnotes(newBlocks)
     };
     editEntityRecord(kind, name, id, edits, {
-      isCached: false
+      isCached: false,
+      ...rest
     });
   }, [kind, name, id, blocks, updateFootnotes, __unstableCreateUndoLevel, editEntityRecord]);
   const onInput = (0,external_wp_element_namespaceObject.useCallback)((newBlocks, options) => {
     const {
-      selection
+      selection,
+      ...rest
     } = options;
     const footnotesChanges = updateFootnotes(newBlocks);
     const edits = {
@@ -23794,7 +23838,8 @@ function useEntityBlockEditor(kind, name, {
       ...footnotesChanges
     };
     editEntityRecord(kind, name, id, edits, {
-      isCached: true
+      isCached: true,
+      ...rest
     });
   }, [kind, name, id, updateFootnotes, editEntityRecord]);
   return [blocks, onInput, onChange];
@@ -24835,8 +24880,8 @@ const entityActions = rootEntitiesConfig.reduce((result, entity) => {
     kind,
     name
   } = entity;
-  result[getMethodName(kind, name, 'save')] = key => saveEntityRecord(kind, name, key);
-  result[getMethodName(kind, name, 'delete')] = (key, query) => deleteEntityRecord(kind, name, key, query);
+  result[getMethodName(kind, name, 'save')] = (record, options) => saveEntityRecord(kind, name, record, options);
+  result[getMethodName(kind, name, 'delete')] = (key, query, options) => deleteEntityRecord(kind, name, key, query, options);
   return result;
 }, {});
 const storeConfig = () => ({

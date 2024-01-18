@@ -7,13 +7,15 @@
 
 div.ast-main-header-bar-alignment {
   position: absolute;
-  right: 0%;
+  right: 1%;
 }
 
 .main-header-menu .menu-item:nth-child(2) {
   background-color: #DC9F96!important;
-  height: 72px;
-  left: 4px;
+  height: 69px;
+  left: 24px;
+  
+  text-align: center;
 }
 
 .main-header-menu .menu-item:nth-child(2) .menu-link {
@@ -37,7 +39,7 @@ div.ast-main-header-bar-alignment {
   font-size: 16px;
   text-align: center;
   background-color: #FFFFFF;
-  border: 5px solid white;
+  border: 0px solid black;
   
 }
 
@@ -54,6 +56,22 @@ p {
   font-size: 20px;
 }
 
+a {
+  color: black;
+}
+
+.h3{
+  font-size: 30px;
+}
+
+.h3, .entry-content h3{
+  font-weight: 600;
+  font-family: 'Syne', sans-serif;
+  line-height: 1.2em;
+  font-size: 30px;
+  color: #FFFFFF;
+}
+
 /* Page Nous rencontrer */
 
 .paddingTop {
@@ -66,17 +84,12 @@ p.has-text-align-center {
 
 
 
-.contact-formulaire
-
 /*formulaire de contact */
-
-
 
  .contact-label {
   font-size: 2rem;
   color: black;
 }
-
 .contact-items {
   height: 7.1rem;
   border-radius: 7px;
@@ -86,7 +99,6 @@ p.has-text-align-center {
   margin-bottom: 1rem;
   display: flex;
 }
-
 .contact-message{
   height: 23.7rem;
   border-radius: 7px;
@@ -95,11 +107,8 @@ p.has-text-align-center {
   margin-top: 0.5rem;
   margin-bottom: 1rem;
   z-index: 1;
-  display: flex!important;
-  
- 
+  display: flex!important;  
 }
-
 .contact-submit {
   background-color: #DC9F96!important;
   width: 8.8rem;
@@ -110,13 +119,9 @@ p.has-text-align-center {
   margin-left: auto;
   margin-right: auto;
 }
-
 .contact-submit:hover{
   background-color: #e0b9b4!important;
 }
-
-
-
 .block-contactForm{
   max-width: 38.3rem;
 }
@@ -147,8 +152,8 @@ p.has-text-align-center {
 
 /* feuille  de l'equipe*/
 .wp-image-329 { 
-  bottom: 12rem;
-  left:  28rem;
+  bottom: 12rem!important;
+  left:  28rem!important;
   position: relative;
 }
 
@@ -160,7 +165,12 @@ p.has-text-align-center {
 
 /* mis en forme Page Commander */
 
-
+.wpcf7-form label {
+  padding: 18px 0;
+  display: block;
+  margin: 20px 10px;
+  line-height: 2em;
+}
 
 
 .uacf7-form-415 {
@@ -180,23 +190,13 @@ p.has-text-align-center {
   align-items: center;
 }
 
-
-
-.uacf7-row{ /* partie du formulaire avec les informations de livraison  */
- display: flex!important;
-  margin-left: 20px;
-  margin-right: 50px;
-  
-  
-  
-}
 .section-order-vertical-line{
   background-color: #FFFFFF!important;
   width: 1px;
   height: 90%;
   margin-top: 1rem;
-  margin-left: 11rem;
-  margin-right: 2rem;
+  margin-left: 3rem;
+  margin-right: 4rem;
   
 }
 .qt-article{
@@ -205,38 +205,54 @@ p.has-text-align-center {
   margin-top: 0.5rem;
   appearance: none;
 }
-.block-taste-line{
+.block-taste-line {
   border-bottom: solid 1px #FFFFFF;
   padding-bottom: 5rem;
 }
-.block-info{
+.block-info {
   margin-top: 5rem;
-  margin-bottom: 5rem;
-  padding-left: 3rem;
-  padding-right: 2rem;
+  margin-bottom: 4rem;
+  padding-left: 0rem;
+  padding-right: 11rem;
   font-size: 25px;
   color: #FFFFFF;
 }
-.order-submit{
+.order-submit {
   margin: auto;
   display: flex;
   color: white!important;
   background-color: #DC9F96!important;
-  margin-left: 569px;
-
+  border-radius: 7px!important;
+  margin-left: 860px;
+  
 }
 
 .entry-content h5{
   color:#FFFFFF;
-  font-size: 30px;
+  font-size: 30px!important;
   
+}
+
+.wpcf7 input:not([type=submit]){
+  border-radius: 10px;
+  padding: 1em;
+}
+
+.uacf7-row {
+  display: flex;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.wp-image-151 {
+  padding: 55px;
 }
 
 
 /* Media Queries Smartphone */
 
 
-@media screen and (min-width:350px) and (max-width:600px) {
+@media screen and (max-width:766px)   {
 
 .img.custom-logo {
   width: 35%;
@@ -254,8 +270,7 @@ p.has-text-align-center {
  p {
     font-size: 16px;
  }
-
-
+ 
   .menu-link {
     margin-left: 210px;
     margin-right: 50px;
@@ -266,107 +281,53 @@ p.has-text-align-center {
     left: 10%;
     bottom: 130px;
    }
-    
 
-    /* feuille formulaire de contact*/
+   .wp-block-buttons>.wp-block-button.wp-block-button__width-25 {
+    width: 21%;
+}
+.uacf7-row { /* partie du formulaire avec les informations de livraison  */
+      
+  flex-direction: column;
+  margin-left: 20px!important;
+  margin-right: 50px;
+}
+.article-img{
+  min-width: 100%;
+}
+.wp-image-329 {
+  left: 0rem!important;
+  bottom: 0rem!important;
+  position: relative;
+ }
 
+ .wp-image-294 { /* fleur nous rencontrer */ 
+  bottom: -51px;
+  left: -9px;
+  position: relative;
+ }
+ .section-order-vertical-line{
+  display: none;
+ }
 
-    
-    .div-class .wp-block-uagb-container {
-      display: block!important;
-      flex-direction: column;
-      color: #FFFFFF;
-      margin-top: 2rem;
-     }
-
-   .wp-block-image-329 {
-    left: 0rem;
-    bottom: 0rem;
-    width: 20%;
-   }
-
-
-   .wp-image-294 {
-    bottom: -51px;
-    left: -9px;
-    position: relative;
-   }
-   /* formulaire de commmande */
-
-  
-
-   .wpcf7-form-control-wrap {
-    padding: 8px;
-   }
-    
-   .uacf7-row{
-    flex-direction: column;
-    margin-left: 20px;
-    margin-right: 50px;
-   }
-
-   .order-submit {
-    margin: auto;
-    display: block;
-    color: #FFFFFF!important;
-    background-color: #DC9F96!important;
-   }
-
+}   
    .block-info {
-    padding-left: 8rem;
-    padding-right: 2rem;
-    font-size: 25px;
+    padding-left: 10rem;
+    padding-right: 9rem;
+    font-size: 30px;
     color: #FFFFFF;
     margin: auto;
-    
+    margin-top: 5rem;
+    margin-bottom: 5rem;
    }
 
-   @media screen and (min-width:601px) and (max-width:800px) {
-   
-    /* Mise en forme Générale */
-    img.custom-logo {
-       width: 90%;
-    }
-    
-    div.ast-mobile-header-content.content-align-flex-start, .site-footer  {
-       font-size: 15px;
-    }
- 
-    h1, .entry-content h1 {
-       font-size: 30px;
-    }
-    
-    h2.has-text-align-center.h2.has-text-color {
-       font-size: 26px;
-    }
- 
-    p {
-       font-size: 18px;
-    }
-    .uacf7-row{ /* partie du formulaire avec les informations de livraison  */
-     display: block;
-     flex-direction: column;
-      margin-left: 20px;
-      margin-right: 50px;
-      
-
-    }
-    .block-info {
-      margin-top: 5rem;
-      margin-bottom: 5rem;
-      padding-right: 4rem;
-      font-size: 15px;
-      color: #FFFFFF;
-    }
     .section-order-vertical-line {
       background-color: #FFFFFF;
       width: 1px;
       height: 90%;
-      margin-top: 1rem!important;
-      margin-left: 3rem!important;
-      margin-right: 2rem!important;
+      margin-top: 1rem;
+      margin-left: -4rem;
+      margin-right: 2rem;
     }
-
 
    .order-submit {
     margin: auto;
@@ -375,13 +336,26 @@ p.has-text-align-center {
     background-color: #DC9F96!important;
     margin-left: 220px;
    }
-  }
-
   
+    /* feuille formulaire de contact*/
 
+    .div-class .wp-block-uagb-container {
+      display: block!important;
+      flex-direction: column!important;
+      color: #FFFFFF;
+      margin-top: 2rem;
+     }
+     
+   /* formulaire de commmande */
+
+
+   .wpcf7-form-control-wrap {
+    padding: 8px;
+   }
+    
 /* *** responsive page commander *** */
 /* breakpoint tablet: 1025px */
-@media screen and (max-width:1025px){
+/*@media screen and (max-width:1025px){
   .block-taste{
       flex-wrap: wrap;
       row-gap: 4rem;
@@ -394,10 +368,10 @@ p.has-text-align-center {
       justify-content: center;
       column-gap: 32rem;
   }
-  .section-order-vertical-line{  /* ligne de séparation verticale block info  */
+  .section-order-vertical-line{   ligne de séparation verticale block info  
       height: 0.1rem !important;
       border-top: #FFFFFF solid 0.5px;
-      width: 44vw;
+      width: auto;
       margin-top: 2rem;
       margin-bottom: 2rem;
   }
@@ -405,20 +379,22 @@ p.has-text-align-center {
 /* breakpoint mobile: 782px  */
 @media screen and (max-width:720px){
   .section-order_title{
-      margin: auto;
+      margin-left: 20px!important;
       font-size: 2rem !important;
   }
   .block-order-title{
-      font-size: 2.3rem;
+      font-size: 2.3rem!important;
   }
   .client-info, .client-delivery{
       width: 100% !important;
   }
   .order-info_label, .block-info{
-      width: 100%;
+      width: 100%!important;
+      display: inline;
+      
   }
   .order-info_label> span{
-      width: 100%;
+      width: 100%!important;
   }
 }
 /*  fin responsive page commander */
@@ -471,8 +447,8 @@ p.has-text-align-center {
 .block-info{ /*  block informations client x2*/
   margin-top: 5rem;
   margin-bottom: 5rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
+  margin-left: auto;
+  margin-right: auto;
 }
 .order-info_label{  /*  label */
   display: flex !important;
@@ -490,22 +466,17 @@ p.has-text-align-center {
 .section-order-vertical-line{  /* ligne de séparation verticale block info  */
   background-color: #FFFFFF;
   border-right: #FFFFFF solid 0.5px;
-  height: 44.7rem;
+  height: 37.7rem;
   margin-top: 5rem;
-  margin-left: 2rem;
-  margin-right: 2rem;
+  margin-left: 13rem;
+  margin-right: -1rem;
+  margin-bottom: 3rem;
 }
 .order-submit{ /* bouton commander */
   margin: auto;
   display: block;
 }
-}
-
-
-
-
 
  
-
 
 

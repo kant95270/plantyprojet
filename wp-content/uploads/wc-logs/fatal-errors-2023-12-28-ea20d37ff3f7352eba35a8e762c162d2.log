@@ -1,0 +1,8 @@
+2023-12-28T16:07:43+00:00 CRITICAL Uncaught WCPay\Exceptions\API_Exception: Your site host "localhost" is on a private network. Jetpack can only connect to public sites. in /Applications/MAMP/htdocs/wordpress/wp-content/plugins/woocommerce-payments/includes/wc-payment-api/class-wc-payments-http.php:194
+Stack trace:
+#0 /Applications/MAMP/htdocs/wordpress/wp-content/plugins/woocommerce-payments/includes/wc-payment-api/class-wc-payments-api-client.php(221): WC_Payments_Http->start_connection('http://localhos...')
+#1 /Applications/MAMP/htdocs/wordpress/wp-content/plugins/woocommerce-payments/includes/class-wc-payments-account.php(1928): WC_Payments_API_Client->start_server_connection('http://localhos...')
+#2 /Applications/MAMP/htdocs/wordpress/wp-content/plugins/woocommerce-payments/includes/class-wc-payments-account.php(1029): WC_Payments_Account->redirect_to_onboarding_flow_page()
+#3 /Applications/MAMP/htdocs/wordpress/wp-includes/class-wp-hook.php(324): WC_Payments_Account->maybe_handle_onboarding('')
+#4 /Applications/MAMP/htdocs/wordpress/wp-i dans /Applications/MAMP/htdocs/wordpress/wp-content/plugins/woocommerce-payments/includes/wc-payment-api/class-wc-payments-http.php à la ligne 194
+

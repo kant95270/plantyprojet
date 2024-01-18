@@ -361,11 +361,22 @@ function CategorySelector({
 
 
 function CreatePatternModal({
+  className = 'patterns-menu-items__convert-modal',
+  modalTitle = (0,external_wp_i18n_namespaceObject.__)('Create pattern'),
+  ...restProps
+}) {
+  return (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Modal, {
+    title: modalTitle,
+    onRequestClose: restProps.onClose,
+    overlayClassName: className
+  }, (0,external_React_namespaceObject.createElement)(CreatePatternModalContents, {
+    ...restProps
+  }));
+}
+function CreatePatternModalContents({
   confirmLabel = (0,external_wp_i18n_namespaceObject.__)('Create'),
   defaultCategories = [],
-  className = 'patterns-menu-items__convert-modal',
   content,
-  modalTitle = (0,external_wp_i18n_namespaceObject.__)('Create pattern'),
   onClose,
   onError,
   onSuccess,
@@ -402,16 +413,20 @@ function CreatePatternModal({
   const categoryMap = (0,external_wp_element_namespaceObject.useMemo)(() => {
     // Merge the user and core pattern categories and remove any duplicates.
     const uniqueCategories = new Map();
-    [...userPatternCategories, ...corePatternCategories].forEach(category => {
-      if (!uniqueCategories.has(category.label) &&
+    userPatternCategories.forEach(category => {
+      uniqueCategories.set(category.label.toLowerCase(), {
+        label: category.label,
+        name: category.name,
+        id: category.id
+      });
+    });
+    corePatternCategories.forEach(category => {
+      if (!uniqueCategories.has(category.label.toLowerCase()) &&
       // There are two core categories with `Post` label so explicitly remove the one with
       // the `query` slug to avoid any confusion.
       category.name !== 'query') {
-        // We need to store the name separately as this is used as the slug in the
-        // taxonomy and may vary from the label.
-        uniqueCategories.set(category.label, {
+        uniqueCategories.set(category.label.toLowerCase(), {
           label: category.label,
-          value: category.label,
           name: category.name
         });
       }
@@ -449,9 +464,13 @@ function CreatePatternModal({
    */
   async function findOrCreateTerm(term) {
     try {
-      // We need to match any existing term to the correct slug to prevent duplicates, eg.
-      // the core `Headers` category uses the singular `header` as the slug.
-      const existingTerm = categoryMap.get(term);
+      const existingTerm = categoryMap.get(term.toLowerCase());
+      if (existingTerm && existingTerm.id) {
+        return existingTerm.id;
+      }
+      // If we have an existing core category we need to match the new user category to the
+      // correct slug rather than autogenerating it to prevent duplicates, eg. the core `Headers`
+      // category uses the singular `header` as the slug.
       const termData = existingTerm ? {
         name: existingTerm.label,
         slug: existingTerm.name
@@ -470,14 +489,7 @@ function CreatePatternModal({
       return error.data.term_id;
     }
   }
-  return (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.Modal, {
-    title: modalTitle,
-    onRequestClose: () => {
-      onClose();
-      setTitle('');
-    },
-    overlayClassName: className
-  }, (0,external_React_namespaceObject.createElement)("form", {
+  return (0,external_React_namespaceObject.createElement)("form", {
     onSubmit: event => {
       event.preventDefault();
       onCreate(title, syncType);
@@ -518,7 +530,7 @@ function CreatePatternModal({
     type: "submit",
     "aria-disabled": !title || isSaving,
     isBusy: isSaving
-  }, confirmLabel)))));
+  }, confirmLabel))));
 }
 
 ;// CONCATENATED MODULE: ./packages/patterns/build-module/components/duplicate-pattern-modal.js
@@ -543,9 +555,8 @@ function getTermLabels(pattern, categories) {
   }
   return categories.user?.filter(category => pattern.wp_pattern_category.includes(category.id)).map(category => category.label);
 }
-function DuplicatePatternModal({
+function useDuplicatePatternProps({
   pattern,
-  onClose,
   onSuccess
 }) {
   const {
@@ -564,33 +575,45 @@ function DuplicatePatternModal({
   if (!pattern) {
     return null;
   }
-  const duplicatedProps = {
+  return {
     content: pattern.content,
     defaultCategories: getTermLabels(pattern, categories),
     defaultSyncType: pattern.type !== PATTERN_TYPES.user // Theme patterns are unsynced by default.
     ? PATTERN_SYNC_TYPES.unsynced : pattern.wp_pattern_sync_status || PATTERN_SYNC_TYPES.full,
     defaultTitle: (0,external_wp_i18n_namespaceObject.sprintf)( /* translators: %s: Existing pattern title */
-    (0,external_wp_i18n_namespaceObject.__)('%s (Copy)'), typeof pattern.title === 'string' ? pattern.title : pattern.title.raw)
-  };
-  function handleOnSuccess({
-    pattern: newPattern
-  }) {
-    createSuccessNotice((0,external_wp_i18n_namespaceObject.sprintf)(
-    // translators: %s: The new pattern's title e.g. 'Call to action (copy)'.
-    (0,external_wp_i18n_namespaceObject.__)('"%s" duplicated.'), newPattern.title.raw), {
-      type: 'snackbar',
-      id: 'patterns-create'
-    });
-    onSuccess?.({
+    (0,external_wp_i18n_namespaceObject.__)('%s (Copy)'), typeof pattern.title === 'string' ? pattern.title : pattern.title.raw),
+    onSuccess: ({
       pattern: newPattern
-    });
+    }) => {
+      createSuccessNotice((0,external_wp_i18n_namespaceObject.sprintf)(
+      // translators: %s: The new pattern's title e.g. 'Call to action (copy)'.
+      (0,external_wp_i18n_namespaceObject.__)('"%s" duplicated.'), newPattern.title.raw), {
+        type: 'snackbar',
+        id: 'patterns-create'
+      });
+      onSuccess?.({
+        pattern: newPattern
+      });
+    }
+  };
+}
+function DuplicatePatternModal({
+  pattern,
+  onClose,
+  onSuccess
+}) {
+  const duplicatedProps = useDuplicatePatternProps({
+    pattern,
+    onSuccess
+  });
+  if (!pattern) {
+    return null;
   }
   return (0,external_React_namespaceObject.createElement)(CreatePatternModal, {
     modalTitle: (0,external_wp_i18n_namespaceObject.__)('Duplicate pattern'),
     confirmLabel: (0,external_wp_i18n_namespaceObject.__)('Duplicate'),
     onClose: onClose,
     onError: onClose,
-    onSuccess: handleOnSuccess,
     ...duplicatedProps
   });
 }
@@ -1129,19 +1152,30 @@ function PartialSyncingControls({
   setAttributes
 }) {
   const syncedAttributes = PARTIAL_SYNCING_SUPPORTED_BLOCKS[name];
-  function updateConnections(attributeName, isChecked) {
-    if (!isChecked) {
-      let updatedConnections = {
-        ...attributes.connections,
-        attributes: {
-          ...attributes.connections?.attributes,
-          [attributeName]: undefined
-        }
-      };
-      if (Object.keys(updatedConnections.attributes).length === 1) {
-        updatedConnections.attributes = undefined;
+  const attributeSources = Object.keys(syncedAttributes).map(attributeName => attributes.connections?.attributes?.[attributeName]?.source);
+  const isConnectedToOtherSources = attributeSources.every(source => source && source !== 'pattern_attributes');
+
+  // Render nothing if all supported attributes are connected to other sources.
+  if (isConnectedToOtherSources) {
+    return null;
+  }
+  function updateConnections(isChecked) {
+    let updatedConnections = {
+      ...attributes.connections,
+      attributes: {
+        ...attributes.connections?.attributes
       }
-      if (Object.keys(updatedConnections).length === 1 && updateConnections.attributes === undefined) {
+    };
+    if (!isChecked) {
+      for (const attributeName of Object.keys(syncedAttributes)) {
+        if (updatedConnections.attributes[attributeName]?.source === 'pattern_attributes') {
+          delete updatedConnections.attributes[attributeName];
+        }
+      }
+      if (!Object.keys(updatedConnections.attributes).length) {
+        delete updatedConnections.attributes;
+      }
+      if (!Object.keys(updatedConnections).length) {
         updatedConnections = undefined;
       }
       setAttributes({
@@ -1149,15 +1183,13 @@ function PartialSyncingControls({
       });
       return;
     }
-    const updatedConnections = {
-      ...attributes.connections,
-      attributes: {
-        ...attributes.connections?.attributes,
-        [attributeName]: {
+    for (const attributeName of Object.keys(syncedAttributes)) {
+      if (!updatedConnections.attributes[attributeName]) {
+        updatedConnections.attributes[attributeName] = {
           source: 'pattern_attributes'
-        }
+        };
       }
-    };
+    }
     if (typeof attributes.metadata?.id === 'string') {
       setAttributes({
         connections: updatedConnections
@@ -1177,15 +1209,14 @@ function PartialSyncingControls({
     group: "advanced"
   }, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.BaseControl, {
     __nextHasNoMarginBottom: true
-  }, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.BaseControl.VisualLabel, null, (0,external_wp_i18n_namespaceObject.__)('Synced attributes')), Object.entries(syncedAttributes).map(([attributeName, label]) => (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.CheckboxControl, {
-    key: attributeName,
+  }, (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.BaseControl.VisualLabel, null, (0,external_wp_i18n_namespaceObject.__)('Pattern overrides')), (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.CheckboxControl, {
     __nextHasNoMarginBottom: true,
-    label: label,
-    checked: attributes.connections?.attributes?.[attributeName]?.source === 'pattern_attributes',
+    label: (0,external_wp_i18n_namespaceObject.__)('Allow instance overrides'),
+    checked: attributeSources.some(source => source === 'pattern_attributes'),
     onChange: isChecked => {
-      updateConnections(attributeName, isChecked);
+      updateConnections(isChecked);
     }
-  }))));
+  })));
 }
 /* harmony default export */ var partial_syncing_controls = (PartialSyncingControls);
 
@@ -1204,7 +1235,9 @@ function PartialSyncingControls({
 const privateApis = {};
 lock(privateApis, {
   CreatePatternModal: CreatePatternModal,
+  CreatePatternModalContents: CreatePatternModalContents,
   DuplicatePatternModal: DuplicatePatternModal,
+  useDuplicatePatternProps: useDuplicatePatternProps,
   RenamePatternModal: RenamePatternModal,
   PatternsMenuItems: PatternsMenuItems,
   RenamePatternCategoryModal: RenamePatternCategoryModal,

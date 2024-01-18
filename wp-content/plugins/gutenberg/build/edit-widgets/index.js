@@ -219,6 +219,13 @@ __webpack_require__.d(store_selectors_namespaceObject, {
   isSavingWidgetAreas: function() { return isSavingWidgetAreas; }
 });
 
+// NAMESPACE OBJECT: ./packages/edit-widgets/build-module/store/private-selectors.js
+var private_selectors_namespaceObject = {};
+__webpack_require__.r(private_selectors_namespaceObject);
+__webpack_require__.d(private_selectors_namespaceObject, {
+  getListViewToggleRef: function() { return getListViewToggleRef; }
+});
+
 // NAMESPACE OBJECT: ./packages/edit-widgets/build-module/blocks/widget-area/index.js
 var widget_area_namespaceObject = {};
 __webpack_require__.r(widget_area_namespaceObject);
@@ -326,6 +333,19 @@ function listViewPanel(state = false, action) {
     case 'SET_IS_LIST_VIEW_OPENED':
       return action.isOpen;
   }
+  return state;
+}
+
+/**
+ * This reducer does nothing aside initializing a ref to the list view toggle.
+ * We will have a unique ref per "editor" instance.
+ *
+ * @param {Object} state
+ * @return {Object} Reference to the list view toggle button.
+ */
+function listViewToggleRef(state = {
+  current: null
+}) {
   return state;
 }
 /* harmony default export */ var reducer = ((0,external_wp_data_namespaceObject.combineReducers)({
@@ -1046,6 +1066,7 @@ PinnedItems.Slot = PinnedItemsSlot;
 
 
 
+
 /**
  * Internal dependencies
  */
@@ -1128,8 +1149,7 @@ function ComplementaryArea({
   smallScreenTitle,
   title,
   toggleShortcut,
-  isActiveByDefault,
-  showIconLabels = false
+  isActiveByDefault
 }) {
   const {
     isLoading,
@@ -1137,13 +1157,17 @@ function ComplementaryArea({
     isPinned,
     activeArea,
     isSmall,
-    isLarge
+    isLarge,
+    showIconLabels
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       getActiveComplementaryArea,
       isComplementaryAreaLoading,
       isItemPinned
     } = select(store);
+    const {
+      get
+    } = select(external_wp_preferences_namespaceObject.store);
     const _activeArea = getActiveComplementaryArea(scope);
     return {
       isLoading: isComplementaryAreaLoading(scope),
@@ -1151,7 +1175,8 @@ function ComplementaryArea({
       isPinned: isItemPinned(scope, identifier),
       activeArea: _activeArea,
       isSmall: select(external_wp_viewport_namespaceObject.store).isViewportMatch('< medium'),
-      isLarge: select(external_wp_viewport_namespaceObject.store).isViewportMatch('large')
+      isLarge: select(external_wp_viewport_namespaceObject.store).isViewportMatch('large'),
+      showIconLabels: get('core', 'showIconLabels')
     };
   }, [identifier, scope]);
   useAdjustComplementaryListener(scope, identifier, activeArea, isActive, isSmall);
@@ -2272,6 +2297,23 @@ function isListViewOpened(state) {
   return state.listViewPanel;
 }
 
+;// CONCATENATED MODULE: ./packages/edit-widgets/build-module/store/private-selectors.js
+function getListViewToggleRef(state) {
+  return state.listViewToggleRef;
+}
+
+;// CONCATENATED MODULE: external ["wp","privateApis"]
+var external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
+;// CONCATENATED MODULE: ./packages/edit-widgets/build-module/lock-unlock.js
+/**
+ * WordPress dependencies
+ */
+
+const {
+  lock,
+  unlock
+} = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I know using unstable features means my theme or plugin will inevitably break in the next version of WordPress.', '@wordpress/edit-widgets');
+
 ;// CONCATENATED MODULE: ./packages/edit-widgets/build-module/store/index.js
 /**
  * WordPress dependencies
@@ -2282,6 +2324,8 @@ function isListViewOpened(state) {
 /**
  * Internal dependencies
  */
+
+
 
 
 
@@ -2321,6 +2365,7 @@ external_wp_apiFetch_default().use(function (options, next) {
   }
   return next(options);
 });
+unlock(store_store).registerPrivateSelectors(private_selectors_namespaceObject);
 
 ;// CONCATENATED MODULE: external ["wp","hooks"]
 var external_wp_hooks_namespaceObject = window["wp"]["hooks"];
@@ -2612,6 +2657,7 @@ const useIsDragging = elementRef => {
  * Internal dependencies
  */
 const metadata = {
+  $schema: "https://schemas.wp.org/trunk/block.json",
   name: "core/widget-area",
   category: "widgets",
   attributes: {
@@ -2948,18 +2994,6 @@ const useLastSelectedWidgetArea = () => (0,external_wp_data_namespaceObject.useS
 ;// CONCATENATED MODULE: ./packages/edit-widgets/build-module/constants.js
 const ALLOW_REUSABLE_BLOCKS = false;
 const ENABLE_EXPERIMENTAL_FSE_BLOCKS = false;
-
-;// CONCATENATED MODULE: external ["wp","privateApis"]
-var external_wp_privateApis_namespaceObject = window["wp"]["privateApis"];
-;// CONCATENATED MODULE: ./packages/edit-widgets/build-module/lock-unlock.js
-/**
- * WordPress dependencies
- */
-
-const {
-  lock,
-  unlock
-} = (0,external_wp_privateApis_namespaceObject.__dangerousOptInToUnstableAPIsOnlyForCoreModules)('I know using unstable features means my theme or plugin will inevitably break in the next version of WordPress.', '@wordpress/edit-widgets');
 
 ;// CONCATENATED MODULE: ./packages/edit-widgets/build-module/components/widget-areas-block-editor-provider/index.js
 
@@ -3447,26 +3481,27 @@ function RedoButton() {
 
 
 const {
-  useShouldContextualToolbarShow
+  useCanBlockToolbarBeFocused
 } = unlock(external_wp_blockEditor_namespaceObject.privateApis);
-function DocumentTools({
-  setListViewToggleElement
-}) {
+function DocumentTools() {
   const isMediumViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium');
   const inserterButton = (0,external_wp_element_namespaceObject.useRef)();
   const widgetAreaClientId = use_last_selected_widget_area();
   const isLastSelectedWidgetAreaOpen = (0,external_wp_data_namespaceObject.useSelect)(select => select(store_store).getIsWidgetAreaOpen(widgetAreaClientId), [widgetAreaClientId]);
   const {
     isInserterOpen,
-    isListViewOpen
+    isListViewOpen,
+    listViewToggleRef
   } = (0,external_wp_data_namespaceObject.useSelect)(select => {
     const {
       isInserterOpened,
-      isListViewOpened
-    } = select(store_store);
+      isListViewOpened,
+      getListViewToggleRef
+    } = unlock(select(store_store));
     return {
       isInserterOpen: isInserterOpened(),
-      isListViewOpen: isListViewOpened()
+      isListViewOpen: isListViewOpened(),
+      listViewToggleRef: getListViewToggleRef()
     };
   }, []);
   const {
@@ -3497,14 +3532,9 @@ function DocumentTools({
     }
   };
   const toggleListView = (0,external_wp_element_namespaceObject.useCallback)(() => setIsListViewOpened(!isListViewOpen), [setIsListViewOpened, isListViewOpen]);
-  const {
-    shouldShowContextualToolbar,
-    canFocusHiddenToolbar,
-    fixedToolbarCanBeFocused
-  } = useShouldContextualToolbarShow();
+
   // If there's a block toolbar to be focused, disable the focus shortcut for the document toolbar.
-  // There's a fixed block toolbar when the fixed toolbar option is enabled or when the browser width is less than the large viewport.
-  const blockToolbarCanBeFocused = shouldShowContextualToolbar || canFocusHiddenToolbar || fixedToolbarCanBeFocused;
+  const blockToolbarCanBeFocused = useCanBlockToolbarBeFocused();
   return (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.NavigableToolbar, {
     className: "edit-widgets-header-toolbar",
     "aria-label": (0,external_wp_i18n_namespaceObject.__)('Document tools'),
@@ -3531,7 +3561,7 @@ function DocumentTools({
     /* translators: button label text should, if possible, be under 16 characters. */,
     label: (0,external_wp_i18n_namespaceObject.__)('List View'),
     onClick: toggleListView,
-    ref: setListViewToggleElement
+    ref: listViewToggleRef
   })));
 }
 /* harmony default export */ var document_tools = (DocumentTools);
@@ -3976,9 +4006,7 @@ function MoreMenu() {
 
 
 
-function Header({
-  setListViewToggleElement
-}) {
+function Header() {
   const isLargeViewport = (0,external_wp_compose_namespaceObject.useViewportMatch)('medium');
   const blockToolbarRef = (0,external_wp_element_namespaceObject.useRef)();
   const {
@@ -3995,9 +4023,7 @@ function Header({
   }, (0,external_wp_i18n_namespaceObject.__)('Widgets')), !isLargeViewport && (0,external_React_namespaceObject.createElement)(external_wp_components_namespaceObject.VisuallyHidden, {
     as: "h1",
     className: "edit-widgets-header__title"
-  }, (0,external_wp_i18n_namespaceObject.__)('Widgets')), (0,external_React_namespaceObject.createElement)(document_tools, {
-    setListViewToggleElement: setListViewToggleElement
-  }), hasFixedToolbar && isLargeViewport && (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_React_namespaceObject.createElement)("div", {
+  }, (0,external_wp_i18n_namespaceObject.__)('Widgets')), (0,external_React_namespaceObject.createElement)(document_tools, null), hasFixedToolbar && isLargeViewport && (0,external_React_namespaceObject.createElement)(external_React_namespaceObject.Fragment, null, (0,external_React_namespaceObject.createElement)("div", {
     className: "selected-block-tools-wrapper"
   }, (0,external_React_namespaceObject.createElement)(external_wp_blockEditor_namespaceObject.BlockToolbar, {
     hideDragHandle: true
@@ -4241,12 +4267,14 @@ function InserterSidebar() {
  * Internal dependencies
  */
 
-function ListViewSidebar({
-  listViewToggleElement
-}) {
+
+function ListViewSidebar() {
   const {
     setIsListViewOpened
   } = (0,external_wp_data_namespaceObject.useDispatch)(store_store);
+  const {
+    getListViewToggleRef
+  } = unlock((0,external_wp_data_namespaceObject.useSelect)(store_store));
 
   // Use internal state instead of a ref to make sure that the component
   // re-renders when the dropZoneElement updates.
@@ -4256,8 +4284,8 @@ function ListViewSidebar({
   // When closing the list view, focus should return to the toggle button.
   const closeListView = (0,external_wp_element_namespaceObject.useCallback)(() => {
     setIsListViewOpened(false);
-    listViewToggleElement?.focus();
-  }, [listViewToggleElement, setIsListViewOpened]);
+    getListViewToggleRef().current?.focus();
+  }, [getListViewToggleRef, setIsListViewOpened]);
   const closeOnEscape = (0,external_wp_element_namespaceObject.useCallback)(event => {
     if (event.keyCode === external_wp_keycodes_namespaceObject.ESCAPE && !event.defaultPrevented) {
       event.preventDefault();
@@ -4300,9 +4328,7 @@ function ListViewSidebar({
  */
 
 
-function SecondarySidebar({
-  listViewToggleElement
-}) {
+function SecondarySidebar() {
   const {
     isInserterOpen,
     isListViewOpen
@@ -4320,9 +4346,7 @@ function SecondarySidebar({
     return (0,external_React_namespaceObject.createElement)(InserterSidebar, null);
   }
   if (isListViewOpen) {
-    return (0,external_React_namespaceObject.createElement)(ListViewSidebar, {
-      listViewToggleElement: listViewToggleElement
-    });
+    return (0,external_React_namespaceObject.createElement)(ListViewSidebar, null);
   }
   return null;
 }
@@ -4383,7 +4407,6 @@ function Interface({
     previousShortcut: select(external_wp_keyboardShortcuts_namespaceObject.store).getAllShortcutKeyCombinations('core/edit-widgets/previous-region'),
     nextShortcut: select(external_wp_keyboardShortcuts_namespaceObject.store).getAllShortcutKeyCombinations('core/edit-widgets/next-region')
   }), []);
-  const [listViewToggleElement, setListViewToggleElement] = (0,external_wp_element_namespaceObject.useState)(null);
 
   // Inserter and Sidebars are mutually exclusive
   (0,external_wp_element_namespaceObject.useEffect)(() => {
@@ -4404,12 +4427,8 @@ function Interface({
       ...interfaceLabels,
       secondarySidebar: secondarySidebarLabel
     },
-    header: (0,external_React_namespaceObject.createElement)(header, {
-      setListViewToggleElement: setListViewToggleElement
-    }),
-    secondarySidebar: hasSecondarySidebar && (0,external_React_namespaceObject.createElement)(SecondarySidebar, {
-      listViewToggleElement: listViewToggleElement
-    }),
+    header: (0,external_React_namespaceObject.createElement)(header, null),
+    secondarySidebar: hasSecondarySidebar && (0,external_React_namespaceObject.createElement)(SecondarySidebar, null),
     sidebar: hasSidebarEnabled && (0,external_React_namespaceObject.createElement)(complementary_area.Slot, {
       scope: "core/edit-widgets"
     }),
