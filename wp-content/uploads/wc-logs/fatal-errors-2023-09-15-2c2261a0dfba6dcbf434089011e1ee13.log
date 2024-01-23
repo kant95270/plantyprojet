@@ -1,0 +1,8 @@
+2023-09-15T11:49:26+00:00 CRITICAL Maximum execution time of 300 seconds exceeded dans C:\wamp64\www\wordpress\wp-admin\includes\class-wp-filesystem-direct.php à la ligne 66
+
+2023-09-15T19:15:03+00:00 CRITICAL Maximum execution time of 120 seconds exceeded dans C:\wamp64\www\wordpress\wp-includes\widgets\class-wp-widget-search.php à la ligne 17
+
+2023-09-15T19:15:04+00:00 CRITICAL Maximum execution time of 120 seconds exceeded dans C:\wamp64\www\wordpress\wp-includes\widgets\class-wp-widget-media-video.php à la ligne 18
+
+2023-09-15T19:17:07+00:00 CRITICAL Maximum execution time of 120 seconds exceeded dans C:\wamp64\www\wordpress\wp-admin\includes\template.php à la ligne 12
+

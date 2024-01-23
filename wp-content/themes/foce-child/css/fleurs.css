@@ -1,0 +1,12 @@
+.story__article::after {
+  animation: rotateFlower 5s infinite linear;
+}
+
+@keyframes rotateFlower {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}/*# sourceMappingURL=fleurs.css.map */

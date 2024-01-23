@@ -1,0 +1,18 @@
+//variables
+$animationDuration: 5s;
+
+//style fleurs
+.story__article::after {
+
+animation: rotateFlower $animationDuration infinite linear;
+}
+
+//animation rotation
+@keyframes rotateFlower {
+0% {
+    transform: rotate(0deg);
+}
+100% {
+    transform: rotate(360deg);
+}
+}

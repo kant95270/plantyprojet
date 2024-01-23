@@ -1,0 +1,1007 @@
+# Translation of Themes - Ona in French (France)
+# This file is distributed under the same license as the Themes - Ona package.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2022-04-20 09:27:02+0000\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Generator: GlotPress/4.0.0-alpha.4\n"
+"Language: fr\n"
+"Project-Id-Version: Themes - Ona\n"
+
+#. Theme Name of the theme
+#: inc/admin/theme-admin.php:20 inc/admin/theme-admin.php:175
+#: inc/admin/theme-admin.php:615
+#, gp-priority: high
+msgid "Ona"
+msgstr "Ona"
+
+#: inc/patterns/general-hero-creative.php:12
+#: inc/patterns/general-promo-section-travel.php:14
+msgid "Hey There"
+msgstr "Bonjour !"
+
+#: inc/patterns/general-promo-boxes-creative.php:6
+msgid "Promo boxes creative"
+msgstr "Boîtes promotionnelles « creative »"
+
+#: theme.json
+msgctxt "Template part name"
+msgid "Footer"
+msgstr "Pied de page"
+
+#: theme.json
+msgctxt "Template part name"
+msgid "Header"
+msgstr "En-tête"
+
+#: inc/patterns/general-promo-boxes.php:12
+msgid "POPULAR TOPICS"
+msgstr "SUJETS POPULAIRES"
+
+#: inc/patterns/footer-default.php:48 inc/patterns/footer-travel.php:86
+msgid "Terms & Conditions"
+msgstr "Conditions générales"
+
+#: theme.json
+msgctxt "Template part name"
+msgid "Header Transparent"
+msgstr "En-tête transparent"
+
+#: theme.json
+msgctxt "Template part name"
+msgid "Header Centered Logo"
+msgstr "En-tête avec logo centré"
+
+#: inc/patterns/general-promo-section-offset.php:6
+msgid "Promo section offset"
+msgstr "Décalage de la section  « Promotion »"
+
+#: theme.json styles/dandelion.json styles/dark.json styles/medium-carmine.json
+msgctxt "Color name"
+msgid "Secondary"
+msgstr "Secondaire"
+
+#: inc/patterns/general-testimonials.php:6
+msgid "Testimonials"
+msgstr "Témoignages"
+
+#: inc/patterns/general-promo-boxes-creative.php:53
+msgid "ABOUT ME"
+msgstr "À PROPOS DE MOI"
+
+#: inc/patterns/general-promo-boxes-creative.php:39
+msgid "MY TRAVEL"
+msgstr "MON VOYAGE"
+
+#: inc/patterns/general-promo-boxes-creative.php:20
+msgid "GET IN TOUCH"
+msgstr "CONTACTEZ-MOI"
+
+#: inc/patterns/general-hero-creative.php:16
+msgid "I’m Ona, and this is my travel journal"
+msgstr "Je suis Ona, et voici mon carnet de voyage"
+
+#: inc/patterns/general-testimonials.php:11
+msgid "TESTIMONIALS"
+msgstr "TÉMOIGNAGES"
+
+#: inc/patterns/general-testimonials.php:66
+msgid "— Xyjan Ragpa"
+msgstr "— Xyjan Ragpa"
+
+#: inc/patterns/general-testimonials.php:46
+msgid "— Camille Alforque"
+msgstr "— Camille Alforque"
+
+#: inc/patterns/general-latest-youtube-video.php:13
+msgid "Discover my latest video"
+msgstr "Découvrez ma dernière vidéo"
+
+#: inc/patterns/general-testimonials.php:26
+msgid "— Xyrel Paterson"
+msgstr "— Xyrel Paterson"
+
+#: inc/patterns/forms-newsletter-book.php:32
+msgid "Grab my free guide on how to cook fresh and healthy meals"
+msgstr "Recevez mon guide gratuit sur la façon de cuisiner des repas frais et sains"
+
+#: inc/patterns/forms-newsletter-book.php:28
+msgid "LEARN MY BEST RECIPES FOR FREE"
+msgstr "MES MEILLEURES RECETTES GRATUITES"
+
+#: inc/patterns/footer-minimal.php:43 inc/patterns/forms-newsletter.php:29
+msgid "Follow"
+msgstr "Suivre"
+
+#: inc/patterns/block-patterns.php:32
+msgid "Ona Forms"
+msgstr "Formulaires Ona"
+
+#: inc/block-styles.php:80 inc/patterns/forms-newsletter.php:9
+msgid "Newsletter"
+msgstr "Newsletter"
+
+#: inc/patterns/footer-minimal.php:20
+msgid "For collaboration and service offers feel free to get it touch."
+msgstr "Si vous avez des offres de collaboration ou de service, n’hésitez pas à nous contacter."
+
+#: inc/admin/theme-admin.php:518
+msgid "The existing child theme was activated. Proceed to importing the content."
+msgstr "Le thème enfant existant a été activé. Procédez à l’importation du contenu."
+
+#: inc/admin/theme-admin.php:505
+msgid "Awesome. Your child theme is now activated. Proceed to importing the content."
+msgstr "Formidable. Votre thème enfant est maintenant activé. Procédez à l’importation du contenu."
+
+#: inc/patterns/forms-newsletter.php:16 inc/patterns/sidebar-default.php:58
+msgid "SUBSCRIBE NOW"
+msgstr "S’INSCRIRE"
+
+#: inc/patterns/general-gallery-5-columns.php:6
+msgid "Gallery 5 columns"
+msgstr "Galerie 5 colonnes"
+
+#: inc/patterns/general-hero-minimal.php:6
+msgid "Hero minimal"
+msgstr "Hero « minimal »"
+
+#: inc/patterns/header-minimal.php:6
+msgid "Header minimal"
+msgstr "En-tête « minimal »"
+
+#: inc/patterns/general-testimonials.php:62
+msgid "Every detail has been taken care these team are realy amazing and talented! I will work only to help your sales goals."
+msgstr "Chaque détail a été soigné, cette équipe est vraiment incroyable et talentueuse ! Je travaillerai uniquement pour vous aider à améliorer vos objectifs de vente."
+
+#: inc/patterns/general-testimonials.php:42
+msgid "Every detail has been taken care these team are really amazing and talented! I will work only to help your sales goals."
+msgstr "Chaque détail a été soigné, cette équipe est vraiment incroyable et talentueuse ! Je travaillerai uniquement pour vous aider à améliorer vos objectifs de vente."
+
+#: inc/patterns/posts-grid-2-columns-sticky-on-scroll.php:6
+msgid "Posts grid 2 columns sticky on scroll"
+msgstr "Grille de publications en 2 colonnes, épinglée au défilement"
+
+#: inc/patterns/general-gallery-5-columns.php:15
+msgid "Check my latest photos"
+msgstr "Consultez mes dernières photos"
+
+#: inc/patterns/forms-newsletter-book.php:8
+msgid "Newsletter book"
+msgstr "Livre de newsletters"
+
+#: inc/admin/theme-admin.php:216
+msgid " Demos"
+msgstr "Démonstrations"
+
+#: inc/patterns/posts-list-creative.php:6
+msgid "Posts list creative"
+msgstr "Liste de publications « créative »"
+
+#: inc/patterns/footer-creative.php:6
+msgid "Footer creative"
+msgstr "Pied de page  « créative »"
+
+#: inc/patterns/general-latest-youtube-video.php:22
+msgid "See More Vlogs"
+msgstr "Voir plus de blogs vidéo"
+
+#: inc/patterns/general-latest-youtube-video.php:6
+msgid "Latest YouTube video"
+msgstr "Dernière vidéo YouTube"
+
+#: inc/patterns/general-hero-minimal.php:13
+msgid "Hey, I’m Ona, and this is my travel journal"
+msgstr "Bonjour, je suis Ona, voici mon carnet de voyage"
+
+#: inc/patterns/general-gallery-5-columns.php:11
+msgid "My Art"
+msgstr "Mon art"
+
+#: inc/patterns/forms-newsletter.php:20 inc/patterns/sidebar-default.php:62
+msgid "Join the newsletter to get the daily tips, latest articles and free stuffs delivered directly to your inbox."
+msgstr "Inscrivez-vous à la newsletter pour reçevoir les conseils quotidiens, les derniers articles et des contenus gratuits directement dans votre boîte mail."
+
+#: inc/patterns/forms-newsletter-book.php:36
+msgid "I share my best vegan recipes. Sed do eiusmod tempor incididu nt ut labore et dolore minim veniam, quism."
+msgstr "Je partage mes meilleures recettes véganes. Sed do eiusmod tempor incididu nt ut labore et dolore minim veniam, quism."
+
+#: inc/patterns/header-transparent-creative.php:6
+msgid "Header transparent creative"
+msgstr "En-tête « créative » transparent"
+
+#: inc/patterns/header-creative.php:6
+msgid "Header creative"
+msgstr "En-tête « créative »"
+
+#: inc/patterns/general-hero-creative.php:6
+msgid "Hero creative"
+msgstr "Hero « créative »"
+
+#: inc/patterns/general-testimonials.php:22
+msgid "I have witnessed and admired the work for years. I highly recommend this work for anyone seeking to increase."
+msgstr "J’ai été témoin et admiré le travail fait depuis des années. Je recommande fortement ce travail à tous ceux et celles qui cherchent à progresser."
+
+#: inc/patterns/footer-minimal.php:8
+msgid "Footer minimal"
+msgstr "Pied de page minimal"
+
+#: inc/patterns/general-latest-youtube-video.php:17
+msgid "When your life appears so out of balance, ordinary comfort diminishes completely. Anxiety, stress and often depression feel more compelling to us."
+msgstr "Quand votre vie vous semble déséquilibrée, le confort du quotidien s’amenuise complètement. L’anxiété, le stress et souvent la dépression nous semblent plus écrasants."
+
+#: inc/admin/theme-admin.php:50
+msgid "Main"
+msgstr "Principal"
+
+#: inc/patterns/footer-creative.php:20 inc/patterns/footer-environmental.php:60
+#: inc/patterns/footer-minimal.php:28 inc/patterns/header-business.php:22
+#: inc/patterns/header-centered-logo.php:35 inc/patterns/header-creative.php:25
+#: inc/patterns/header-default.php:24 inc/patterns/header-environmental.php:49
+#: inc/patterns/header-minimal.php:18
+#: inc/patterns/header-transparent-creative.php:26
+#: inc/patterns/header-travel.php:17
+msgid "Contact"
+msgstr "Contact"
+
+#: functions.php:163
+msgid "Finished"
+msgstr "Terminé"
+
+#: functions.php:162
+msgid "Processing"
+msgstr "En cours de traitement"
+
+#: theme.json
+msgctxt "Custom template name"
+msgid "Page Without Title"
+msgstr "Page sans titre"
+
+#: theme.json
+msgctxt "Custom template name"
+msgid "Blank"
+msgstr "Page vierge"
+
+#: theme.json
+msgctxt "Font family name"
+msgid "Nunito Sans"
+msgstr "Nunito Sans"
+
+#: theme.json
+msgctxt "Font family name"
+msgid "Gilda Display"
+msgstr "Gilda Display"
+
+#: theme.json
+msgctxt "Font family name"
+msgid "System Font"
+msgstr "Police système"
+
+#: inc/patterns/footer-creative.php:18 inc/patterns/footer-environmental.php:57
+#: inc/patterns/footer-minimal.php:24 inc/patterns/header-business.php:19
+#: inc/patterns/header-centered-logo.php:32 inc/patterns/header-creative.php:22
+#: inc/patterns/header-default.php:21 inc/patterns/header-environmental.php:46
+#: inc/patterns/header-minimal.php:15
+#: inc/patterns/header-transparent-creative.php:24
+#: inc/patterns/header-travel.php:15
+msgid "Home"
+msgstr "Accueil"
+
+#: theme.json
+msgctxt "Custom template name"
+msgid "Header and Footer Only"
+msgstr "En-tête et pied de page uniquement"
+
+#: inc/patterns/footer-creative.php:19 inc/patterns/footer-environmental.php:59
+#: inc/patterns/footer-minimal.php:26 inc/patterns/header-business.php:21
+#: inc/patterns/header-centered-logo.php:34 inc/patterns/header-creative.php:24
+#: inc/patterns/header-default.php:23 inc/patterns/header-environmental.php:48
+#: inc/patterns/header-minimal.php:17
+#: inc/patterns/header-transparent-creative.php:25
+#: inc/patterns/header-travel.php:16
+msgid "About"
+msgstr "À propos"
+
+#: inc/patterns/footer-environmental.php:71 inc/patterns/header-business.php:20
+#: inc/patterns/header-centered-logo.php:33 inc/patterns/header-creative.php:23
+#: inc/patterns/header-default.php:22 inc/patterns/header-environmental.php:47
+#: inc/patterns/header-minimal.php:16
+#: inc/patterns/header-transparent-creative.php:27
+#: inc/patterns/header-travel.php:18
+msgid "News"
+msgstr "Nouveautés"
+
+#: inc/admin/theme-admin.php:64
+msgid "Creative"
+msgstr "Créative"
+
+#: inc/admin/theme-admin.php:383
+msgid "Documentation"
+msgstr "Documentation"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:2873
+msgid "Update"
+msgstr "Mise à jour"
+
+#: inc/admin/theme-admin.php:315 inc/tgmpa/class-tgm-plugin-activation.php:2876
+msgid "Activate"
+msgstr "Activer"
+
+#. translators: 1: install status, 2: update status
+#: inc/tgmpa/class-tgm-plugin-activation.php:2490
+msgctxt "Install/Update Status"
+msgid "%1$s, %2$s"
+msgstr "%1$s, %2$s"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:2481
+msgid "Update recommended"
+msgstr "Mise à jour recommandée"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:2469
+msgid "Active"
+msgstr "Activé"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:2443
+msgid "External Source"
+msgstr "Source externe"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:2440
+msgid "WordPress Repository"
+msgstr "Dépôt WordPress"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:2424
+msgid "Recommended"
+msgstr "Recommandé"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:2421
+msgid "Required"
+msgstr "Nécessaire"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:2701
+msgid "Version"
+msgstr "Version"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:2697
+msgid "Type"
+msgstr "Type"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:2696
+msgid "Source"
+msgstr "Source"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:2695
+msgid "Plugin"
+msgstr "Extension"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:400
+#: inc/tgmpa/class-tgm-plugin-activation.php:3311
+#: inc/tgmpa/tgm-plugin-activation.php:46
+msgid "Plugin activated successfully."
+msgstr "Extension activée avec succès."
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:399
+msgid "Return to the Dashboard"
+msgstr "Retour au tableau de bord"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:3682
+msgid "Hide Details"
+msgstr "Masquer les détails"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:340
+#: inc/tgmpa/tgm-plugin-activation.php:40
+msgid "Install Required Plugins"
+msgstr "Installer les extensions requises"
+
+#: inc/admin/theme-admin.php:644
+msgid "Setup Instructions"
+msgstr "Instructions de configuration"
+
+#: inc/admin/theme-admin.php:633
+msgid "Follow the steps to configure your new theme and begin customizing your site."
+msgstr "Suivez les étapes pour configurer votre nouveau thème et commencez à personnaliser votre site."
+
+#: inc/admin/theme-admin.php:282 inc/tgmpa/class-tgm-plugin-activation.php:2867
+msgid "Install"
+msgstr "Installer"
+
+#: inc/admin/theme-admin.php:57
+msgid "Minimal"
+msgstr "Minimal"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:2630
+msgctxt "as in: \"version nr unknown\""
+msgid "unknown"
+msgstr "inconnue"
+
+#. translators: 1: number of plugins.
+#: inc/tgmpa/class-tgm-plugin-activation.php:2548
+msgid "To Activate <span class=\"count\">(%s)</span>"
+msgid_plural "To Activate <span class=\"count\">(%s)</span>"
+msgstr[0] " <span class=\"count\">(%s)</span>  extension à activer"
+msgstr[1] " <span class=\"count\">(%s)</span>  extensions à activer"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:617
+msgid "Update Required"
+msgstr "Mise à jour nécessaire"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:409
+#: inc/tgmpa/tgm-plugin-activation.php:52
+msgid "There are one or more required or recommended plugins to install, update or activate."
+msgstr "Une ou plusieurs extensions à installer, mettre à jour ou activer sont nécessaires ou recommandées."
+
+#. translators: %2$s: plugin name in screen reader markup
+#: inc/tgmpa/class-tgm-plugin-activation.php:2751
+msgid "Install %2$s"
+msgstr "Installer %2$s"
+
+#. translators: 1: plugin name.
+#: inc/tgmpa/class-tgm-plugin-activation.php:3674
+msgid "%1$s installed successfully."
+msgstr "%1$s a bien été installé."
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:2463
+msgid "Not Installed"
+msgstr "Non Installée"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:2467
+msgid "Installed But Not Activated"
+msgstr "Installée mais non activée"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:2475
+msgid "Required Update not Available"
+msgstr "Mise à jour nécessaire non disponible"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:2478
+msgid "Requires Update"
+msgstr "Mise à jour nécessaire"
+
+#. translators: 1: number of plugins.
+#: inc/tgmpa/class-tgm-plugin-activation.php:2536
+msgctxt "plugins"
+msgid "All <span class=\"count\">(%s)</span>"
+msgid_plural "All <span class=\"count\">(%s)</span>"
+msgstr[0] " <span class=\"count\">(%s)</span>"
+msgstr[1] "Toutes <span class=\"count\">(%s)</span>"
+
+#. translators: 1: plugin name.
+#: inc/tgmpa/class-tgm-plugin-activation.php:3666
+msgid "%1$s installed and activated successfully."
+msgstr "%1$s installé et bien activé."
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:3667
+msgid "All installations and activations have been completed."
+msgstr "Toutes les installations et activations sont terminées."
+
+#. translators: 1: number of plugins.
+#: inc/tgmpa/class-tgm-plugin-activation.php:2544
+msgid "Update Available <span class=\"count\">(%s)</span>"
+msgid_plural "Update Available <span class=\"count\">(%s)</span>"
+msgstr[0] "Mise à jour disponible  <span class=\"count\">(%s)</span>"
+msgstr[1] "Mises à jour disponibles  <span class=\"count\">(%s)</span>"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:2446
+msgid "Pre-Packaged"
+msgstr "Pré-inclus"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:2702
+msgid "Status"
+msgstr "Statut"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:2681
+msgid "No plugins to install, update or activate."
+msgstr "Aucune extension (plugin) à installer, mettre à jour ou à activer."
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:408
+#: inc/tgmpa/tgm-plugin-activation.php:51
+msgid "Dismiss this notice"
+msgstr "Ignorer cette notification"
+
+#. translators: 1: dashboard link.
+#: inc/tgmpa/class-tgm-plugin-activation.php:407
+#: inc/tgmpa/tgm-plugin-activation.php:50
+msgid "All plugins installed and activated successfully. %1$s"
+msgstr "Toutes les extensions ont été installées et activées avec succès.  %1$s"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:3675
+msgid "All installations have been completed."
+msgstr "Toutes les installations sont terminées."
+
+#. translators: 1: plugin name, 2: action number 3: total number of actions.
+#: inc/tgmpa/class-tgm-plugin-activation.php:3677
+msgid "Installing Plugin %1$s (%2$d/%3$d)"
+msgstr "Installation de l’extension  %1$s (%2$d/%3$d) en cours"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:3672
+msgid "The installation process is starting. This process may take a while on some hosts, so please be patient."
+msgstr "Le processus d’installation va démarrer. Cela peut prendre un certain temps avec certains hébergeurs. Veuillez patienter."
+
+#. translators: 1: plugin name, 2: action number 3: total number of actions.
+#: inc/tgmpa/class-tgm-plugin-activation.php:3669
+msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
+msgstr "Installation et activation de l’extension %1$s (%2$d/%3$d) en cours"
+
+#. translators: 1: plugin name.
+#: inc/tgmpa/class-tgm-plugin-activation.php:3660
+msgid "The installation of %1$s failed."
+msgstr "L’installation de %1$s a échoué."
+
+#. translators: 1: plugin name, 2: action number 3: total number of actions.
+#: inc/tgmpa/class-tgm-plugin-activation.php:3655
+msgid "Updating Plugin %1$s (%2$d/%3$d)"
+msgstr "Mise à jour de l’extension %1$s (%2$d/%3$d)"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:3310
+msgid "Plugin activation failed."
+msgstr "L’activation de l’extension a échoué."
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:3059
+msgid "No plugins were selected to be activated. No action taken."
+msgstr "Aucune extension n’a été sélectionnée pour être activée. Pas d’action effectuée."
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:2909
+msgid "No plugins were selected to be updated. No action taken."
+msgstr "Aucune extension n’est sélectionnée pour être mise à jour. Pas d’action effectuée."
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:2907
+msgid "No plugins were selected to be installed. No action taken."
+msgstr "Aucune extension n’est sélectionnée pour être installée. Pas d’action effectuée."
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:1042
+#: inc/tgmpa/class-tgm-plugin-activation.php:1052
+msgid "Please contact the plugin provider and ask them to package their plugin according to the WordPress guidelines."
+msgstr "Veuillez contacter le fournisseur de l’extension pour lui demander de préparer leur extension en accord avec les principes de WordPress."
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:616
+msgid "This plugin needs to be updated to be compatible with your theme."
+msgstr "L’extension doit être mise à jour pour être compatible avec votre thème."
+
+#. translators: 1: plugin name.
+#: inc/tgmpa/class-tgm-plugin-activation.php:405
+#: inc/tgmpa/tgm-plugin-activation.php:49
+msgid "Plugin not activated. A higher version of %s is needed for this theme. Please update the plugin."
+msgstr "Extension non activée. Une version plus récente de %s est nécessaire pour ce thème. Veuillez mettre à jour l’extension."
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:393
+msgid "Begin activating plugin"
+msgid_plural "Begin activating plugins"
+msgstr[0] "Début de l’activation de l’extension"
+msgstr[1] "Début de l’activation des extensions"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:388
+msgid "Begin updating plugin"
+msgid_plural "Begin updating plugins"
+msgstr[0] "Début de la mise à jour de l’extension"
+msgstr[1] "Début de la mise à jour des extensions"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:383
+msgid "Begin installing plugin"
+msgid_plural "Begin installing plugins"
+msgstr[0] "Début de l’installation de l’extension"
+msgstr[1] "Début de l’installation des extensions"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:346
+#: inc/tgmpa/tgm-plugin-activation.php:44
+msgid "Something went wrong with the plugin API."
+msgstr "Quelque chose s’est mal passé avec l’API de l’extension."
+
+#. translators: 1: plugin name.
+#: inc/tgmpa/class-tgm-plugin-activation.php:403
+#: inc/tgmpa/tgm-plugin-activation.php:48
+msgid "No action taken. Plugin %1$s was already active."
+msgstr "Aucune action effectuée. L’extension %1$s était déjà activée."
+
+#. translators: 1: plugin name, 2: error message.
+#: inc/tgmpa/class-tgm-plugin-activation.php:3658
+msgid "An error occurred while installing %1$s: <strong>%2$s</strong>."
+msgstr "L’erreur suivante est survenue pendant l’installation de %1$s : <strong>%2$s</strong>."
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:2834
+msgid "Upgrade message from the plugin author:"
+msgstr "Message de mise à niveau de l’auteur/autrice de l’extension :"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:2658
+msgid "Available version:"
+msgstr "Version disponible :"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:2646
+msgid "Minimum required version:"
+msgstr "Version minimale requise :"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:2638
+msgid "Installed version:"
+msgstr "Version installée :"
+
+#. translators: 1: plugin name(s).
+#: inc/tgmpa/class-tgm-plugin-activation.php:366
+msgid "There is an update available for: %1$s."
+msgid_plural "There are updates available for the following plugins: %1$s."
+msgstr[0] "Une mise à jour est disponible pour : %1$s."
+msgstr[1] "Des mises à jour sont disponibles pour les extensions suivantes :  %1$s."
+
+#: inc/admin/theme-admin.php:620
+msgid "Thank you for choosing Ona!"
+msgstr "Merci d’avoir choisi Ona !"
+
+#: inc/patterns/posts-grid-3-columns.php:6
+msgid "Posts grid 3 columns"
+msgstr "Publications en grille sur 3 colonnes"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:3682
+msgid "Show Details"
+msgstr "Afficher les détails"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:1243
+#: inc/tgmpa/class-tgm-plugin-activation.php:3099
+msgctxt "plugin A *and* plugin B"
+msgid "and"
+msgstr "et"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:3664
+msgid "The installation and activation process is starting. This process may take a while on some hosts, so please be patient."
+msgstr "Le processus d’installation et d’activation est démarré. Cette opération peut prendre du temps avec certains hébergeurs. Veuillez patienter."
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:3085
+msgid "No plugins are available to be activated at this time."
+msgstr "Pour l’instant, aucune extension n’est disponible pour activation."
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:2952
+msgid "No plugins are available to be updated at this time."
+msgstr "Pour l’instant, aucune extension n’est disponible pour être mise à jour."
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:2950
+msgid "No plugins are available to be installed at this time."
+msgstr "Pour l’instant, aucune extension n’est disponible pour être installée."
+
+#. translators: %2$s: plugin name in screen reader markup
+#: inc/tgmpa/class-tgm-plugin-activation.php:2762
+msgid "Activate %2$s"
+msgstr "Activer %2$s"
+
+#. translators: %2$s: plugin name in screen reader markup
+#: inc/tgmpa/class-tgm-plugin-activation.php:2756
+msgid "Update %2$s"
+msgstr "Mise à jour de %2$s"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:1052
+msgid "The remote plugin package consists of more than one file, but the files are not packaged in a folder."
+msgstr "Le paquet d’extensions ciblé comporte plusieurs fichiers et ils ne sont pas placés dans un seul dossier."
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:398
+#: inc/tgmpa/tgm-plugin-activation.php:45
+msgid "Return to Required Plugins Installer"
+msgstr "Retour à l’installateur pour les extensions nécessaires"
+
+#. translators: %s: version number
+#: inc/tgmpa/class-tgm-plugin-activation.php:2112
+msgid "TGMPA v%s"
+msgstr "TGMPA v%s"
+
+#. translators: %s: plugin name.
+#: inc/tgmpa/class-tgm-plugin-activation.php:343
+#: inc/tgmpa/tgm-plugin-activation.php:42
+msgid "Installing Plugin: %s"
+msgstr "Installation de l’extension : %s"
+
+#. translators: %s: plugin name.
+#: inc/tgmpa/class-tgm-plugin-activation.php:345
+#: inc/tgmpa/tgm-plugin-activation.php:43
+msgid "Updating Plugin: %s"
+msgstr "Mise à jour de l’extension : %s"
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:401
+#: inc/tgmpa/class-tgm-plugin-activation.php:3103
+#: inc/tgmpa/tgm-plugin-activation.php:47
+msgid "The following plugin was activated successfully:"
+msgid_plural "The following plugins were activated successfully:"
+msgstr[0] "L’extension suivante a bien été activée :"
+msgstr[1] "Les extensions suivantes ont bien été activées :"
+
+#. translators: 1: plugin name(s).
+#: inc/tgmpa/class-tgm-plugin-activation.php:348
+msgid "This theme requires the following plugin: %1$s."
+msgid_plural "This theme requires the following plugins: %1$s."
+msgstr[0] "Ce thème nécessite l’extension suivante : %1$s."
+msgstr[1] "Ce thème nécessite les extensions suivantes : %1$s."
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:735
+msgid "Set the parent_slug config variable instead."
+msgstr "Définissez plutôt la variable de configuration « parent_slug »."
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:341
+#: inc/tgmpa/tgm-plugin-activation.php:41
+msgid "Install Plugins"
+msgstr "Installer les extensions"
+
+#. translators: 1: plugin name(s).
+#: inc/tgmpa/class-tgm-plugin-activation.php:360
+msgid "The following plugin needs to be updated to its latest version to ensure maximum compatibility with this theme: %1$s."
+msgid_plural "The following plugins need to be updated to their latest version to ensure maximum compatibility with this theme: %1$s."
+msgstr[0] "L’extension suivante nécessite d’être mise à jour dans sa dernière version pour assurer une compatibilité maximale avec ce thème : %1$s."
+msgstr[1] "Les extensions suivantes nécessitent une mise à jour dans leur dernière version pour assurer une compatibilité maximum avec ce thème : %1$s."
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:410
+#: inc/tgmpa/tgm-plugin-activation.php:53
+msgid "Please contact the administrator of this site for help."
+msgstr "Veuillez contacter l’administrateur ou l’administratrice du site pour obtenir de l’aide."
+
+#: inc/tgmpa/class-tgm-plugin-activation.php:1042
+msgid "The remote plugin package does not contain a folder with the desired slug and renaming did not work."
+msgstr "Le paquet distant de l’extension ne contient aucun dossier avec le slug souhaité et le renommage n’a pas fonctionné."
+
+#: inc/admin/theme-admin.php:627
+msgid "Run the Setup Wizard to configure your new theme and begin customizing your site."
+msgstr "Lancez l‘assistant pour configurer votre nouveau thème et commencez à personnaliser votre site."
+
+#. translators: 1: plugin name(s).
+#: inc/tgmpa/class-tgm-plugin-activation.php:354
+msgid "This theme recommends the following plugin: %1$s."
+msgid_plural "This theme recommends the following plugins: %1$s."
+msgstr[0] "Ce thème recommande l‘extension suivante : %1$s."
+msgstr[1] "Ce thème recommande les extensions suivantes : %1$s."
+
+#. translators: 1: number of plugins.
+#: inc/tgmpa/class-tgm-plugin-activation.php:2540
+msgid "To Install <span class=\"count\">(%s)</span>"
+msgid_plural "To Install <span class=\"count\">(%s)</span>"
+msgstr[0] "<span class=\"count\">(%s)</span> à installer"
+msgstr[1] "<span class=\"count\">(%s)</span> à installer"
+
+#. translators: 1: plugin name(s).
+#: inc/tgmpa/class-tgm-plugin-activation.php:378
+msgid "The following recommended plugin is currently inactive: %1$s."
+msgid_plural "The following recommended plugins are currently inactive: %1$s."
+msgstr[0] "L’extension recommandée suivante est actuellement inactivée : %1$s."
+msgstr[1] "Les extensions recommandées suivantes sont actuellement inactivées : %1$s."
+
+#. translators: 1: plugin name(s).
+#: inc/tgmpa/class-tgm-plugin-activation.php:372
+msgid "The following required plugin is currently inactive: %1$s."
+msgid_plural "The following required plugins are currently inactive: %1$s."
+msgstr[0] "L’extension nécessaire suivante est actuellement inactivée : %1$s."
+msgstr[1] "Les extensions nécessaires suivante sont actuellement inactivées : %1$s."
+
+#: inc/patterns/page-contact.php:6
+msgid "Page contact"
+msgstr "Page contact"
+
+#: inc/patterns/page-about.php:113
+msgid "Profits gained for my clients and money"
+msgstr "Bénéfices pour mes clients"
+
+#: inc/patterns/page-about.php:109
+msgid "700K"
+msgstr "700K"
+
+#: inc/patterns/page-about.php:89
+msgid "Houses sold in 2021 for my clients"
+msgstr "Maisons vendues en 2021 pour mes clients"
+
+#: inc/patterns/page-about.php:85
+msgid "99"
+msgstr "99"
+
+#: inc/patterns/page-contact.php:31
+msgid "Melbourne's GPO 350 Bourke St Melbourne VIC 3000 Australia"
+msgstr "Melbourne’s GPO 350 Bourke St Melbourne VIC 3000 Australia"
+
+#: inc/patterns/page-contact.php:23
+msgid "Feel free to contact me anytime."
+msgstr "N’hésitez pas à me contacter."
+
+#: inc/patterns/page-about.php:101
+msgid "Cups of coffee drank in courtrooms in 2021"
+msgstr "Nombre de tasses de café bues dans les salles d’audience en 2021"
+
+#: inc/patterns/general-promo-section-offset.php:15
+#: inc/patterns/page-about.php:58
+msgid "I Love working with people who find joy in the little things"
+msgstr "J’aime travailler avec des gens qui trouvent leur bonheur dans les choses simples"
+
+#: inc/patterns/page-contact.php:39
+msgid "Email: "
+msgstr "E-mail :"
+
+#: inc/patterns/page-contact.php:35
+msgid "Phone: +1-888-1554-456-123"
+msgstr "Téléphone : +1-888-1554-456-123"
+
+#: inc/patterns/page-about.php:40
+msgid "“To us, a healthy woman is confident in her own skin, flaws and all.”"
+msgstr "« Pour nous, une personne en bonne forme a confiance en soi, même si elle a des défauts. »"
+
+#: inc/patterns/page-about.php:97
+msgid "1,500+"
+msgstr "+ de 1500"
+
+#: inc/patterns/page-about.php:6
+msgid "Page about"
+msgstr "Page - À propos"
+
+#: inc/admin/theme-admin.php:397
+msgid "Follow us"
+msgstr "Suivez-nous"
+
+#: inc/admin/theme-admin.php:388
+msgid "Rate us ★★★★★"
+msgstr "Evaluez-nous ★★★★★"
+
+#: inc/admin/theme-admin.php:378 inc/patterns/footer-travel.php:42
+msgid "Useful Links"
+msgstr "Liens utiles"
+
+#: inc/admin/theme-admin.php:202
+msgid "Getting Started"
+msgstr "Premiers pas"
+
+#: inc/admin/theme-admin.php:19
+msgid "Ona Getting Started"
+msgstr "Premiers pas avec Ona"
+
+#: inc/admin/theme-admin.php:185
+msgid "Made by "
+msgstr "Créé par"
+
+#: inc/patterns/general-page-title-with-image.php:23
+#: inc/patterns/page-about.php:24
+msgid "I am a lifestyle and fashion blogger, a person who enjoys travel."
+msgstr "Je suis une blogueuse style de vie et mode, une personne qui aime voyager."
+
+#: inc/patterns/general-page-title-with-image.php:6
+msgid "Page title with image"
+msgstr "Page de titre avec image"
+
+#: inc/patterns/footer-business.php:49 inc/patterns/footer-creative.php:43
+#: inc/patterns/footer-default.php:47 inc/patterns/footer-environmental.php:98
+#: inc/patterns/footer-minimal.php:74 inc/patterns/footer-travel.php:85
+msgid "Privacy Policy"
+msgstr "Politique de confidentialité"
+
+#: inc/patterns/footer-default.php:6
+msgid "Default footer"
+msgstr "Pied de page par défaut"
+
+#: inc/patterns/block-patterns.php:29
+msgid "Ona Pages"
+msgstr "Pages Ona"
+
+#: inc/patterns/block-patterns.php:26
+msgid "Ona Posts"
+msgstr "Articles Ona"
+
+#: inc/patterns/block-patterns.php:20
+msgid "Ona Headers"
+msgstr "En-têtes Ona"
+
+#: inc/patterns/block-patterns.php:17
+msgid "Ona Footers"
+msgstr "Pieds de pages Ona"
+
+#: inc/patterns/block-patterns.php:14
+msgid "Ona General"
+msgstr "Ona Général"
+
+#: theme.json styles/dandelion.json styles/dark.json styles/medium-carmine.json
+msgctxt "Color name"
+msgid "Background"
+msgstr "Arrière-plan"
+
+#: theme.json styles/dandelion.json styles/dark.json styles/medium-carmine.json
+msgctxt "Color name"
+msgid "Foreground"
+msgstr "Avant-plan"
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Large"
+msgstr "Grande"
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Medium"
+msgstr "Moyenne"
+
+#: inc/patterns/general-promo-section.php:16
+msgid "My Travel Gear"
+msgstr "Mon nécessaire de voyage"
+
+#: inc/patterns/general-promo-boxes.php:49
+msgid "TRAVEL"
+msgstr "VOYAGES"
+
+#: inc/patterns/general-promo-boxes.php:35
+msgid "LIFESTYLE"
+msgstr "STYLE DE VIE"
+
+#: inc/patterns/general-promo-boxes.php:21
+msgid "FASHION"
+msgstr "MODE"
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Small"
+msgstr "Petite"
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Tiny"
+msgstr "Très petite"
+
+#: inc/patterns/header-centered-logo.php:6
+msgid "Header centered logo"
+msgstr "En-tête avec logo centré"
+
+#: inc/patterns/posts-grid-3-columns.php:15
+msgid "LATEST NEWS"
+msgstr "DERNIÈRES NOUVEAUTÉS"
+
+#: inc/patterns/general-promo-section.php:20
+msgid "Some blogs focus more on fashion advice, featuring how-to articles for the lay reader."
+msgstr "Certains blogs se concentrent davantage sur les conseils de mode en proposant des articles de base pour qui cherche des références en la matière."
+
+#: inc/patterns/general-promo-boxes.php:63
+msgid "STORIES"
+msgstr "ANECDOTES"
+
+#: theme.json styles/dandelion.json styles/dark.json styles/medium-carmine.json
+msgctxt "Color name"
+msgid "Background Light"
+msgstr "Arrière-plan clair"
+
+#: theme.json styles/dandelion.json styles/dark.json styles/medium-carmine.json
+msgctxt "Color name"
+msgid "Text Lighter"
+msgstr "Texte plus clair"
+
+#: theme.json styles/dandelion.json styles/dark.json styles/medium-carmine.json
+msgctxt "Color name"
+msgid "Text Light"
+msgstr "Texte clair"
+
+#: theme.json styles/dandelion.json styles/dark.json styles/medium-carmine.json
+msgctxt "Color name"
+msgid "Text Regular"
+msgstr "Texte normal"
+
+#: theme.json
+msgctxt "Font size name"
+msgid "Medium Large"
+msgstr "Moyennement grande"
+
+#: inc/patterns/header-default.php:6
+msgid "Header default"
+msgstr "En-tête par défaut"
+
+#: inc/patterns/footer-business.php:50 inc/patterns/footer-creative.php:44
+#: inc/patterns/footer-environmental.php:99 inc/patterns/footer-minimal.php:76
+msgid "Terms \\u0026amp; Conditions"
+msgstr "Termes & conditions"
+
+#: inc/patterns/general-hero-cover.php:12
+msgid "Hello, I'm Ona. And this is my personal travel journal"
+msgstr "Bonjour, je suis Ona. Et voici mon carnet de voyages personnel"
+
+#: index.php:9
+msgid "This theme was built for the WordPress experimental full site editing feature. You need to install and activate the Gutenberg plugin to make it work. "
+msgstr "Ce thème a été construit pour la fonctionnalité expérimentale d’édition complète de site de WordPress. Vous devez installer et activer l’extension Gutenberg pour le faire fonctionner."
+
+#: inc/patterns/general-promo-section-offset.php:20
+#: inc/patterns/general-promo-section.php:24 inc/patterns/page-about.php:63
+msgid "Some blogs focus more on fashion advice, featuring how-to articles for the lay reader. Articles discuss clothing fit, the matching and complementing of colors, and other information on clothes wearing and care along with prescriptive advice."
+msgstr "Certains blogs se concentrent davantage sur les conseils de mode en proposant des articles de base pour les lecteurs et lectrices qui cherchent des références en la matière. Ici, les articles traitent de la coupe des vêtements, de l’association et de la complémentarité des couleurs, ainsi que d’autres informations pratiques sur la façon de porter ou encore d’entretenir les vêtements."
+
+#: inc/patterns/general-promo-section.php:6
+msgid "Promo section"
+msgstr "Section promotionnelle"
+
+#. Author URI of the theme
+#, gp-priority: low
+msgid "https://deothemes.com"
+msgstr "https://deothemes.com"
+
+#. Author of the theme
+#: inc/admin/theme-admin.php:188
+#, gp-priority: low
+msgid "DeoThemes"
+msgstr "DeoThemes"

@@ -1,0 +1,60 @@
+[30-Dec-2023 15:02:06 UTC] PHP Warning:  Attempt to read property "title" on null in D:\wamp64\www\motaphoto\wp-includes\class-wp-customize-widgets.php on line 905
+[30-Dec-2023 15:02:06 UTC] PHP Stack trace:
+[30-Dec-2023 15:02:06 UTC] PHP   1. {main}() D:\wamp64\www\motaphoto\wp-admin\customize.php:0
+[30-Dec-2023 15:02:06 UTC] PHP   2. do_action($hook_name = 'customize_controls_print_footer_scripts') D:\wamp64\www\motaphoto\wp-admin\customize.php:302
+[30-Dec-2023 15:02:06 UTC] PHP   3. WP_Hook->do_action($args = [0 => '']) D:\wamp64\www\motaphoto\wp-includes\plugin.php:517
+[30-Dec-2023 15:02:06 UTC] PHP   4. WP_Hook->apply_filters($value = '', $args = [0 => '']) D:\wamp64\www\motaphoto\wp-includes\class-wp-hook.php:348
+[30-Dec-2023 15:02:06 UTC] PHP   5. WP_Customize_Widgets->output_widget_control_templates('') D:\wamp64\www\motaphoto\wp-includes\class-wp-hook.php:324
+[30-Dec-2023 15:16:32 UTC] PHP Warning:  Attempt to read property "title" on null in D:\wamp64\www\motaphoto\wp-includes\class-wp-customize-widgets.php on line 905
+[30-Dec-2023 15:16:32 UTC] PHP Stack trace:
+[30-Dec-2023 15:16:32 UTC] PHP   1. {main}() D:\wamp64\www\motaphoto\wp-admin\customize.php:0
+[30-Dec-2023 15:16:32 UTC] PHP   2. do_action($hook_name = 'customize_controls_print_footer_scripts') D:\wamp64\www\motaphoto\wp-admin\customize.php:302
+[30-Dec-2023 15:16:32 UTC] PHP   3. WP_Hook->do_action($args = [0 => '']) D:\wamp64\www\motaphoto\wp-includes\plugin.php:517
+[30-Dec-2023 15:16:32 UTC] PHP   4. WP_Hook->apply_filters($value = '', $args = [0 => '']) D:\wamp64\www\motaphoto\wp-includes\class-wp-hook.php:348
+[30-Dec-2023 15:16:32 UTC] PHP   5. WP_Customize_Widgets->output_widget_control_templates('') D:\wamp64\www\motaphoto\wp-includes\class-wp-hook.php:324
+[31-Dec-2023 09:11:34 UTC] PHP Deprecated:  Le fichier Thème sans sidebar.php est obsolète depuis la version 3.0.0, aucune alternative n’est disponible. Veuillez inclure un modèle de sidebar.php à votre thème. in D:\wamp64\www\motaphoto\wp-includes\functions.php on line 6031
+[31-Dec-2023 09:11:34 UTC] PHP Stack trace:
+[31-Dec-2023 09:11:34 UTC] PHP   1. {main}() D:\wamp64\www\motaphoto\index.php:0
+[31-Dec-2023 09:11:34 UTC] PHP   2. require() D:\wamp64\www\motaphoto\index.php:17
+[31-Dec-2023 09:11:34 UTC] PHP   3. require_once() D:\wamp64\www\motaphoto\wp-blog-header.php:19
+[31-Dec-2023 09:11:34 UTC] PHP   4. include() D:\wamp64\www\motaphoto\wp-includes\template-loader.php:106
+[31-Dec-2023 09:11:34 UTC] PHP   5. get_sidebar($name = *uninitialized*, $args = *uninitialized*) D:\wamp64\www\motaphoto\wp-content\themes\motaphoto\page.php:37
+[31-Dec-2023 09:11:34 UTC] PHP   6. locate_template($template_names = [0 => 'sidebar.php'], $load = TRUE, $load_once = TRUE, $args = []) D:\wamp64\www\motaphoto\wp-includes\general-template.php:136
+[31-Dec-2023 09:11:34 UTC] PHP   7. load_template($_template_file = 'D:\\wamp64\\www\\motaphoto/wp-includes/theme-compat/sidebar.php', $load_once = TRUE, $args = []) D:\wamp64\www\motaphoto\wp-includes\template.php:725
+[31-Dec-2023 09:11:34 UTC] PHP   8. require_once() D:\wamp64\www\motaphoto\wp-includes\template.php:790
+[31-Dec-2023 09:11:34 UTC] PHP   9. _deprecated_file($file = 'Thème sans sidebar.php', $version = '3.0.0', $replacement = NULL, $message = 'Veuillez inclure un modèle de sidebar.php à votre thème.') D:\wamp64\www\motaphoto\wp-includes\theme-compat\sidebar.php:15
+[31-Dec-2023 09:11:34 UTC] PHP  10. wp_trigger_error($function_name = '', $message = 'Le fichier Thème sans sidebar.php est <strong>obsolète</strong> depuis la version 3.0.0, aucune alternative n’est disponible. Veuillez inclure un modèle de sidebar.php à votre thème.', $error_level = 16384) D:\wamp64\www\motaphoto\wp-includes\functions.php:5745
+[31-Dec-2023 09:11:34 UTC] PHP  11. trigger_error($message = 'Le fichier Thème sans sidebar.php est obsolète depuis la version 3.0.0, aucune alternative n’est disponible. Veuillez inclure un modèle de sidebar.php à votre thème.', $error_level = 16384) D:\wamp64\www\motaphoto\wp-includes\functions.php:6031
+[01-Jan-2024 23:02:57 UTC] PHP Deprecated:  Le fichier Thème sans comments.php est obsolète depuis la version 3.0.0, aucune alternative n’est disponible. Veuillez inclure un modèle de comments.php à votre thème. in D:\wamp64\www\motaphoto\wp-includes\functions.php on line 6031
+[01-Jan-2024 23:02:57 UTC] PHP Stack trace:
+[01-Jan-2024 23:02:57 UTC] PHP   1. {main}() D:\wamp64\www\motaphoto\index.php:0
+[01-Jan-2024 23:02:57 UTC] PHP   2. require() D:\wamp64\www\motaphoto\index.php:17
+[01-Jan-2024 23:02:57 UTC] PHP   3. require_once() D:\wamp64\www\motaphoto\wp-blog-header.php:19
+[01-Jan-2024 23:02:57 UTC] PHP   4. include() D:\wamp64\www\motaphoto\wp-includes\template-loader.php:106
+[01-Jan-2024 23:02:57 UTC] PHP   5. comments_template($file = *uninitialized*, $separate_comments = *uninitialized*) D:\wamp64\www\motaphoto\wp-content\themes\motaphoto\single.php:22
+[01-Jan-2024 23:02:57 UTC] PHP   6. require() D:\wamp64\www\motaphoto\wp-includes\comment-template.php:1622
+[01-Jan-2024 23:02:57 UTC] PHP   7. _deprecated_file($file = 'Thème sans comments.php', $version = '3.0.0', $replacement = NULL, $message = 'Veuillez inclure un modèle de comments.php à votre thème.') D:\wamp64\www\motaphoto\wp-includes\theme-compat\comments.php:15
+[01-Jan-2024 23:02:57 UTC] PHP   8. wp_trigger_error($function_name = '', $message = 'Le fichier Thème sans comments.php est <strong>obsolète</strong> depuis la version 3.0.0, aucune alternative n’est disponible. Veuillez inclure un modèle de comments.php à votre thème.', $error_level = 16384) D:\wamp64\www\motaphoto\wp-includes\functions.php:5745
+[01-Jan-2024 23:02:57 UTC] PHP   9. trigger_error($message = 'Le fichier Thème sans comments.php est obsolète depuis la version 3.0.0, aucune alternative n’est disponible. Veuillez inclure un modèle de comments.php à votre thème.', $error_level = 16384) D:\wamp64\www\motaphoto\wp-includes\functions.php:6031
+[01-Jan-2024 23:09:46 UTC] PHP Deprecated:  Le fichier Thème sans comments.php est obsolète depuis la version 3.0.0, aucune alternative n’est disponible. Veuillez inclure un modèle de comments.php à votre thème. in D:\wamp64\www\motaphoto\wp-includes\functions.php on line 6031
+[01-Jan-2024 23:09:46 UTC] PHP Stack trace:
+[01-Jan-2024 23:09:46 UTC] PHP   1. {main}() D:\wamp64\www\motaphoto\index.php:0
+[01-Jan-2024 23:09:46 UTC] PHP   2. require() D:\wamp64\www\motaphoto\index.php:17
+[01-Jan-2024 23:09:46 UTC] PHP   3. require_once() D:\wamp64\www\motaphoto\wp-blog-header.php:19
+[01-Jan-2024 23:09:46 UTC] PHP   4. include() D:\wamp64\www\motaphoto\wp-includes\template-loader.php:106
+[01-Jan-2024 23:09:46 UTC] PHP   5. comments_template($file = *uninitialized*, $separate_comments = *uninitialized*) D:\wamp64\www\motaphoto\wp-content\themes\motaphoto\single.php:14
+[01-Jan-2024 23:09:46 UTC] PHP   6. require() D:\wamp64\www\motaphoto\wp-includes\comment-template.php:1622
+[01-Jan-2024 23:09:46 UTC] PHP   7. _deprecated_file($file = 'Thème sans comments.php', $version = '3.0.0', $replacement = NULL, $message = 'Veuillez inclure un modèle de comments.php à votre thème.') D:\wamp64\www\motaphoto\wp-includes\theme-compat\comments.php:15
+[01-Jan-2024 23:09:46 UTC] PHP   8. wp_trigger_error($function_name = '', $message = 'Le fichier Thème sans comments.php est <strong>obsolète</strong> depuis la version 3.0.0, aucune alternative n’est disponible. Veuillez inclure un modèle de comments.php à votre thème.', $error_level = 16384) D:\wamp64\www\motaphoto\wp-includes\functions.php:5745
+[01-Jan-2024 23:09:46 UTC] PHP   9. trigger_error($message = 'Le fichier Thème sans comments.php est obsolète depuis la version 3.0.0, aucune alternative n’est disponible. Veuillez inclure un modèle de comments.php à votre thème.', $error_level = 16384) D:\wamp64\www\motaphoto\wp-includes\functions.php:6031
+[02-Jan-2024 00:47:09 UTC] PHP Deprecated:  Le fichier Thème sans comments.php est obsolète depuis la version 3.0.0, aucune alternative n’est disponible. Veuillez inclure un modèle de comments.php à votre thème. in D:\wamp64\www\motaphoto\wp-includes\functions.php on line 6031
+[02-Jan-2024 00:47:09 UTC] PHP Stack trace:
+[02-Jan-2024 00:47:09 UTC] PHP   1. {main}() D:\wamp64\www\motaphoto\index.php:0
+[02-Jan-2024 00:47:09 UTC] PHP   2. require() D:\wamp64\www\motaphoto\index.php:17
+[02-Jan-2024 00:47:09 UTC] PHP   3. require_once() D:\wamp64\www\motaphoto\wp-blog-header.php:19
+[02-Jan-2024 00:47:09 UTC] PHP   4. include() D:\wamp64\www\motaphoto\wp-includes\template-loader.php:106
+[02-Jan-2024 00:47:09 UTC] PHP   5. comments_template($file = *uninitialized*, $separate_comments = *uninitialized*) D:\wamp64\www\motaphoto\wp-content\themes\motaphoto\single.php:14
+[02-Jan-2024 00:47:09 UTC] PHP   6. require() D:\wamp64\www\motaphoto\wp-includes\comment-template.php:1622
+[02-Jan-2024 00:47:09 UTC] PHP   7. _deprecated_file($file = 'Thème sans comments.php', $version = '3.0.0', $replacement = NULL, $message = 'Veuillez inclure un modèle de comments.php à votre thème.') D:\wamp64\www\motaphoto\wp-includes\theme-compat\comments.php:15
+[02-Jan-2024 00:47:09 UTC] PHP   8. wp_trigger_error($function_name = '', $message = 'Le fichier Thème sans comments.php est <strong>obsolète</strong> depuis la version 3.0.0, aucune alternative n’est disponible. Veuillez inclure un modèle de comments.php à votre thème.', $error_level = 16384) D:\wamp64\www\motaphoto\wp-includes\functions.php:5745
+[02-Jan-2024 00:47:09 UTC] PHP   9. trigger_error($message = 'Le fichier Thème sans comments.php est obsolète depuis la version 3.0.0, aucune alternative n’est disponible. Veuillez inclure un modèle de comments.php à votre thème.', $error_level = 16384) D:\wamp64\www\motaphoto\wp-includes\functions.php:6031

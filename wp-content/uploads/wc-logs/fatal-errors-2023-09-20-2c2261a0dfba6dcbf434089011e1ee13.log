@@ -1,0 +1,10 @@
+2023-09-20T11:07:24+00:00 CRITICAL Maximum execution time of 120 seconds exceeded dans C:\wamp64\www\wordpress\wp-includes\functions.php à la ligne 4570
+
+2023-09-20T11:07:25+00:00 CRITICAL Maximum execution time of 120 seconds exceeded dans C:\wamp64\www\wordpress\wp-includes\functions.php à la ligne 4570
+
+2023-09-20T11:10:08+00:00 CRITICAL Maximum execution time of 120 seconds exceeded dans C:\wamp64\www\wordpress\wp-includes\Requests\src\Transport\Curl.php à la ligne 506
+
+2023-09-20T11:37:19+00:00 CRITICAL Maximum execution time of 120 seconds exceeded dans C:\wamp64\www\wordpress\wp-includes\l10n.php à la ligne 1254
+
+2023-09-20T11:43:10+00:00 CRITICAL Maximum execution time of 120 seconds exceeded dans C:\wamp64\www\wordpress\wp-admin\includes\class-wp-filesystem-direct.php à la ligne 431
+
