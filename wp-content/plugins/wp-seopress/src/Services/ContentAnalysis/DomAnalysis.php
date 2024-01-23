@@ -48,18 +48,6 @@ class DomAnalysis
             $content = $content . get_post_meta($id, 'mfn-page-items-seo', true);
         }
 
-        //Themify compatibility
-        if (defined('THEMIFY_DIR') && method_exists('ThemifyBuilder_Data_Manager', '_get_all_builder_text_content')) {
-            global $ThemifyBuilder;
-            $builder_data = $ThemifyBuilder->get_builder_data($id);
-            $plain_text   = ThemifyBuilder_Data_Manager::_get_all_builder_text_content($builder_data);
-            $plain_text   = do_shortcode($plain_text);
-
-            if ('' != $plain_text) {
-                $content = $plain_text;
-            }
-        }
-
         $post = get_post($id);
 
         //Add WC product excerpt
@@ -67,8 +55,7 @@ class DomAnalysis
             $content =  $content . get_the_excerpt($id);
         }
 
-        $content = apply_filters('seopress_content_analysis_content', $content, $id);
-
+        // Bricks
         if (defined('BRICKS_DB_EDITOR_MODE') && ('bricks' == $theme->template || 'Bricks' == $theme->parent_theme)) {
             $page_sections = get_post_meta($id, BRICKS_DB_PAGE_CONTENT, true);
             $editor_mode   = get_post_meta($id, BRICKS_DB_EDITOR_MODE, true);
@@ -76,6 +63,8 @@ class DomAnalysis
                 $content = \Bricks\Frontend::render_data($page_sections);
             }
         }
+
+        $content = apply_filters('seopress_content_analysis_content', $content, $id);
 
         return $content;
     }
@@ -97,7 +86,6 @@ class DomAnalysis
 
         //Manage keywords with special characters
         foreach ($targetKeywords as $key => $kw) {
-            $kw               = str_replace('-', ' ', $kw); //remove dashes
             $targetKeywords[$key] = trim(htmlspecialchars_decode($kw, ENT_QUOTES));
         }
 

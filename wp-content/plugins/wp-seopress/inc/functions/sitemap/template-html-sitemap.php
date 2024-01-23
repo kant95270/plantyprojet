@@ -39,15 +39,19 @@ if (! empty($postslist)) {
             setup_postdata($post);
 
             //Prevent duplicated items
-            if ($cpt_key === 'post' || $cpt_key === 'product') {
-                $tax = $cpt_key ==='product' ? $tax = $product_cat_slug  : $tax = 'category';
-                if (!has_term($cat, $tax, $post)) {
-                    continue;
+            if ('1' !== seopress_get_service('SitemapOption')->getHtmlNoHierarchy()) {
+                if ($cpt_key === 'post' || $cpt_key === 'product') {
+                    $tax = $cpt_key ==='product' ? $tax = $product_cat_slug  : $tax = 'category';
+                    if (!has_term($cat, $tax, $post)) {
+                        continue;
+                    }
                 }
             }
 
+            $post_title = apply_filters('seopress_sitemaps_html_post_title', get_the_title($post));
+
             $html .= '<li>';
-            $html .= '<a href="' . get_permalink($post) . '">' . get_the_title($post) . '</a>';
+            $html .= '<a href="' . get_permalink($post) . '">' . $post_title . '</a>';
             if ('1' !== seopress_get_service('SitemapOption')->getHtmlDate()) {
                 $date = apply_filters('seopress_sitemaps_html_post_date', $date, $cpt_key);
                 if (true === $date) {

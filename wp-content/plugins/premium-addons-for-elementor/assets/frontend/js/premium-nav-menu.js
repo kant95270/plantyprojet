@@ -111,6 +111,7 @@
         checkBreakPoint(settings);
 
         if ($scope.hasClass('premium-nav-hor')) {
+            $(window).resize();
             checkMegaContentWidth();
         }
 
@@ -244,15 +245,22 @@
             $('body').removeClass('premium-scroll-disabled');
         });
 
+
         $(document).on('click.PaCloseMegaMenu', function (event) {
+
             var isTabsItem = $(event.target).closest('.premium-tabs-nav-list-item').length,
                 isWidgetContainer = $(event.target).closest('.premium-nav-widget-container').length;
 
             if (!isWidgetContainer && !isTabsItem) {
-                if ($($menuContainer).hasClass('premium-active-menu')) {
+                if ( $($menuContainer).hasClass('premium-active-menu') ) {
                     $menuToggler.click();
                 }
+                
+                if ('click' === settings.submenuEvent) {
+                    $scope.find('.premium-nav-menu-container .premium-item-hovered').removeClass('premium-item-hovered')
+                }
             }
+
         });
 
         $(window).on('resize', function () {

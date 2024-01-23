@@ -21,10 +21,6 @@ if (isset($offset) && absint($offset) && '' != $offset && 0 != $offset) {
 
 $home_url = home_url() . '/';
 
-if (function_exists('pll_home_url')) {
-	$home_url = site_url() . '/';
-}
-
 $home_url = apply_filters('seopress_sitemaps_home_url', $home_url);
 echo '<?xml version="1.0" encoding="UTF-8"?>';
 printf('<?xml-stylesheet type="text/xsl" href="%s"?>', $home_url . 'sitemaps_xsl.xsl');
@@ -165,7 +161,7 @@ foreach ($postslist as $post) {
 	$seopress_mod = $modified_date;
 
 	if(!empty($modified_date)){
-		if (new DateTime($post_date) > new DateTime($modified_date)) {
+		if (strtotime($post_date) > strtotime($modified_date)) {
 			$seopress_mod = $post_date;
 		}
 

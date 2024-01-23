@@ -291,7 +291,7 @@ p.has-text-align-center {
 }
 
   .main-header-menu .menu-item:nth-child(2) .menu-link {
-  color: black!important
+  color: black!important;
 }
   div.ast-mobile-header-content.content-align-flex-start, .site-footer  {
     font-size: 13px;

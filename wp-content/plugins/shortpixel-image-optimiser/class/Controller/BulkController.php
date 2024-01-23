@@ -67,8 +67,8 @@ class BulkController
         if ($customOp == 'migrate' || $customOp == 'removeLegacy')
         {
            $options['numitems'] = 200;
-
         }
+
 				$options = apply_filters('shortpixel/bulk/custom_options', $options, $customOp);
         $Q->setCustomBulk($customOp, $options);
       }
@@ -121,7 +121,7 @@ class BulkController
 	       $q->startBulk();
 			 }
 
-       return $optimizeControl->processQueue($types);
+       return  $q->getStats(); //$optimizeControl->processQueue($types);
    }
 
    public function finishBulk($type = 'media')

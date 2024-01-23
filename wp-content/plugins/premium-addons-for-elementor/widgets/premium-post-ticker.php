@@ -1029,9 +1029,20 @@ class Premium_Post_Ticker extends Widget_Base {
 					'p'    => 'p',
 				),
 				'label_block' => true,
-				'condition'   => array(
-					'ticker_title!' => '',
-				),
+				'conditions' => array(
+					'relation' => 'or',
+					'terms' => array(
+						array(
+							'name' => 'ticker_title',
+							'operator' => '!==',
+							'value' => ''
+						),
+						array(
+							'name' => 'post_type_filter',
+							'value' => 'post'
+						)
+					)
+				)
 			)
 		);
 
@@ -3623,7 +3634,7 @@ class Premium_Post_Ticker extends Widget_Base {
 
 		$title = ! empty( $settings['ticker_title'] ) ? $settings['ticker_title'] : false;
 
-		$title_tag     = $settings['ticker_title_tag'];
+		$title_tag     = Helper_Functions::validate_html_tag( $settings['ticker_title_tag'] );
 		$title_classes = ! $title ? array() : Helper_Functions::get_element_classes( $settings['hide_title_on'], array( 'premium-post-ticker__title-wrapper' ) );
 
 		$icon_enabled = 'yes' === $settings['ticker_icon_sw'] ? true : false;
@@ -3898,7 +3909,7 @@ class Premium_Post_Ticker extends Widget_Base {
 
 		$show_date = 'yes' === $settings['date_meta'] ? true : false;
 
-		$title_tag = $settings['ticker_title_tag'];
+		$title_tag = Helper_Functions::validate_html_tag( $settings['ticker_title_tag'] );
 
 		$link_target = 'yes' === $settings['new_tab'] ? '_blank' : '_self';
 
@@ -3961,7 +3972,6 @@ class Premium_Post_Ticker extends Widget_Base {
 		if ( '' !== $settings['entrance_animation'] ) {
 			$this->add_render_attribute( 'post-wrapper' . $post_id, 'class', 'animated ' . $settings['entrance_animation'] );
 		}
-
 		?>
 
 		<<?php echo wp_kses_post( $post_tag . ' ' . $this->get_render_attribute_string( 'post-wrapper' . $post_id ) ); ?>>

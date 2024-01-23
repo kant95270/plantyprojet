@@ -3,9 +3,9 @@ Contributors: Leap13, Rimoun
 Tags: elementor, elementor addons, widgets, elementor elements, templates
 Donate Link: https://premiumaddons.com/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme
 Requires at least: 5.0
-Tested Up To: 6.3.2
+Tested Up To: 6.4.2
 Requires PHP: 7.0
-Stable Tag: 4.10.14
+Stable Tag: 4.10.18
 License: GPL v3.0
 License URI: https://opensource.org/licenses/GPL-3.0
 
@@ -20,13 +20,16 @@ Supercharge your [Elementor Page Builder](https://wordpress.org/plugins/elemento
 ### Useful Links
 [Support](https://my.leap13.com/contact-support/) | [Docs](https://premiumaddons.com/docs/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme) | [Video Tutorials](https://www.youtube.com/channel/UCXcJ9BeO2sKKHor7Q9VglTQ) | [Facebook Group](https://facebook.com/groups/premiumAddons) | [Upgrade to Pro](https://premiumaddons.com/pro/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme)
 
+### New: Textual Showcase Widget
+Revolutionize the way you present content on your Elementor website. Use it to add texts, images, Lottie animations, icons in a modern way with dozens of options and attractive effects. [Check it out now!](https://premiumaddons.com/elementor-textual-showcase-widget/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme).
+
 ### New: Animated Shape Divider Addon
 Add animated shape dividers for Elementor flexbox containers, sections and columns. You can select between 40+ shape dividers or use a custom SVG code to add your own divider. [Check it out now!](https://premiumaddons.com/elementor-animated-shape-divider-addon/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme).
 
 ### New: Advanced Media Carousel Widget
 You can now create carousel using images, videos, Elementor templates to create the carousel you want. Select between four animations and dozens of customization options. [Check it out now!](https://premiumaddons.com/elementor-advanced-carousel-widget/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme).
 
-### New: TikTok Feed Widget
+### TikTok Feed Widget
 We recently released the UNIQUE TikTok Feed widget that helps you to get feed from your TikTok accounts and show them as a grid, masonry or carousel. Select between 3 neat skins. [Check it out now!](https://premiumaddons.com/elementor-tiktok-feed-widget/?utm_source=wp-repo&utm_medium=link&utm_campaign=readme).
 
 ### Global Tooltips Addon
@@ -246,6 +249,31 @@ Premium Addonsis 100% Ads Free, Ads can only be detected from Youtube videos, th
 14. Premium Progress Bar Widget
 
 == Changelog ==
+
+= 4.10.18 =
+
+- New: Added new hover effects to all the buttons all over the plugin - [here](https://premiumaddons.com/button-widget-for-elementor-page-builder/).
+- Fixed: Hourly Forecast option not working with layout #1 in Weahter widget.
+- Fixed: Floating Effects addon not working with nested flexbox containers.
+- Fixed: Conflict with Global Tooltips addon causing Elementor editor not to work.
+
+= 4.10.17 =
+
+- Tweak: Code refactored for better performance and security.
+
+= 4.10.16 =
+
+- New: Added Textual Showcase widget - [here](https://premiumaddons.com/elementor-textual-showcase-widget/).
+- Tweak: Added Post Category condition in [Display Conditions addon](https://premiumaddons.com/elementor-display-conditions/).
+- Fixed: Compatibility issues between Maps widget and Elementor Flexbox.
+- Fixed: Fatal error caused by Weather widget.
+
+= 4.10.15 =
+
+- New: Added Wrapper Link addon - [here](https://premiumaddons.com/docs/elementor-global-wrapper-link-addon-tutorial).
+- Tweak: Added option to Trigger Animation on Click in Lottie Animations widget.
+- Fixed: Gap after slides issue with Infinite animation in Advanced Media Carousel widget.
+- Fixed: Lightbox Styling options not working in Media Grid widget.
 
 = 4.10.14 =
 

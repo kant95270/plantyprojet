@@ -122,7 +122,6 @@ class Premium_Pinterest_Feed extends Widget_Base {
 	public function get_script_depends() {
 
 		return array(
-			'pinterest-embed',
 			'imagesloaded',
 			'isotope-js',
 			'pa-slick',
@@ -151,7 +150,7 @@ class Premium_Pinterest_Feed extends Widget_Base {
 	 * @return array CSS style handles.
 	 */
 	public function get_keywords() {
-		return array( 'pa', 'premium', 'pinterest', 'feed', 'social', 'pin' );
+		return array( 'pa', 'premium', 'social', 'pin' );
 	}
 
 	/**
@@ -2558,10 +2557,19 @@ class Premium_Pinterest_Feed extends Widget_Base {
 
 			if ( $board_query ) {
 				$boards_feed = get_pinterest_data( $widget_id, $settings, 'boards/' );
+
+                if( ! $boards_feed ) {
+                    return;
+                }
+
 				$carousel    = false;
 			} else {
 
 				$pinterest_feed = get_pinterest_data( $widget_id, $settings, 'pins/' );
+
+                if( ! $pinterest_feed ) {
+                    return;
+                }
 
 				$carousel = 'yes' === $settings['carousel'];
 

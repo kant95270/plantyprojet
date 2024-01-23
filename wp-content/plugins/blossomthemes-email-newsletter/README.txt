@@ -3,9 +3,9 @@ Contributors: BlossomThemes
 Donate link: https://blossomthemes.com
 Tags: subscribe, newsletter, email
 Requires at least: 4.3
-Tested up to: 6.2
+Tested up to: 6.3.1
 Requires PHP: 7.4
-Stable tag: 2.2.4
+Stable tag: 2.2.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,6 +46,13 @@ Once installed, the plugin page will appear on the Admin dashboard.
 
 
 == Changelog ==
+
+= 2.2.5 =
+
+Released on: 2nd October, 2023
+
+Fixes:
+* Code enhancement.
 
 = 2.2.4 =
 

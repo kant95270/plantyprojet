@@ -18681,6 +18681,25 @@
 
 
     var PremiumLottieHandler = function ($scope, $) {
+
+        //Button grow hover effect.
+        var $btnGrow = $scope.find('.premium-button-style6-bg');
+
+        if ($btnGrow.length !== 0 && $scope.hasClass('premium-mouse-detect-yes')) {
+            $scope.on('mouseenter mouseleave', '.premium-button-style6', function (e) {
+
+                var parentOffset = $(this).offset(),
+                    left = e.pageX - parentOffset.left,
+                    top = e.pageY - parentOffset.top;
+
+                $btnGrow.css({
+                    top: top,
+                    left: left,
+                });
+
+            });
+        }
+
         var $lottieIcons = $scope.find(".premium-lottie-animation");
 
         if (!$lottieIcons.length)
@@ -18971,7 +18990,8 @@
                 speed = $lottie.data("lottie-speed"),
                 scroll = $lottie.data("lottie-scroll"),
                 viewPort = $lottie.data("lottie-viewport"),
-                renderer = $lottie.data("lottie-render");
+                renderer = $lottie.data("lottie-render"),
+                click = $lottie.data("lottie-click");
 
             var animItem = lottie.loadAnimation({
                 container: $lottie[0],
@@ -19016,6 +19036,17 @@
 
                     animateInstance.init();
 
+                } else if (click) {
+
+                    animItem.pause();
+
+                    var animToggle = false;
+
+                    $elem.click(function () {
+                        animToggle = !animToggle;
+                        animToggle ? animItem.play() : animItem.pause();
+
+                    });
                 }
 
                 if (trigger) {
@@ -19050,7 +19081,6 @@
 
                     });
                 }
-
 
             });
 

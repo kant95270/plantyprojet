@@ -345,7 +345,7 @@ class BlossomThemes_Email_Newsletter_Settings {
 									?>
 								</select>
 							</div>
-							<input type="button" rel-id="bten_mailchimp_list" class="button bten_get_mailchimp_lists" name="" value="Grab Lists">
+							<input type="button" rel-id="bten_mailchimp_list" class="button bten_get_mailchimp_lists" name="" value="Grab Lists" data-nonce="<?php echo esc_attr(wp_create_nonce('bten_mailchimp_list')); ?>">
 							
 					</div>
 					<div class="blossomthemes-email-newsletter-wrap-field"> 
@@ -411,7 +411,7 @@ class BlossomThemes_Email_Newsletter_Settings {
 								?>
 							</select>
 						</div>
-						<input type="button" rel-id="bten_mailerlite_list" class="button bten_get_mailerlite_lists" name="" value="Grab Lists">
+						<input type="button" rel-id="bten_mailerlite_list" class="button bten_get_mailerlite_lists" name="" value="Grab Lists" data-nonce="<?php echo esc_attr(wp_create_nonce('bten_mailerlite_list')); ?>">
 					</div>
 				</div>
 				<?php
@@ -463,7 +463,7 @@ class BlossomThemes_Email_Newsletter_Settings {
 									?>
 								</select>
 							</div>
-						<input type="button" rel-id="bten_convertkit_list" class="button bten_get_convertkit_lists" name="" value="Grab Lists">
+						<input type="button" rel-id="bten_convertkit_list" class="button bten_get_convertkit_lists" name="" value="Grab Lists" data-nonce="<?php echo esc_attr(wp_create_nonce('bten_convertkit_list')); ?>">
 					</div>
 				</div>
 				<?php
@@ -511,7 +511,7 @@ class BlossomThemes_Email_Newsletter_Settings {
 							}
 							?>
 						</select></div>
-						<input type="button" rel-id="bten_getresponse_list" class="button bten_get_getresponse_lists" name="" value="Grab Lists">
+						<input type="button" rel-id="bten_getresponse_list" class="button bten_get_getresponse_lists" name="" value="Grab Lists" data-nonce="<?php echo esc_attr(wp_create_nonce('bten_getresponse_list')); ?>">
 					</div>
 				</div>
 				<?php
@@ -565,7 +565,7 @@ class BlossomThemes_Email_Newsletter_Settings {
 								?>
 							</select>
 						</div>
-						<input type="button" rel-id="bten_activecampaign_list" class="button bten_get_activecampaign_lists" name="" value="Grab Lists">
+						<input type="button" rel-id="bten_activecampaign_list" class="button bten_get_activecampaign_lists" name="" value="Grab Lists" data-nonce="<?php echo esc_attr(wp_create_nonce('bten_activecampaign_list')); ?>">
 					</div>
 				</div>
 				<?php
@@ -635,7 +635,7 @@ class BlossomThemes_Email_Newsletter_Settings {
 									?>
 								</select>
 							</div>
-							<input type="button" rel-id="bten_aweber_list" class="button bten_get_aweber_lists" name="" value="Grab Lists">
+							<input type="button" rel-id="bten_aweber_list" class="button bten_get_aweber_lists" name="" value="Grab Lists" data-nonce="<?php echo esc_attr(wp_create_nonce('bten_aweber_list')); ?>">
 						</div>
 						<?php
 					}
@@ -685,7 +685,7 @@ class BlossomThemes_Email_Newsletter_Settings {
 										?>
 									</select>
 								</div>
-								<input type="button" rel-id="bten_sendinblue_list" class="button bten_get_sendinblue_lists" name="" value="<?php esc_attr_e( 'Grab Lists', 'blossomthemes-email-newsletter' ); ?>">
+								<input type="button" rel-id="bten_sendinblue_list" class="button bten_get_sendinblue_lists" name="" value="<?php esc_attr_e( 'Grab Lists', 'blossomthemes-email-newsletter' ); ?>" data-nonce="<?php echo esc_attr(wp_create_nonce('bten_sendinblue_list')); ?>">
 						</div>
 					</div>
 				<?php
@@ -730,7 +730,7 @@ class BlossomThemes_Email_Newsletter_Settings {
 										?>
 									</select>
 								</div>
-								<input type="button" rel-id="bten_sendinblue_list" class="button bten_get_sendinblue_lists" name="" value="<?php esc_attr_e( 'Grab Lists', 'blossomthemes-email-newsletter' ); ?>">
+								<input type="button" rel-id="bten_sendinblue_list" class="button bten_get_sendinblue_lists" name="" value="<?php esc_attr_e( 'Grab Lists', 'blossomthemes-email-newsletter' ); ?>" data-nonce="<?php echo esc_attr(wp_create_nonce('bten_sendinblue_list')); ?>">
 						</div>
 					</div>
 				<?php

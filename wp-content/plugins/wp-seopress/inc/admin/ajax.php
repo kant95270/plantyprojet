@@ -6,8 +6,6 @@ defined('ABSPATH') or exit('Please don&rsquo;t call the plugin directly. Thanks 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 function seopress_do_real_preview()
 {
-    $docs = seopress_get_docs_links();
-
     check_ajax_referer('seopress_real_preview_nonce', $_GET['_ajax_nonce'], true);
 
     if (!current_user_can('edit_posts') || !is_admin()) {
@@ -30,7 +28,29 @@ function seopress_do_real_preview()
 
     $linkPreview   = seopress_get_service('RequestPreview')->getLinkRequest($id, $taxname);
 
-    $str  = seopress_get_service('RequestPreview')->getDomById($id, $taxname);
+    $domResult  = seopress_get_service('RequestPreview')->getDomById($id, $taxname);
+
+    if(!$domResult['success']){
+        $defaultResponse = [
+            'title' =>  '...',
+            'meta_desc' =>  '...',
+        ];
+
+        switch($domResult['code']){
+            case 404:
+                $defaultResponse['title'] = __('To get your Google snippet preview, publish your post!', 'wp-seopress');
+                break;
+            case 401:
+                $defaultResponse['title'] = __('Your site is protected by an authentication.', 'wp-seopress');
+                break;
+        }
+
+        wp_send_json_success($defaultResponse);
+        return;
+    }
+
+    $str = $domResult['body'];
+
     $data = seopress_get_service('DomFilterContent')->getData($str, $id);
     $data = seopress_get_service('DomAnalysis')->getDataAnalyze($data, [
         "id" => $id,
@@ -339,84 +359,6 @@ function seopress_hide_notices()
     }
 }
 add_action('wp_ajax_seopress_hide_notices', 'seopress_hide_notices');
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-//Regenerate Video XML Sitemap
-///////////////////////////////////////////////////////////////////////////////////////////////////
-function seopress_video_xml_sitemap_regenerate()
-{
-    check_ajax_referer('seopress_video_regenerate_nonce', $_POST['_ajax_nonce'], true);
-
-    if (current_user_can(seopress_capability('manage_options', 'migration')) && is_admin()) {
-        if (isset($_POST['offset']) && isset($_POST['offset'])) {
-            $offset = absint($_POST['offset']);
-        }
-
-        $cpt = ['any'];
-        if (!empty(seopress_get_service('SitemapOption')->getPostTypesList())) {
-            unset($cpt[0]);
-            foreach (seopress_get_service('SitemapOption')->getPostTypesList() as $cpt_key => $cpt_value) {
-                foreach ($cpt_value as $_cpt_key => $_cpt_value) {
-                    if ('1' == $_cpt_value) {
-                        $cpt[] = $cpt_key;
-                    }
-                }
-            }
-
-            $cpt = array_map(function($item) {
-                return "'" . esc_sql($item) . "'";
-            }, $cpt);
-
-            $cpt_string = implode(",", $cpt);
-        }
-
-        global $wpdb;
-        $total_count_posts = (int) $wpdb->get_var("SELECT count(*) FROM {$wpdb->posts} WHERE post_status IN ('pending', 'draft', 'publish', 'future') AND post_type IN ( $cpt_string ) ");
-
-        $increment = 1;
-        global $post;
-
-        if ($offset > $total_count_posts) {
-            wp_reset_query();
-            $count_items = $total_count_posts;
-            $offset = 'done';
-        } else {
-            $args = [
-                'posts_per_page' => $increment,
-                'post_type'      => $cpt,
-                'post_status'    => ['pending', 'draft', 'publish', 'future'],
-                'offset'         => $offset,
-            ];
-
-            $video_query = get_posts($args);
-
-            if ($video_query) {
-                foreach ($video_query as $post) {
-                    seopress_pro_video_xml_sitemap($post->ID, $post);
-                }
-            }
-            $offset += $increment;
-        }
-        $data           = [];
-
-        $data['total'] = $total_count_posts;
-
-        if ($offset >= $total_count_posts) {
-            $data['count'] = $total_count_posts;
-        } else {
-            $data['count'] = $offset;
-        }
-
-        $data['offset'] = $offset;
-
-        //Clear cache
-        delete_transient( '_seopress_sitemap_ids_video' );
-
-        wp_send_json_success($data);
-        exit();
-    }
-}
-add_action('wp_ajax_seopress_video_xml_sitemap_regenerate', 'seopress_video_xml_sitemap_regenerate');
 
 require_once __DIR__ . '/ajax-migrate/smart-crawl.php';
 require_once __DIR__ . '/ajax-migrate/seopressor.php';

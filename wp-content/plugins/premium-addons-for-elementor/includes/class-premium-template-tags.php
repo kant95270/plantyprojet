@@ -27,6 +27,14 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class Premium_Template_Tags {
 
+    /**
+	 * Elementor Templates List
+     *
+	 * @since 4.10.15
+	 * @var e_temps_list
+	 */
+	private static $e_temps_list = null;
+
 	/**
 	 * Class instance
 	 *
@@ -56,6 +64,14 @@ class Premium_Template_Tags {
 	 * @var integer $page_limit
 	 */
 	protected $options;
+
+    /**
+	 * Rendered Settings
+	 *
+	 * @since 1.0.0
+	 * @var object $_render_attributes
+	 */
+	public $_render_attributes; // phpcs:ignore PSR2.Classes.PropertyDeclaration.Underscore
 
 	/**
 	 * Class contructor
@@ -142,6 +158,7 @@ class Premium_Template_Tags {
 			'post_status'    => 'publish',
 			'posts_per_page' => 1,
 			'title'          => $title,
+            'suppress_filters' => true
 		);
 
 		$query = new \WP_Query( $args );
@@ -175,12 +192,18 @@ class Premium_Template_Tags {
 	 */
 	public function get_elementor_page_list() {
 
-		$pagelist = get_posts(
-			array(
-				'post_type' => 'elementor_library',
-				'showposts' => 999,
-			)
-		);
+        if ( null === self::$e_temps_list ) {
+
+            self::$e_temps_list = get_posts(
+                array(
+                    'post_type' => 'elementor_library',
+                    'showposts' => 999,
+                )
+            );
+
+        }
+
+		$pagelist = self::$e_temps_list;
 
 		if ( ! empty( $pagelist ) && ! is_wp_error( $pagelist ) ) {
 
@@ -373,6 +396,7 @@ class Premium_Template_Tags {
 	 * @return array
 	 */
 	public static function get_default_posts_list( $post_type ) {
+
 		$list = get_posts(
 			array(
 				'post_type'              => $post_type,
@@ -2186,9 +2210,10 @@ class Premium_Template_Tags {
 			<<?php echo wp_kses_post( $post_tag . ' ' . $this->get_render_attribute_string( $wrap_key ) ); ?>>
 				<?php
 				if ( $show_thumbnail ) :
+					$bg_css = !$thumbnail_src ? '' : 'style="background-image:url(' .  $thumbnail_src[0]. ')"';
 					?>
 					<div class="premium-smart-listing__post-thumbnail-wrapper">
-						<div class="premium-smart-listing__thumbnail-container" style="background-image:url('<?php echo $thumbnail_src[0]; ?>')">
+						<div class="premium-smart-listing__thumbnail-container" <?php echo $bg_css; ?> >
 						<?php // $this->get_post_thumbnail( '_blank', 'magazine' ); ?>
 						</div>
 						<div class="premium-smart-listing__thumbnail-overlay">
@@ -2209,5 +2234,32 @@ class Premium_Template_Tags {
 			</<?php echo wp_kses_post( $post_tag ); ?>>
 
 		<?php
+	}
+
+    /**
+	 * Get all categories
+	 *
+	 * Get categories array
+	 *
+	 * @since 4.10.16
+	 * @access public
+	 *
+	 * @return array
+	 */
+	public static function get_all_categories() {
+
+		$args = array(
+            'taxonomy' => 'category'
+        );
+
+        $categories = get_categories( $args );
+
+		$category_names = array();
+
+		foreach ( $categories as $category ) {
+            $category_names[ $category->cat_ID ] = $category->name;
+		}
+
+		return $category_names;
 	}
 }

@@ -1,6 +1,6 @@
 === Hustle - Email Marketing, Lead Generation, Optins, Popups ===
 Plugin Name: Hustle - Email Marketing, Lead Generation, Opt-ins, Popups
-Version: 7.8.2
+Version: 7.8.3
 Author: WPMU DEV
 Author URI: https://wpmudev.com/
 Contributors: WPMUDEV
@@ -8,7 +8,7 @@ Tags: marketing, popup, optin, newsletter, subscription form, email, advertise, 
 Requires at least: 5.2
 Tested up to: 6.4
 Requires PHP: 7.4
-Stable tag: 7.8.2
+Stable tag: 7.8.3
 
 Setup email optin forms, popups, newsletter forms & subscription forms to generate email leads with the best marketing popup builder
 
@@ -87,7 +87,7 @@ Hustle integrates with all the popular email services. Just connect your account
 - Mad Mimi
 - Mautic
 - Infusionsoft
-- SendinBlue
+- Brevo
 - MailPoet
 - MailerLite
 - iContact
@@ -185,7 +185,16 @@ No! Hustle gives you all the same settings and options as Hustle Pro. The only d
 
 == Changelog ==
 
-= 7.8.2 ( 2023-10-03 ) =
+= 10.8.3 ( 2024-01-17 ) =
+
+ - Aligned Pro and Free version numbers to ensure consistency and simplify version management.
+ - Enhance: Compatibility with PHP 8.3
+ - Enhance: Twitter rebranding
+ - Fix: Scroll issue on Pop-ups and Slide-ins preview when content is lengthy
+ - Fix: Size of summary box logo
+
+
+= 4.8.2 ( 2023-10-03 ) =
 
  - Fix: ConstantContact authentification.
  - Fix: Cannot edit or add hyperlink
@@ -197,14 +206,14 @@ No! Hustle gives you all the same settings and options as Hustle Pro. The only d
  - Enhance: Remove mascot images
 
 
-= 7.8.1 ( 2023-08-24 ) =
+= 4.8.1 ( 2023-08-24 ) =
 
 - Enhance: Set up a redirect URL for Hubspot
 - Fix: Issues with Hustle ActiveCampaign integration
 - Fix: Bullet Points are not showing on the success message
 
 
-= 7.8.0 ( 2023-06-27 ) =
+= 4.8.0 ( 2023-06-27 ) =
 
 - Enhance: Require PHP 7.4 as the minimum supported version
 - Enhance: Prevent XSS vulnerability in translations
@@ -215,12 +224,12 @@ No! Hustle gives you all the same settings and options as Hustle Pro. The only d
 - Fix: Issue with Close button on iOS
 
 
-= 7.7.1 ( 2023-06-07 ) =
+= 4.7.1 ( 2023-06-07 ) =
 
 - Enhance: Performance improvements.
 
 
-= 7.7.0 ( 2023-04-10 ) =
+= 4.7.0 ( 2023-04-10 ) =
 
 - New: Ability to display modules N times per day/week/month/year
 - New: Make whole module a clickable CTA
@@ -234,18 +243,13 @@ No! Hustle gives you all the same settings and options as Hustle Pro. The only d
 - Fix: Divi theme issue - Triggering module using link ID does not work
 
 
-= 7.6.6 ( 2023-03-30 ) =
+= 4.6.6 ( 2023-03-30 ) =
 
 - Enhance: Security improvements.
 - Fix: Helper Text font style cannot be reset
 - Fix: Title and Subtitle alignments are not working after reset
 - Fix: Embed Title is being cut off when you use Halloween Template
 - Fix: Redirect URL input field for CTA 2 doesn't show by default in Embed when starting from scratch
-
-
-= 7.6.5 ( 2023-02-20 ) =
-
-- Enhance: Security improvements.
 
 [Changelog for previous versions](https://wpmudev.com/project/hustle/#view-changelog).
 

@@ -656,6 +656,14 @@ $elements = array(
 				'doc'      => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs/elementor-weather-widget/', 'settings-page', 'wp-dash', 'dashboard' ),
 				'draw_svg' => true,
 			),
+            array(
+				'key'      => 'premium-textual-showcase',
+				'name'     => 'premium-textual-showcase',
+				'title'    => __( 'Textual Showcase', 'premium-addons-for-elementor' ),
+				'demo'     => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-textual-showcase-widget/', 'settings-page', 'wp-dash', 'dashboard' ),
+				'doc'      => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs/elementor-textual-showcase-widget/', 'settings-page', 'wp-dash', 'dashboard' ),
+				'draw_svg' => true,
+			),
 		),
 	),
 	'cat-2'  => array(
@@ -776,6 +784,14 @@ $elements = array(
 				'demo'     => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/divider-widget-for-elementor-page-builder/', 'settings-page', 'wp-dash', 'dashboard' ),
 				'doc'      => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs/divider-widget-tutorial/', 'settings-page', 'wp-dash', 'dashboard' ),
 				'is_pro'   => true,
+				'draw_svg' => true,
+			),
+            array(
+				'key'      => 'premium-textual-showcase',
+				'name'     => 'premium-textual-showcase',
+				'title'    => __( 'Textual Showcase', 'premium-addons-for-elementor' ),
+				'demo'     => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-textual-showcase-widget/', 'settings-page', 'wp-dash', 'dashboard' ),
+				'doc'      => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs/elementor-textual-showcase-widget/', 'settings-page', 'wp-dash', 'dashboard' ),
 				'draw_svg' => true,
 			),
 		),
@@ -1307,9 +1323,9 @@ $elements = array(
 				'is_pro' => true,
 				'demo'   => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-badge-global-addon/', 'settings-page', 'wp-dash', 'dashboard' ),
 			),
-            array(
-				'key'    => 'premium-shape-divider',
-				'demo'   => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-animated-shape-divider-addon/', 'settings-page', 'wp-dash', 'dashboard' ),
+			array(
+				'key'  => 'premium-shape-divider',
+				'demo' => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-animated-shape-divider-addon/', 'settings-page', 'wp-dash', 'dashboard' ),
 			),
 			array(
 				'key'  => 'premium-floating-effects',
@@ -1333,6 +1349,10 @@ $elements = array(
 			array(
 				'key'  => 'premium-global-tooltips',
 				'demo' => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-tooltip-global-addon/', 'settings-page', 'wp-dash', 'dashboard' ),
+			),
+			array(
+				'key'  => 'premium-wrapper-link',
+				'demo' => Helper_Functions::get_campaign_link( 'https://premiumaddons.com/docs/elementor-global-wrapper-link-addon-tutorial', 'settings-page', 'wp-dash', 'dashboard' ),
 			),
 		),
 	),

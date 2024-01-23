@@ -3,6 +3,7 @@ jQuery(document).ready(function () {
   jQuery("body").on("click", ".bten_get_mailchimp_lists", function (e) {
     ListsSelect = jQuery("#" + jQuery(this).attr("rel-id"));
     ListsSelect.find("option").remove();
+    var nonce = jQuery(this).data("nonce");
     jQuery("<option/>").val(0).text("Loading...").appendTo(ListsSelect);
     jQuery.ajax({
       url: ajaxurl,
@@ -10,6 +11,7 @@ jQuery(document).ready(function () {
         action: "bten_get_mailing_list",
         calling_action: "bten_mailchimp_list",
         bten_mc_api_key: jQuery("#bten_mailchimp_api_key").val(),
+        nonce: nonce
       },
       dataType: "JSON",
       type: "POST",
@@ -39,6 +41,7 @@ jQuery(document).ready(function () {
   jQuery("body").on("click", ".bten_get_mailerlite_lists", function (e) {
     ListsSelect = jQuery("#" + jQuery(this).attr("rel-id"));
     ListsSelect.find("option").remove();
+    var nonce = jQuery(this).data("nonce");
     jQuery("<option/>").val(0).text("Loading...").appendTo(ListsSelect);
     jQuery.ajax({
       url: ajaxurl,
@@ -46,6 +49,7 @@ jQuery(document).ready(function () {
         action: "bten_get_mailing_list",
         calling_action: "bten_mailerlite_list",
         bten_ml_api_key: jQuery("#bten_mailerlite_api_key").val(),
+        nonce: nonce
       },
       dataType: "JSON",
       type: "POST",
@@ -73,6 +77,7 @@ jQuery(document).ready(function () {
   jQuery("body").on("click", ".bten_get_convertkit_lists", function (e) {
     ListsSelect = jQuery("#" + jQuery(this).attr("rel-id"));
     ListsSelect.find("option").remove();
+    var nonce = jQuery(this).data("nonce");
     jQuery("<option/>").val(0).text("Loading...").appendTo(ListsSelect);
     jQuery.ajax({
       url: ajaxurl,
@@ -80,6 +85,7 @@ jQuery(document).ready(function () {
         action: "bten_get_mailing_list",
         calling_action: "bten_convertkit_list",
         bten_ck_api_key: jQuery("#bten_convertkit_api_key").val(),
+        nonce: nonce
       },
       dataType: "JSON",
       type: "POST",
@@ -99,6 +105,7 @@ jQuery(document).ready(function () {
   jQuery("body").on("click", ".bten_get_getresponse_lists", function (e) {
     ListsSelect = jQuery("#" + jQuery(this).attr("rel-id"));
     ListsSelect.find("option").remove();
+    var nonce = jQuery(this).data("nonce");
     jQuery("<option/>").val(0).text("Loading...").appendTo(ListsSelect);
     jQuery.ajax({
       url: ajaxurl,
@@ -106,6 +113,7 @@ jQuery(document).ready(function () {
         action: "bten_get_mailing_list",
         calling_action: "bten_getresponse_list",
         bten_gr_api_key: jQuery("#bten_getresponse_api_key").val(),
+        nonce: nonce
       },
       dataType: "JSON",
       type: "POST",
@@ -138,6 +146,7 @@ jQuery(document).ready(function () {
 
     ListsSelect = jQuery("#" + jQuery(this).attr("rel-id"));
     ListsSelect.find("option").remove();
+    var nonce = jQuery(this).data("nonce");
     jQuery("<option/>").val(0).text("Loading...").appendTo(ListsSelect);
     jQuery.ajax({
       url: ajaxurl,
@@ -145,6 +154,7 @@ jQuery(document).ready(function () {
         action: "bten_get_mailing_list",
         calling_action: "bten_sendinblue_list",
         bten_sendin_api_key: jQuery("#bten_sendinblue_api_key").val(),
+        nonce: nonce
       },
       dataType: "JSON",
       type: "POST",
@@ -172,6 +182,7 @@ jQuery(document).ready(function () {
   jQuery("body").on("click", ".bten_get_activecampaign_lists", function (e) {
     ListsSelect = jQuery("#" + jQuery(this).attr("rel-id"));
     ListsSelect.find("option").remove();
+    var nonce = jQuery(this).data("nonce");
     jQuery("<option/>").val(0).text("Loading...").appendTo(ListsSelect);
     jQuery.ajax({
       url: ajaxurl,
@@ -180,6 +191,7 @@ jQuery(document).ready(function () {
         calling_action: "bten_activecampaign_list",
         bten_ac_api_url: jQuery("#bten_activecampaign_api_url").val(),
         bten_ac_api_key: jQuery("#bten_activecampaign_api_key").val(),
+        nonce: nonce
       },
       dataType: "JSON",
       type: "POST",

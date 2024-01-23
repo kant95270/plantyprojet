@@ -12,6 +12,7 @@ class Blossomthemes_Email_Newsletter_Functions {
 	function __construct()
 	{
 		add_action( 'wp_ajax_bten_get_mailing_list', array( $this, 'bten_get_mailing_list' ) );
+		add_action( 'wp_ajax_nopriv_bten_get_mailing_list', array( $this, 'bten_get_mailing_list' ) );
 	} 
 
 	function bten_minify_js( $input ) {
@@ -180,6 +181,17 @@ class Blossomthemes_Email_Newsletter_Functions {
 
     function bten_get_mailing_list()
     {
+		$nonce = isset( $_POST['nonce'] ) ? $_POST['nonce'] : '';
+		if ( ! isset( $_POST['calling_action'] ) ) {
+			echo json_encode( array( 'error' => __( 'Sorry, no platform found.', 'blossomthemes-email-newsletter' ) ) );
+			exit;
+		}
+		
+		if ( ! wp_verify_nonce( $nonce, sanitize_text_field( $_POST['calling_action'] ) ) ) {
+			echo json_encode( array( 'error' => __( 'Sorry, your nonce did not verify.', 'blossomthemes-email-newsletter' ) ) );
+			exit;
+		}
+		
     	if ($_POST['calling_action'] == 'bten_aweber_auth') 
     	{
     		$aw = new Blossomthemes_Email_Newsletter_AWeber;

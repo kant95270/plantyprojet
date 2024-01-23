@@ -61,10 +61,10 @@ class Admin_Notices {
 
 		self::$notices = array(
 			'pa-review',
-			'shape_divider',
+			'buttons_hovers',
 		);
 
-		delete_option( 'advanced_carousel' );
+		delete_option( 'textual_showcase' );
 
 	}
 
@@ -106,7 +106,7 @@ class Admin_Notices {
 			return;
 		}
 
-		$this->get_shape_divider_notice();
+		$this->get_buttons_hover_notice();
 
 	}
 
@@ -234,6 +234,45 @@ class Admin_Notices {
 	}
 
 	/**
+	 *
+	 * Shows admin notice for Textual Showcase.
+	 *
+	 * @since 4.10.16
+	 * @access public
+	 *
+	 * @return void
+	 */
+	public function get_buttons_hover_notice() {
+
+		$buttons_notice = get_option( 'buttons_hovers' );
+
+		if ( '1' === $buttons_notice ) {
+			return;
+		}
+
+		$buttons = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/button-widget-for-elementor-page-builder/', 'buttons-hover-notification', 'wp-dash', 'buttons-hover' );
+
+		?>
+
+		<div class="error pa-notice-wrap pa-new-feature-notice">
+			<div class="pa-img-wrap">
+				<img src="<?php echo PREMIUM_ADDONS_URL . 'admin/images/pa-logo-symbol.png'; ?>">
+			</div>
+			<div class="pa-text-wrap">
+				<p>
+					<strong><?php echo __( 'New Hover Effects', 'premium-addons-for-elemetor' ); ?></strong>
+					<?php echo sprintf( __( 'added to all the buttons all over the plugin. <a href="%s" target="_blank">Check it out now!</a>', 'premium-addons-for-elementor' ), $buttons ); ?>
+				</p>
+			</div>
+			<div class="pa-notice-close" data-notice="buttons">
+				<span class="dashicons dashicons-dismiss"></span>
+			</div>
+		</div>
+
+		<?php
+	}
+
+	/**
 	 * Renders an admin notice error message
 	 *
 	 * @since 1.0.0
@@ -253,44 +292,7 @@ class Admin_Notices {
 		<?php
 	}
 
-	/**
-	 *
-	 * Shows admin notice for Shape Divider.
-	 *
-	 * @since 4.8.8
-	 * @access public
-	 *
-	 * @return void
-	 */
-	public function get_shape_divider_notice() {
 
-		$shape_divider = get_option( 'shape_divider' );
-
-		if ( '1' === $shape_divider ) {
-			return;
-		}
-
-		$shape_divider = Helper_Functions::get_campaign_link( 'https://premiumaddons.com/elementor-animated-shape-divider-addon/', 'shape-divider-notification', 'wp-dash', 'shape-divider' );
-
-		?>
-
-		<div class="error pa-notice-wrap pa-new-feature-notice">
-			<div class="pa-img-wrap">
-				<img src="<?php echo PREMIUM_ADDONS_URL . 'admin/images/pa-logo-symbol.png'; ?>">
-			</div>
-			<div class="pa-text-wrap">
-				<p>
-					<strong><?php echo __( 'Premium Animated Shape Divider addon', 'premium-addons-for-elemetor' ); ?></strong>
-					<?php echo sprintf( __( 'is now available in Premium Addons for Elementor. <a href="%s" target="_blank">Check it out now!</a>', 'premium-addons-for-elementor' ), $shape_divider ); ?>
-				</p>
-			</div>
-			<div class="pa-notice-close" data-notice="divider">
-				<span class="dashicons dashicons-dismiss"></span>
-			</div>
-		</div>
-
-		<?php
-	}
 
 	/**
 	 * Register admin scripts
@@ -384,6 +386,46 @@ class Admin_Notices {
 		}
 
 	}
+
+    /**
+     * Check Status
+     *
+     * @since 4.10.15
+	 * @access public
+     */
+    public function check_status( $key ) {
+
+        $status = false;
+
+        $api_params = array(
+            'edd_action' => 'check_license',
+            'license'    => $key,
+            'item_id'    => 361,
+        );
+
+        $response = wp_remote_get(
+            'http://my.leap13.com',
+            array(
+                'timeout'   => 15,
+                'sslverify' => false,
+                'body'      => $api_params,
+            )
+        );
+
+        if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) ) {
+            return false;
+        }
+
+        $body = wp_remote_retrieve_body( $response );
+
+        $body = json_decode( $body, true );
+
+        if ( isset( $body['license'] ) && 'valid' === $body['license'] ) {
+            $status = true;
+        }
+
+        return $status;
+    }
 
 	/**
 	 * Creates and returns an instance of the class

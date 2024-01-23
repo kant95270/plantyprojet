@@ -824,6 +824,7 @@ class Module {
 				'label'       => __( 'Min Width', 'premium-addons-for-elementor' ),
 				'type'        => Controls_Manager::SLIDER,
 				'render_type' => 'template',
+                'devices'     => array( 'desktop', 'tablet', 'mobile' ),
 				'range'       => array(
 					'px' => array(
 						'min' => 0,
@@ -974,7 +975,7 @@ class Module {
 			if ( isEnabled ) {
 
 				var type = settings.premium_tooltip_type,
-					content = {};
+                    tooltipContent = {};
 
 					view.addRenderAttribute( 'gTooltipshtml', {
 						id: 'tooltip_content-' + view.getID(),
@@ -1022,10 +1023,10 @@ class Module {
 									case 'gallery':
 										var gallery = settings.premium_tooltip_gallery;
 
-										if( ! gallery )
+										if( ! gallery[0] )
 											break;
 
-										content = gallery;
+                                        tooltipContent = gallery;
 										view.addRenderAttribute( 'gTooltipsGallery', {
 											src: gallery[0]['url'],
 										});
@@ -1063,7 +1064,7 @@ class Module {
 				},
 				tooltip_settings = {
 					type: type,
-					content: content,
+					content: tooltipContent,
 					minWidth: minWidth,
 					maxWidth: maxWidth,
 					zindex: settings.pa_tooltip_zindex,
@@ -1211,8 +1212,8 @@ class Module {
 			$tooltip_settings = array(
 				'type'         => $type,
 				'content'      => $content,
-				'min_width'    => $min_width,
-				'max_width'    => $max_width,
+				'minWidth'     => $min_width,
+				'maxWidth'     => $max_width,
 				'zindex'       => $settings['pa_tooltip_zindex'],
 				'target'       => $settings['pa_tooltip_target'],
 				'anime'        => $settings['premium_tooltip_anime'],
