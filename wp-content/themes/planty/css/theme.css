@@ -67,7 +67,9 @@ h1 {
 }
 
 h2 {
-  font-size: 30px; 
+  font-size: 30px!important; 
+ 
+  margin-left: 60px;
 }
 
 p {
@@ -77,6 +79,12 @@ p {
 a {
   color: black;
 }
+.entry-content h4 {
+  font-size: 30px!important;
+  color: #000000!important;
+  margin-left: 120px;
+}
+
 
 .h3{
   font-size: 30px;
@@ -88,7 +96,10 @@ a {
   line-height: 1.2em;
   font-size: 30px;
   color: #FFFFFF;
+  margin-left: 35px;
 }
+
+
 
 /* Page Nous rencontrer */
 
@@ -99,6 +110,7 @@ a {
 p.has-text-align-center {
   max-width: 680px;
 }
+
 
 
 
@@ -146,8 +158,10 @@ p.has-text-align-center {
 }
 
 .contact-submit:hover{
-  background-color: #e0b9b4;
+  background-color: #c02e44;
 }
+
+
 
 
 
@@ -292,6 +306,7 @@ p.has-text-align-center {
 
   .main-header-menu .menu-item:nth-child(2) .menu-link {
   color: black!important;
+  background-color: #DC9F96!important;
 }
   div.ast-mobile-header-content.content-align-flex-start, .site-footer  {
     font-size: 13px;
@@ -301,7 +316,7 @@ p.has-text-align-center {
     font-size: 21px;
  }
     .block-info {
-            padding-right: 0;
+      padding-right: 0;
 
     }
  p {
